@@ -1,8 +1,6 @@
 # Godot 4+ specific ignores
 .godot/
-<<<<<<< HEAD
 /android/
-=======
 .nomedia
 
 # Godot-specific ignores
@@ -17,4 +15,5 @@ export_credentials.cfg
 .mono/
 data_*/
 mono_crash.*.json
->>>>>>> 3699e01775f20f0a4cf0ac915b7830c0c70822d5
+
+builds/
