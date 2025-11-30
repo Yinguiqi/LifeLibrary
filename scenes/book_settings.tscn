@@ -1,0 +1,61 @@
+[gd_scene load_steps=2 format=3 uid="uid://bum376ih5dw5y"]
+
+[ext_resource type="Script" uid="uid://be8icl1acuc12" path="res://scenes/book_settings.gd" id="1_uia5u"]
+
+[node name="BookSettings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_uia5u")
+
+[node name="BookIDInput" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 290.0
+offset_top = 195.0
+offset_right = 777.0
+offset_bottom = 235.0
+
+[node name="BookIDInput2" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 291.0
+offset_top = 254.0
+offset_right = 778.0
+offset_bottom = 294.0
+
+[node name="SaveButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 330.0
+offset_top = 340.0
+offset_right = 456.0
+offset_bottom = 380.0
+text = "保存"
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 621.0
+offset_top = 340.0
+offset_right = 747.0
+offset_bottom = 380.0
+text = "返回"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 185.0
+offset_top = 200.0
+offset_right = 265.0
+offset_bottom = 223.0
+text = "相对路径："
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 184.0
+offset_top = 259.0
+offset_right = 264.0
+offset_bottom = 282.0
+text = "书脊路径："
+
+[connection signal="pressed" from="SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

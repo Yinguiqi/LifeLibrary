@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://cbduiy1roxwfh"]
+
+[ext_resource type="Script" uid="uid://cytatwo3b6230" path="res://main.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://kp10dbb5114g" path="res://scenes/add_book.gd" id="4_jyhfs"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_ig7tw")
+
+[node name="BooksContainer" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 99.0
+offset_top = 74.0
+offset_right = 99.0
+offset_bottom = 74.0
+
+[node name="Set" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1050.0
+offset_top = 15.0
+offset_right = 1090.0
+offset_bottom = 46.0
+text = "设置"
+
+[node name="UI" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PopupMenu" type="PopupMenu" parent="UI"]
+oversampling_override = 1.0
+visible = true
+
+[node name="AddBook" type="Button" parent="."]
+layout_mode = 0
+offset_left = 997.0
+offset_top = 15.0
+offset_right = 1039.0
+offset_bottom = 46.0
+text = "添加"
+script = ExtResource("4_jyhfs")
+
+[connection signal="pressed" from="Set" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="AddBook" to="AddBook" method="_on_pressed"]
