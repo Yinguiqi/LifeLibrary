@@ -8,6 +8,7 @@ extends Control
 @export var display_name: String
 @export var texture_path: String
 @export var rel_path: String
+var data_ref: RefCounted = null
 
 const CONFIG_PATH := "user://config.ini"
 

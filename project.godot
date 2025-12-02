@@ -18,3 +18,4 @@ config/icon="res://icon.svg"
 [autoload]
 
 BookData="*res://book_data.gd"
+LibraryManager="*res://LibraryManager.gd"

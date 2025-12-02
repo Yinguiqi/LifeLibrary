@@ -32,11 +32,9 @@ func _on_gui_input(event: InputEvent) -> void:
 		# 2. 然后再添加本次需要的选项
 		menu.add_item("编辑书籍配置", 0)
 		menu.add_item("设置书脊", 1)
+		menu.add_item("删除书籍", 2)
 		# 在弹出菜单前设置当前书籍ID
-		BookData.book_rel_path = book.rel_path
-		BookData.book_id = book.book_id
-		BookData.book_texture_path = book.texture_path
-		print("设置当前书籍相对路径: ", BookData.book_rel_path)
+		LibraryManager.current_book_data = book.data_ref
 		menu.popup(Rect2(get_global_mouse_position(), Vector2.ZERO))
 
 # 菜单选择逻辑
@@ -46,6 +44,8 @@ func _on_menu_pressed(id: int) -> void:
 			get_tree().call_deferred("change_scene_to_file", "res://scenes/book_settings.tscn")
 		1:
 			_on_book_texture_pressed()
+		2:
+			delete_book_by_id()
 
 # 弹窗选择书脊
 func _on_book_texture_pressed() -> void:
@@ -85,13 +85,11 @@ func _handle_file_selection(path: String, dialog: FileDialog) -> void:
 		return
 	# 3. 更新 BookData
 	# 假设你希望 BookData.book_texture_path 记录的是这个新复制文件的路径
-	var cfg := ConfigFile.new()
-	cfg.load(CONFIG_PATH)
-	cfg.set_value(book.book_id, "book_texture", target_path)
-	cfg.save(CONFIG_PATH)
+	LibraryManager.update_book_info(book.book_id, book.name ,book.rel_path, target_path)
 	print("文件复制成功！新路径已设置为: ", target_path)
 	# 4. 销毁 FileDialog
 	dialog.queue_free()
+	get_tree().change_scene_to_file("res://scenes/Main.tscn")
 
 # 复制书籍文件方法
 func copy_file(src_path: String, dst_path: String) -> int:
@@ -107,3 +105,9 @@ func copy_file(src_path: String, dst_path: String) -> int:
 
 	dst.store_buffer(src.get_buffer(src.get_length()))
 	return OK
+
+func delete_book_by_id():
+	LibraryManager.delete_book_by_id(LibraryManager.current_book_data.id)
+	get_tree().change_scene_to_file("res://scenes/Main.tscn")
+	
+	

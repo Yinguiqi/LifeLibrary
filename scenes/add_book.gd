@@ -38,6 +38,8 @@ func save_book_to_config(book_id: String, rel_pathx: String):
 	config.set_value(book_id,"book_texture", "res://assets/book_texture/1.png")
 
 	config.save(CONFIG_PATH)
+	var texture_path = "res://assets/book_texture/1.png" 
+	LibraryManager.add_new_book(rel_pathx,texture_path)
 	print("已保存到 INI：", book_id, " → ", rel_pathx)
 
 # 把绝对路径改成相对路径的方法

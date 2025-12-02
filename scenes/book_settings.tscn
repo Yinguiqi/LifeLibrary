@@ -25,6 +25,13 @@ offset_top = 254.0
 offset_right = 778.0
 offset_bottom = 294.0
 
+[node name="BookIDInput3" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 290.0
+offset_top = 137.0
+offset_right = 777.0
+offset_bottom = 177.0
+
 [node name="SaveButton" type="Button" parent="."]
 layout_mode = 0
 offset_left = 330.0
@@ -56,6 +63,15 @@ offset_top = 259.0
 offset_right = 264.0
 offset_bottom = 282.0
 text = "书脊路径："
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 0
+offset_left = 182.0
+offset_top = 143.0
+offset_right = 262.0
+offset_bottom = 166.0
+text = "书名："
+horizontal_alignment = 2
 
 [connection signal="pressed" from="SaveButton" to="." method="_on_save_button_pressed"]
 [connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

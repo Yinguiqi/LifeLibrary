@@ -30,7 +30,6 @@ offset_bottom = 40.0
 
 [node name="PopupMenu" type="PopupMenu" parent="UI"]
 oversampling_override = 1.0
-visible = true
 
 [node name="AddBook" type="Button" parent="."]
 layout_mode = 0
@@ -41,5 +40,21 @@ offset_bottom = 46.0
 text = "添加"
 script = ExtResource("4_jyhfs")
 
+[node name="FindBookInput" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 247.0
+offset_top = 10.0
+offset_right = 665.0
+offset_bottom = 47.0
+
+[node name="FindBook" type="Button" parent="."]
+layout_mode = 0
+offset_left = 701.0
+offset_top = 9.0
+offset_right = 756.0
+offset_bottom = 47.0
+text = "查询"
+
 [connection signal="pressed" from="Set" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="AddBook" to="AddBook" method="_on_pressed"]
+[connection signal="pressed" from="FindBook" to="." method="_on_find_book_pressed"]
