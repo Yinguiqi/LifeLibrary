@@ -186,7 +186,7 @@ func delete_book_by_id(target_id: String) -> bool:
 func get_books_by_name(target_name: String, fuzzy_match: bool = false) -> Array:
 	var results: Array = []
 	var search_term = target_name.to_lower() # 转换为小写，便于不区分大小写地查询
-	
+
 	# 遍历内存中的所有书籍对象
 	for book in _books:
 		var book_name_lower = book.name.to_lower()
@@ -204,5 +204,6 @@ func get_books_by_name(target_name: String, fuzzy_match: bool = false) -> Array:
 		
 		if is_match:
 			results.append(book)
-			
+	if target_name == "":
+		results = _books	.duplicate()
 	return results
