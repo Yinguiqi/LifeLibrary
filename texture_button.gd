@@ -85,7 +85,7 @@ func _handle_file_selection(path: String, dialog: FileDialog) -> void:
 		return
 	# 3. 更新 BookData
 	# 假设你希望 BookData.book_texture_path 记录的是这个新复制文件的路径
-	LibraryManager.update_book_info(book.book_id, book.name ,book.rel_path, target_path)
+	LibraryManager.update_book_info(book.book_id, book.name ,book.rel_path, target_path,book.scale_factor)
 	print("文件复制成功！新路径已设置为: ", target_path)
 	# 4. 销毁 FileDialog
 	dialog.queue_free()

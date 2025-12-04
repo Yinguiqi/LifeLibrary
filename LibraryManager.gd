@@ -72,7 +72,8 @@ func save_data_to_json():
 			"id": book.id,
 			"name": book.name,
 			"rel_path": book.rel_path,
-			"book_texture": book.book_texture
+			"book_texture": book.book_texture,
+			"scale_factor": book.scale_factor
 		})
 	
 	var json_string = JSON.stringify(data_to_save, "\t")
@@ -86,12 +87,13 @@ func save_data_to_json():
 # --- 3. 更新 (U) ---
 
 # 你的 UI 应该调用这个函数来修改数据
-func update_book_info(target_id: String, new_name:String, new_path: String, new_texture: String):
+func update_book_info(target_id: String, new_name:String, new_path: String, new_texture: String, new_scale_factor: String):
 	var book = get_book_by_id(target_id)
 	if book:
 		book.rel_path = new_path
 		book.book_texture = new_texture
 		book.name = new_name
+		book.scale_factor = new_scale_factor
 		# 改完内存立刻存盘
 		save_data_to_json()
 		print("书籍 %s 更新成功" % target_id)
@@ -113,7 +115,7 @@ func add_new_book(path: String, texture: String = ""):
 	
 	var new_book = BookDataScript.new()
 	new_book.initialize(new_id, "新书", path, texture)
-	
+	new_book.scale_factor = 1
 	_books.append(new_book)
 	save_data_to_json()
 	return new_book
@@ -136,7 +138,8 @@ func create_book_object_from_dict(dict: Dictionary) -> RefCounted:
 		dict.get("id", ""),
 		dict.get("name", ""),
 		dict.get("rel_path", ""),
-		dict.get("book_texture", "")
+		dict.get("book_texture", ""),
+		dict.get("scale_factor", "")
 	)
 	
 	# 别忘了同步旧变量，以防万一（根据你的过渡方案）

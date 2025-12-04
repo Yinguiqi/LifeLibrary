@@ -7,7 +7,7 @@
 [node name="Book" type="Control"]
 layout_mode = 3
 anchors_preset = 0
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.4, 0.4)
 script = ExtResource("1_kh36y")
 book_texture = ExtResource("2_y0hms")
 

@@ -32,20 +32,27 @@ offset_top = 137.0
 offset_right = 777.0
 offset_bottom = 177.0
 
+[node name="BookIDInput4" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 292.0
+offset_top = 315.0
+offset_right = 779.0
+offset_bottom = 355.0
+
 [node name="SaveButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 330.0
-offset_top = 340.0
-offset_right = 456.0
-offset_bottom = 380.0
+offset_left = 324.0
+offset_top = 395.0
+offset_right = 450.0
+offset_bottom = 435.0
 text = "保存"
 
 [node name="BackButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 621.0
-offset_top = 340.0
-offset_right = 747.0
-offset_bottom = 380.0
+offset_left = 615.0
+offset_top = 395.0
+offset_right = 741.0
+offset_bottom = 435.0
 text = "返回"
 
 [node name="Label" type="Label" parent="."]
@@ -71,6 +78,15 @@ offset_top = 143.0
 offset_right = 262.0
 offset_bottom = 166.0
 text = "书名："
+horizontal_alignment = 2
+
+[node name="Label4" type="Label" parent="."]
+layout_mode = 0
+offset_left = 183.0
+offset_top = 322.0
+offset_right = 263.0
+offset_bottom = 345.0
+text = "缩放大小："
 horizontal_alignment = 2
 
 [connection signal="pressed" from="SaveButton" to="." method="_on_save_button_pressed"]

@@ -19,6 +19,9 @@ func _ready():
 	if texture_path != "":
 		book_texture = load_texture(texture_path)
 		apply_texture()
+	if data_ref != null:
+		apply_scale_from_data()
+	
 
 func load_texture(path: String) -> Texture2D:
 	# 1. user:// 文件加载方式（Image）
@@ -58,3 +61,24 @@ func apply_texture():
 	size = tex_size
 
 	texture_button.stretch_mode = TextureButton.STRETCH_SCALE
+
+## 应用 data_ref 中存储的 scale_factor 到场景节点的 scale 属性
+func apply_scale_from_data():
+	if data_ref == null:
+		push_error("错误：尝试应用缩放时，data_ref 尚未设置。")
+		return
+	
+	# 从数据对象中获取缩放值
+	var scale_value = data_ref.scale_factor
+	
+	# 确保 scale_value 是 float 类型且有效
+	if typeof(scale_value) != TYPE_FLOAT or scale_value <= 0:
+		# 打印警告，并使用默认值 1.0
+		push_warning("scale_factor 数据无效，使用默认值 1.0")
+		scale_value = 1.0
+	
+	# 将获取到的 float 值应用到节点的 scale 属性上
+	# Godot 节点的 scale 属性是 Vector2 类型
+	self.scale = Vector2(scale_value, scale_value)
+	
+	print("书籍节点 '%s' 缩放已更新至: %f" % [name, scale_value])
