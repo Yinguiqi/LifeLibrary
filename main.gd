@@ -12,7 +12,6 @@ var velocity_x := 0.0
 
 func _ready() -> void:
 	check_base_path()
-#	load_books_from_config()
 	load_books_from_json()
 
 
@@ -44,88 +43,12 @@ func _process(delta):
 	if not is_dragging:
 		books_container.position.x += velocity_x
 		velocity_x *= 0.9  # 惯性阻尼（越小停得越快）
-	books_container.position.x = clamp(books_container.position.x, 50, 700)
+	books_container.position.x = clamp(books_container.position.x, -1800, 200)
 
 
 func _on_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/set.tscn")
 	
-func load_books_from_config():
-	var config := ConfigFile.new()
-	var err = config.load(CONFIG_PATH)
-
-	if err != OK:
-		print("没有找到配置文件或读取失败")
-		return
-
-	# ① 获取 ini 里所有 section 名称
-	var sections = config.get_sections()  # PackedStringArray
-
-	# ② 过滤出 Book 开头的 sections
-	var book_sections: Array = []
-	for sec in sections:
-		if sec.begins_with("Book"):
-			book_sections.append(sec)
-
-	if book_sections.is_empty():
-		print("没有找到任何书籍条目")
-		return
-
-	# ③ 按 Book 后面的数字排序（Book1 < Book2 < Book10）
-	book_sections.sort_custom(func(a, b):
-		return int(a.substr(4)) < int(b.substr(4))
-	)
-	print(book_sections)
-	# ④ 遍历所有书籍 section，并创建场景
-	for sec in book_sections:
-		var rel_path = config.get_value(sec, "rel_path", "")
-		if rel_path == "":
-			continue
-
-		# 从 ini 获取所有字段
-		var book_id = config.get_value(sec, "id", "")
-		var book_name = config.get_value(sec, "name", "")
-		var book_texture = config.get_value(sec, "book_texture", "")
-
-		# 创建书籍节点（你自己的方法）
-		var book := BookScene.instantiate()
-		var new_book = create_new_book(rel_path)
-
-		# 覆盖生成默认名字，保持与 INI 一致
-		new_book.name = sec
-
-		# 给书设置额外属性（如果你书的脚本里有对应变量）
-		new_book.book_id = book_id
-		new_book.display_name = book_name
-		new_book.texture_path = book_texture
-		new_book.rel_path = rel_path
-
-
-func create_new_book(path: String):
-	# 第一步：实例化 book
-	var new_book = BookScene.instantiate()
-
-	# 第二步：计算新书的名称
-	# 获取当前已有多少本书（只统计名字以 Book 开头的）
-	var count := 0
-	for child in books_container.get_children():
-		if child.name.begins_with("Book"):
-			count += 1
-
-	new_book.book_id = "Book%s" % (count + 1)
-
-	# 第三步：计算 position.x = 上一本书的位置 + 100
-	var new_x := 0.0
-	if count > 0:
-		var last_book := books_container.get_node("Book%s" % count)
-		new_x = last_book.position.x + 100
-
-	new_book.position = Vector2(new_x, 0)
-	new_book.rel_path = path
-
-	# 第四步：加入到 BooksContainer
-	books_container.add_child(new_book)
-	return new_book
 
 func load_books_from_json():
 	# 1. 检查文件是否存在
@@ -165,6 +88,14 @@ func load_books_from_json():
 		# 调用专门的创建函数
 		_create_book_node_from_data(data, i)
 		
+func create_new_book(path: String):
+	# 第一步：实例化 book
+	var new_book = BookScene.instantiate()
+
+	new_book.rel_path = path
+
+	return new_book
+	
 # --- 专门用于从数据创建节点的函数 ---
 # 参数 data: 包含书本信息的字典
 # 参数 index: 当前是第几本书 (用于计算位置)
@@ -181,6 +112,7 @@ func _create_book_node_from_data(data: Dictionary, index: int):
 	new_book.book_id = data.get("id", "")
 	new_book.display_name = data.get("name", "")
 	new_book.texture_path = data.get("book_texture", "")
+	new_book.scale_factor = str(data.get("scale_factor", ""))
 	new_book.rel_path = rel_path
 	var book_data_object = LibraryManager.create_book_object_from_dict(data)
 	new_book.data_ref = book_data_object
@@ -215,12 +147,6 @@ func _redraw_book_shelf(books_to_display: Array):
 		
 		# 绑定数据对象到节点 (为了后续操作，如删除、编辑)
 		new_book_node.data_ref = book_data_object 
-		
-		# 赋值 UI 属性
-		new_book_node.name = book_data_object.id # 设置节点名
-		new_book_node.rel_path = book_data_object.rel_path
-		new_book_node.texture_path = book_data_object.book_texture
-		# ... 赋值其他显示相关的属性 ...
 		
 		# 计算位置
 		var new_x = i * 100.0 # 假设间隔 100 像素

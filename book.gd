@@ -8,6 +8,7 @@ extends Control
 @export var display_name: String
 @export var texture_path: String
 @export var rel_path: String
+@export var scale_factor: String
 var data_ref: RefCounted = null
 
 const CONFIG_PATH := "user://config.ini"
@@ -16,8 +17,8 @@ func _ready():
 		# 等一帧以确保节点已初始化
 	await get_tree().process_frame
 		# 如果 texture_path 有值，则动态加载纹理
-	if texture_path != "":
-		book_texture = load_texture(texture_path)
+	if data_ref.book_texture != "":
+		book_texture = load_texture(data_ref.book_texture)
 		apply_texture()
 	if data_ref != null:
 		apply_scale_from_data()

@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://cbduiy1roxwfh"]
+[gd_scene load_steps=4 format=3 uid="uid://cbduiy1roxwfh"]
 
 [ext_resource type="Script" uid="uid://cytatwo3b6230" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://kp10dbb5114g" path="res://scenes/add_book.gd" id="4_jyhfs"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0wfyh"]
+size = Vector2(1130, 46)
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -54,6 +57,12 @@ offset_top = 9.0
 offset_right = 756.0
 offset_bottom = 47.0
 text = "查询"
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(577, 458)
+shape = SubResource("RectangleShape2D_0wfyh")
 
 [connection signal="pressed" from="Set" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="AddBook" to="AddBook" method="_on_pressed"]
