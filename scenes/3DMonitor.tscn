@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://bprnunx84phjb"]
+
+[ext_resource type="Script" uid="uid://tuuxbh303rxm" path="res://OrbitController.gd" id="1_tyffc"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ns6u7"]
+
+[sub_resource type="Skin" id="Skin_5t4e2"]
+
+[node name="3DMonitor" type="Node3D"]
+script = ExtResource("1_tyffc")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 2, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_ns6u7")
+skin = SubResource("Skin_5t4e2")

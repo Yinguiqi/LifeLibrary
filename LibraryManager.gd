@@ -40,6 +40,7 @@ func load_data_from_json():
 			new_book.name = dict.get("name", "未命名")
 			new_book.rel_path = dict.get("rel_path", "")
 			new_book.book_texture = dict.get("book_texture", "")
+			new_book.book_cover_texture = dict.get("book_cover_texture", "")
 			new_book.scale_factor = dict.get("scale_factor", "")
 			
 			_books.append(new_book)
@@ -74,6 +75,7 @@ func save_data_to_json():
 			"name": book.name,
 			"rel_path": book.rel_path,
 			"book_texture": book.book_texture,
+			"book_cover_texture": book.book_cover_texture,
 			"scale_factor": book.scale_factor
 		})
 	
@@ -88,11 +90,14 @@ func save_data_to_json():
 # --- 3. 更新 (U) ---
 
 # 你的 UI 应该调用这个函数来修改数据
-func update_book_info(target_id: String, new_name:String, new_path: String, new_texture: String, new_scale_factor: String):
+func update_book_info(target_id: String, new_name:String, new_path: String, new_texture: String,new_cover_texture: String,new_scale_factor: String):
 	var book = get_book_by_id(target_id)
 	if book:
 		book.rel_path = new_path
-		book.book_texture = new_texture
+		if new_texture.begins_with("user://book_textures/"):
+			book.book_texture = new_texture
+		elif new_cover_texture.begins_with("user://book_cover_textures/"):
+			book.book_cover_texture = new_cover_texture
 		book.name = new_name
 		book.scale_factor = new_scale_factor
 		# 改完内存立刻存盘
@@ -103,7 +108,7 @@ func update_book_info(target_id: String, new_name:String, new_path: String, new_
 
 # --- 4. 新增 (C) ---
 
-func add_new_book(path: String, texture: String = ""):
+func add_new_book(path: String, texture: String = "",book_cover_texture: String = ""):
 	# 自动生成 ID: Book + (当前数量+1)
 	# 为了防止 ID 重复，也可以用时间戳，但这里沿用你的逻辑
 	var new_index = _books.size() + 1
@@ -115,7 +120,7 @@ func add_new_book(path: String, texture: String = ""):
 		new_id = "Book%d" % new_index
 	
 	var new_book = BookDataScript.new()
-	new_book.initialize(new_id, "新书", path, texture)
+	new_book.initialize(new_id, "新书", path, texture,book_cover_texture)
 	new_book.scale_factor = 1
 	_books.append(new_book)
 	save_data_to_json()
@@ -140,6 +145,7 @@ func create_book_object_from_dict(dict: Dictionary) -> RefCounted:
 		dict.get("name", ""),
 		dict.get("rel_path", ""),
 		dict.get("book_texture", ""),
+		dict.get("book_cover_texture", ""),
 		dict.get("scale_factor", "")
 	)
 	

@@ -6,6 +6,7 @@ const CONFIG_PATH := "user://config.ini"
 const JSON_PATH = "user://books_data.json"
 @onready var find_book: LineEdit = $FindBookInput
 
+
 var is_dragging := false
 var last_mouse_x := 0.0
 var velocity_x := 0.0
@@ -13,8 +14,7 @@ var velocity_x := 0.0
 func _ready() -> void:
 	check_base_path()
 	load_books_from_json()
-
-
+	
 # 检查是否存在base_path路径
 func check_base_path():
 	if BookData.base_path != null :
@@ -43,7 +43,7 @@ func _process(delta):
 	if not is_dragging:
 		books_container.position.x += velocity_x
 		velocity_x *= 0.9  # 惯性阻尼（越小停得越快）
-	books_container.position.x = clamp(books_container.position.x, -1800, 200)
+	books_container.position.x = clamp(books_container.position.x, -100*LibraryManager._books.size()+1000, 200)
 
 
 func _on_button_pressed() -> void:
@@ -156,3 +156,8 @@ func _redraw_book_shelf(books_to_display: Array):
 		books_container.add_child(new_book_node)
 	
 	print("书架过滤完成，显示书籍数量: ", books_to_display.size())
+
+
+func _on_close_3DMonitor_button_pressed() -> void:
+	$PanelContainer.visible = false
+	
