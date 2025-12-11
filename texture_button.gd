@@ -38,6 +38,7 @@ func _on_gui_input(event: InputEvent) -> void:
 		menu.add_item("设置封面", 2)
 		menu.add_item("删除书籍", 3)
 		menu.add_item("3d监看器", 4)
+		menu.add_item("打开所在文件夹", 5)
 		# 在弹出菜单前设置当前书籍ID
 		LibraryManager.current_book_data = book.data_ref
 		menu.popup(Rect2(get_global_mouse_position(), Vector2.ZERO))
@@ -55,6 +56,8 @@ func _on_menu_pressed(id: int) -> void:
 			delete_book_by_id()
 		4:
 			setup_3d_monitor()
+		5:
+			open_book_of_folder()
 
 func _on_book_texture_pressed() -> void:
 	choose_texture("user://book_textures/")
@@ -101,6 +104,12 @@ func copy_file(src_path: String, dst_path: String) -> int:
 func delete_book_by_id():
 	LibraryManager.delete_book_by_id(LibraryManager.current_book_data.id)
 	get_tree().change_scene_to_file("res://scenes/Main.tscn")
+
+func open_book_of_folder():
+	var path = BookData.base_path + book.data_ref.rel_path
+	var dir_path = path.get_base_dir()
+##	var pdf_path = "D:/资源/文章类/电子书/专业书籍/游戏设计艺术（第3版）[[美] Jesse Schell](1).pdf"
+	OS.shell_open(dir_path)
 
 func setup_3d_monitor():
 	# 判断是否为空
