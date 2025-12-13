@@ -1,12 +1,12 @@
 extends TextureButton
 
-@onready var menu := $"../../../UI/PopupMenu"
+@onready var menu := $"../../../../UI/PopupMenu"
 @onready var book := $".."
 @export var book_id : String
 const CONFIG_PATH := "user://config.ini"
 const MONITOR_SCENE = preload("res://scenes/3DMonitor.tscn")
-@onready var sub_viewport = $"../../../PanelContainer/SubViewportContainer/SubViewport"
-@onready var panel_container = $"../../../PanelContainer"
+@onready var sub_viewport = $"../../../../PanelContainer/SubViewportContainer/SubViewport"
+@onready var panel_container = $"../../../../PanelContainer"
 
 # 左键按钮
 func _on_pressed() -> void:

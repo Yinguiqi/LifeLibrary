@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://cbduiy1roxwfh"]
 
 [ext_resource type="Script" uid="uid://cytatwo3b6230" path="res://main.gd" id="1_ig7tw"]
-[ext_resource type="Script" uid="uid://kp10dbb5114g" path="res://scenes/add_book.gd" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://b2j17hymxy7wa" path="res://scenes/book_menu_bar.gd" id="2_sugp2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0wfyh"]
 size = Vector2(1130, 46)
@@ -11,37 +11,40 @@ layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_ig7tw")
 
-[node name="BooksContainer" type="Control" parent="."]
-anchors_preset = 0
-offset_left = 99.0
-offset_top = 74.0
-offset_right = 99.0
-offset_bottom = 74.0
-
-[node name="Set" type="Button" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 1050.0
-offset_top = 15.0
-offset_right = 1090.0
-offset_bottom = 46.0
-text = "设置"
+offset_left = 3.0
+offset_top = 56.0
+offset_right = 43.0
+offset_bottom = 96.0
+
+[node name="BookMenuBar" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+script = ExtResource("2_sugp2")
+
+[node name="MenuBar" type="MenuBar" parent="VBoxContainer/BookMenuBar"]
+layout_mode = 0
+offset_left = -1.0
+offset_top = -47.0
+offset_right = 231.0
+offset_bottom = -16.0
+
+[node name="File" type="PopupMenu" parent="VBoxContainer/BookMenuBar/MenuBar"]
+oversampling_override = 1.0
+
+[node name="Help" type="PopupMenu" parent="VBoxContainer/BookMenuBar/MenuBar"]
+
+[node name="BooksContainer" type="Control" parent="VBoxContainer"]
+layout_mode = 2
 
 [node name="UI" type="Control" parent="."]
+visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="PopupMenu" type="PopupMenu" parent="UI"]
 oversampling_override = 1.0
-
-[node name="AddBook" type="Button" parent="."]
-layout_mode = 0
-offset_left = 997.0
-offset_top = 15.0
-offset_right = 1039.0
-offset_bottom = 46.0
-text = "添加"
-script = ExtResource("4_jyhfs")
 
 [node name="FindBookInput" type="LineEdit" parent="."]
 layout_mode = 0
@@ -59,6 +62,7 @@ offset_bottom = 47.0
 text = "查询"
 
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
 position = Vector2(577, 458)
@@ -91,7 +95,14 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "关闭"
 
-[connection signal="pressed" from="Set" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="AddBook" to="AddBook" method="_on_pressed"]
+[node name="Set" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1050.0
+offset_top = 15.0
+offset_right = 1090.0
+offset_bottom = 46.0
+text = "设置"
+
 [connection signal="pressed" from="FindBook" to="." method="_on_find_book_pressed"]
 [connection signal="pressed" from="PanelContainer/CloseButton" to="." method="_on_close_3DMonitor_button_pressed"]
+[connection signal="pressed" from="Set" to="." method="_on_button_pressed"]

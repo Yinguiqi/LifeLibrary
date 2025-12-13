@@ -1,6 +1,6 @@
 extends Control
 
-@onready var books_container = $BooksContainer
+@onready var books_container = $VBoxContainer/BooksContainer
 @onready var BookScene := preload("res://scenes/book.tscn")
 const CONFIG_PATH := "user://config.ini"
 const JSON_PATH = "user://books_data.json"
@@ -87,14 +87,7 @@ func load_books_from_json():
 		
 		# 调用专门的创建函数
 		_create_book_node_from_data(data, i)
-		
-func create_new_book(path: String):
-	# 第一步：实例化 book
-	var new_book = BookScene.instantiate()
 
-	new_book.rel_path = path
-
-	return new_book
 	
 # --- 专门用于从数据创建节点的函数 ---
 # 参数 data: 包含书本信息的字典
@@ -157,7 +150,7 @@ func _redraw_book_shelf(books_to_display: Array):
 	
 	print("书架过滤完成，显示书籍数量: ", books_to_display.size())
 
-
+# 关闭3d监看器按钮
 func _on_close_3DMonitor_button_pressed() -> void:
 	$PanelContainer.visible = false
 	
