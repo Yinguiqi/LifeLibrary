@@ -2,25 +2,37 @@
 extends Control  # ← 注意：继承 Control，不是 MenuBar
 
 @onready var file_menu: PopupMenu = $MenuBar/File
-@onready var help: PopupMenu = $MenuBar/Help
+@onready var edit_menu: PopupMenu = $MenuBar/Edit
+@onready var help_menu: PopupMenu = $MenuBar/Help
 @onready var menu_bar: MenuBar = $MenuBar  # 引用实际的 MenuBar
 
 func _ready():
 	setup_menus()
 
 func setup_menus():
-	file_menu.name = "文件"
-	file_menu.add_item("新建书籍", 100)
-	file_menu.id_pressed.connect(_on_file_menu_selected)
+	file_menu.name = "文件（F）"
+	edit_menu.name = "编辑（E）"
+	help_menu.name = "帮助（H）"
 	
-# ========== 信号处理方法 ==========
+	file_menu.add_item("新建书籍", 100)
+	file_menu.add_item("退出", 110)
+	
+	edit_menu.add_item("首选项", 201)
+	file_menu.id_pressed.connect(_on_file_menu_selected)
+	edit_menu.id_pressed.connect(_on_file_menu_selected)
+	
+
 func _on_file_menu_selected(id: int) -> void:
 	# 发射具体信号（方便主场景连接）
 	match id:
 		100: 
 			file_new_selected()
+		110:
+			get_tree().quit()
+		201:
+			get_tree().change_scene_to_file("res://scenes/set.tscn")
 
-
+## 增加书籍
 func file_new_selected() -> void:
 	print(111)
 	var dialog := FileDialog.new()

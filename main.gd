@@ -46,10 +46,6 @@ func _process(delta):
 	books_container.position.x = clamp(books_container.position.x, -100*LibraryManager._books.size()+1000, 200)
 
 
-func _on_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/set.tscn")
-	
-
 func load_books_from_json():
 	# 1. 检查文件是否存在
 	if not FileAccess.file_exists(JSON_PATH):

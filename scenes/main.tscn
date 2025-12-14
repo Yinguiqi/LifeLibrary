@@ -32,6 +32,8 @@ offset_bottom = -16.0
 [node name="File" type="PopupMenu" parent="VBoxContainer/BookMenuBar/MenuBar"]
 oversampling_override = 1.0
 
+[node name="Edit" type="PopupMenu" parent="VBoxContainer/BookMenuBar/MenuBar"]
+
 [node name="Help" type="PopupMenu" parent="VBoxContainer/BookMenuBar/MenuBar"]
 
 [node name="BooksContainer" type="Control" parent="VBoxContainer"]
@@ -95,14 +97,5 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "关闭"
 
-[node name="Set" type="Button" parent="."]
-layout_mode = 0
-offset_left = 1050.0
-offset_top = 15.0
-offset_right = 1090.0
-offset_bottom = 46.0
-text = "设置"
-
 [connection signal="pressed" from="FindBook" to="." method="_on_find_book_pressed"]
 [connection signal="pressed" from="PanelContainer/CloseButton" to="." method="_on_close_3DMonitor_button_pressed"]
-[connection signal="pressed" from="Set" to="." method="_on_button_pressed"]
