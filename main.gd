@@ -113,39 +113,6 @@ func _create_book_node_from_data(data: Dictionary, index: int):
 	# 4. 添加到容器
 	books_container.add_child(new_book)
 
-## 搜索图书
-func _on_find_book_pressed() -> void:
-	var search_results: Array = LibraryManager.get_books_by_name(find_book.text,true)
-	# 3. 更新 UI: 清空并重绘书架
-	_redraw_book_shelf(search_results)
-	pass # Replace with function body.
-
-## 清空 books_container 并根据传入的列表重绘书籍节点
-func _redraw_book_shelf(books_to_display: Array):
-	
-	# 1. 清空现有书架：释放所有子节点
-	for child in books_container.get_children():
-		child.queue_free()
-
-	# 2. 遍历结果并重新创建场景节点
-	for i in range(books_to_display.size()):
-		var book_data_object = books_to_display[i] # 这是一个 BookData 对象
-		
-		# 实例化场景
-		var new_book_node = BookScene.instantiate()
-		
-		# 绑定数据对象到节点 (为了后续操作，如删除、编辑)
-		new_book_node.data_ref = book_data_object 
-		
-		# 计算位置
-		var new_x = i * 100.0 # 假设间隔 100 像素
-		new_book_node.position = Vector2(new_x, 0)
-		
-		# 添加到容器
-		books_container.add_child(new_book_node)
-	
-	print("书架过滤完成，显示书籍数量: ", books_to_display.size())
-
 # 关闭3d监看器按钮
 func _on_close_3DMonitor_button_pressed() -> void:
 	$PanelContainer.visible = false

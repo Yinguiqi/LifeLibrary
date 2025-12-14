@@ -48,21 +48,6 @@ offset_bottom = 40.0
 [node name="PopupMenu" type="PopupMenu" parent="UI"]
 oversampling_override = 1.0
 
-[node name="FindBookInput" type="LineEdit" parent="."]
-layout_mode = 0
-offset_left = 247.0
-offset_top = 10.0
-offset_right = 665.0
-offset_bottom = 47.0
-
-[node name="FindBook" type="Button" parent="."]
-layout_mode = 0
-offset_left = 701.0
-offset_top = 9.0
-offset_right = 756.0
-offset_bottom = 47.0
-text = "查询"
-
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 visible = false
 
@@ -97,5 +82,4 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "关闭"
 
-[connection signal="pressed" from="FindBook" to="." method="_on_find_book_pressed"]
 [connection signal="pressed" from="PanelContainer/CloseButton" to="." method="_on_close_3DMonitor_button_pressed"]
