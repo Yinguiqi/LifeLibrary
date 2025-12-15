@@ -24,7 +24,7 @@ func check_base_path():
 		BookData.base_path = base_path
 
 # 
-func _input(event):
+func _unhandled_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			is_dragging = true
