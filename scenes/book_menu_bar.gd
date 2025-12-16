@@ -22,8 +22,12 @@ func setup_menus():
 	
 	edit_menu.add_item("搜索", 201)
 	edit_menu.add_item("首选项", 210)
+	
+	help_menu.add_item("教程", 302)
+	
 	file_menu.id_pressed.connect(_on_file_menu_selected)
 	edit_menu.id_pressed.connect(_on_file_menu_selected)
+	help_menu.id_pressed.connect(_on_file_menu_selected)
 	
 
 func _on_file_menu_selected(id: int) -> void:
@@ -37,6 +41,8 @@ func _on_file_menu_selected(id: int) -> void:
 			create_search_window()
 		210:
 			get_tree().change_scene_to_file("res://scenes/set.tscn")
+		302:
+			OS.shell_open("https://milkyaw.online/2025/12/15/Life%20Library/")
 
 ## 增加书籍
 func file_new_selected() -> void:
