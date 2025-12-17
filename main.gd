@@ -6,10 +6,6 @@ const CONFIG_PATH := "user://config.ini"
 const JSON_PATH = "user://books_data.json"
 @onready var find_book: LineEdit = $FindBookInput
 
-var tray_id: int = -1
-var tray_menu: PopupMenu
-var is_window_visible: bool = true  # 跟踪窗口状态
-
 var is_dragging := false
 var last_mouse_x := 0.0
 var velocity_x := 0.0
@@ -17,8 +13,6 @@ var velocity_x := 0.0
 func _ready() -> void:
 	check_base_path()
 	load_books_from_json()
-	_setup_tray()
-	get_tree().set_auto_accept_quit(false)
 	
 # 检查是否存在base_path路径
 func check_base_path():
@@ -122,62 +116,3 @@ func _create_book_node_from_data(data: Dictionary, index: int):
 func _on_close_3DMonitor_button_pressed() -> void:
 	$PanelContainer.visible = false
 	
-func _setup_tray():
-	# 创建托盘菜单
-	tray_menu = PopupMenu.new()
-	add_child(tray_menu)
-	
-	# 添加菜单项
-	tray_menu.add_item("退出", 0)
-	tray_menu.id_pressed.connect(_on_tray_menu_pressed)
-	
-	# 创建系统托盘图标
-	tray_id = DisplayServer.create_status_indicator(
-		load("res://icon.svg"),  # 确保这个图标存在
-		"我的书架",
-		_on_tray_mouse
-	)
-
-# 你的托盘点击逻辑调用这个函数
-func _on_tray_menu_pressed(id):
-	match id:
-		0: # 退出
-			get_tree().quit() # 这才是真退出
-	# 注意：不要在初始化时隐藏窗口，让它保持可见
-
-func _on_tray_mouse(button: MouseButton, _click_pos: Vector2i):
-	if button == MOUSE_BUTTON_RIGHT:
-		var global_mouse = DisplayServer.mouse_get_position()
-		# 原有逻辑
-		tray_menu.position = global_mouse
-		tray_menu.popup()
-		
-	elif button == MOUSE_BUTTON_LEFT:
-		# 左键点击切换窗口显示/隐藏
-		_set_window_visible(true)
-		
-func _set_window_visible(_show: bool):
-	var window = get_window()
-	is_window_visible = _show
-	
-	if _show:
-		# 使用 call_deferred 延迟显示操作
-		window.call_deferred("show")
-		
-		# 其他非敏感操作可以继续正常执行
-		if window.mode == Window.MODE_MINIMIZED:
-			window.mode = Window.MODE_WINDOWED
-			
-		window.grab_focus()
-	else:
-		# 【关键】使用 call_deferred 延迟隐藏操作
-		window.call_deferred("set_mode", Window.MODE_MINIMIZED)
-
-
-func _notification(what):
-	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		# 阻止 Godot 默认退出
-		get_tree().set_auto_accept_quit(false) 
-		
-		# 调用延迟隐藏
-		_set_window_visible(false)
