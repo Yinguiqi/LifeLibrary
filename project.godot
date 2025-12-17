@@ -12,6 +12,7 @@ config_version=5
 
 config/name="Shader Study"
 run/main_scene="uid://cbduiy1roxwfh"
+config/auto_accept_quit=false
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -19,3 +20,7 @@ config/icon="res://icon.svg"
 
 BookData="*res://book_data.gd"
 LibraryManager="*res://LibraryManager.gd"
+
+[display]
+
+window/subwindows/embed_subwindows=false
