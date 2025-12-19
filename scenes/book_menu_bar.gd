@@ -40,7 +40,8 @@ func _on_file_menu_selected(id: int) -> void:
 		201:
 			create_search_window()
 		210:
-			get_tree().change_scene_to_file("res://scenes/set.tscn")
+			open_settings_window()
+			#get_tree().change_scene_to_file("res://scenes/set.tscn")
 		302:
 			OS.shell_open("https://milkyaw.online/2025/12/15/Life%20Library/")
 
@@ -78,56 +79,66 @@ func get_relative_path(abs_path: String) -> String:
 	return abs_path  # 不在 base_path 下就直接返回原路径
 
 func create_search_window():
-	# 创建窗口
 	var window = Window.new()
 	window.title = "搜索"
 	window.size = Vector2(400, 150)
 	window.unresizable = true
-	
-	# 创建内容容器
+
+	# ===== 外层：边距容器 =====
+	var margin = MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 16)
+	margin.add_theme_constant_override("margin_right", 16)
+	margin.add_theme_constant_override("margin_top", 16)
+	margin.add_theme_constant_override("margin_bottom", 16)
+	window.add_child(margin)
+
+	# 让 margin 撑满窗口
+	margin.anchor_right = 1
+	margin.anchor_bottom = 1
+
+	# ===== 垂直布局 =====
 	var vbox = VBoxContainer.new()
-	window.add_child(vbox)
-	
-	# 搜索输入行
+	vbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	vbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	margin.add_child(vbox)
+
+	# ===== 水平布局 =====
 	var hbox = HBoxContainer.new()
+	hbox.alignment = BoxContainer.ALIGNMENT_CENTER
+	hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	vbox.add_child(hbox)
-	
+
+	# ===== 输入框 =====
 	var line_edit = LineEdit.new()
+	line_edit.placeholder_text = "请输入书名"
 	line_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	line_edit.custom_minimum_size = Vector2(0, 36)
 	hbox.add_child(line_edit)
-	
+
+	# ===== 搜索按钮 =====
 	var search_btn = Button.new()
 	search_btn.text = "搜索"
+	search_btn.custom_minimum_size = Vector2(80, 36)
 	hbox.add_child(search_btn)
-	
-		# 连接搜索按钮信号
-	search_btn.pressed.connect(
-		func():
-			var search_results: Array = LibraryManager.get_books_by_name(line_edit.text,true)
-			_redraw_book_shelf(search_results)
-			pass # Replace with function body.
-			window.hide()  # 搜索后关闭窗口
+
+	# ===== 信号 =====
+	search_btn.pressed.connect(func():
+		var search_results = LibraryManager.get_books_by_name(line_edit.text, true)
+		_redraw_book_shelf(search_results)
+		window.hide()
 	)
-	
-	# 结果区域
-	var results_label = Label.new()
-	results_label.text = "结果将显示在这里"
-	vbox.add_child(results_label)
-	
-	# 添加到场景并弹出
-	get_tree().root.add_child(window)  # 添加到根节点
+
+	window.close_requested.connect(window.hide)
+
+	# ===== 添加到场景 =====
+	get_tree().root.add_child(window)
 	window.popup_centered()
-	
-	# 关闭
-	window.close_requested.connect(window.hide)  # 最简单的写法
-	# 自动聚焦
+
 	line_edit.grab_focus()
-	 # Esc键关闭窗口
-	line_edit.gui_input.connect(
-		func(event):
-			if event is InputEventKey:
-				if event.keycode == KEY_ESCAPE and event.pressed:
-					window.hide()
+
+	line_edit.gui_input.connect(func(event):
+		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+			window.hide()
 	)
 
 ## 清空 books_container 并根据传入的列表重绘书籍节点
@@ -155,3 +166,88 @@ func _redraw_book_shelf(books_to_display: Array):
 		books_container.add_child(new_book_node)
 	
 	print("书架过滤完成，显示书籍数量: ", books_to_display.size())
+
+# 打开首选项功能
+func open_settings_window():
+	var window = Window.new()
+	window.title = "设置"
+	window.size = Vector2(500, 200)
+	window.unresizable = true
+	
+	# 边距容器
+	var margin = MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 20)
+	margin.add_theme_constant_override("margin_right", 20)
+	margin.add_theme_constant_override("margin_top", 20)
+	margin.add_theme_constant_override("margin_bottom", 20)
+	window.add_child(margin)
+	
+	# 垂直布局
+	var vbox = VBoxContainer.new()
+	vbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	margin.add_child(vbox)
+	
+	# === 标签 ===
+	var label = Label.new()
+	label.text = "基础路径设置:"
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	vbox.add_child(label)
+	
+	# === 输入框和按钮在同一行 ===
+	var hbox = HBoxContainer.new()
+	hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL  # 撑满父容器
+	vbox.add_child(hbox)
+
+	# 输入框 - 让它占据大部分空间
+	var input = LineEdit.new()
+	input.placeholder_text = "请输入基础路径"
+	input.size_flags_horizontal = Control.SIZE_EXPAND_FILL  # 关键：水平扩展
+	input.size_flags_stretch_ratio = 3.0  # 占据更多比例（可选）
+	input.custom_minimum_size = Vector2(300, 36)  # 设置最小宽度
+	hbox.add_child(input)
+
+	# 按钮 - 固定宽度在右边
+	var save_btn = Button.new()
+	save_btn.text = "保存"
+	save_btn.custom_minimum_size = Vector2(80, 36)
+	hbox.add_child(save_btn)
+	
+	# === 加载现有配置 ===
+	var cfg = ConfigFile.new()
+	if cfg.load("user://config.ini") == OK:
+		var saved_path = cfg.get_value("settings", "base_path", "")
+		input.text = saved_path
+
+	
+	save_btn.pressed.connect(func():
+		# 保存配置
+		var cfg_save = ConfigFile.new()
+		cfg_save.load("user://config.ini")
+		cfg_save.set_value("settings", "base_path", input.text)
+		cfg_save.save("user://config.ini")
+		
+		# 关闭窗口
+		window.hide()
+		get_tree().change_scene_to_file("res://scenes/main.tscn")
+		
+		# 可选：通知主场景配置已更新
+		emit_signal("settings_updated")
+	)
+	
+	window.close_requested.connect(window.hide)
+	
+	# === 添加到场景树 ===
+	get_tree().root.add_child(window)
+	window.popup_centered()
+	
+	# 自动聚焦到输入框
+	input.grab_focus()
+	
+	# ESC键关闭
+	input.gui_input.connect(func(event):
+		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+			window.hide()
+			get_tree().change_scene_to_file("res://scenes/main.tscn")
+	)
+	
+	return window

@@ -41,8 +41,7 @@ func _on_gui_input(event: InputEvent) -> void:
 		menu.add_item("打开所在文件夹", 5)
 		# 在弹出菜单前设置当前书籍ID
 		LibraryManager.current_book_data = book.data_ref
-		menu.popup(Rect2(DisplayServer.mouse_get_position(), Vector2.ZERO))
-
+		menu.popup(Rect2(get_global_mouse_position(),Vector2.ZERO))
 # 菜单选择逻辑
 func _on_menu_pressed(id: int) -> void:
 	match id:

@@ -12,7 +12,6 @@ config_version=5
 
 config/name="Shader Study"
 run/main_scene="uid://cbduiy1roxwfh"
-config/auto_accept_quit=false
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
