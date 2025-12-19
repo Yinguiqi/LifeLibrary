@@ -32,13 +32,6 @@ offset_top = 136.0
 offset_right = 810.0
 offset_bottom = 176.0
 
-[node name="BookIDInput4" type="LineEdit" parent="."]
-layout_mode = 0
-offset_left = 329.0
-offset_top = 384.0
-offset_right = 816.0
-offset_bottom = 424.0
-
 [node name="BookIDInput5" type="LineEdit" parent="."]
 layout_mode = 0
 offset_left = 326.0
@@ -85,15 +78,6 @@ offset_top = 144.0
 offset_right = 275.0
 offset_bottom = 167.0
 text = "书名："
-horizontal_alignment = 2
-
-[node name="Label4" type="Label" parent="."]
-layout_mode = 0
-offset_left = 216.0
-offset_top = 392.0
-offset_right = 296.0
-offset_bottom = 415.0
-text = "缩放大小："
 horizontal_alignment = 2
 
 [node name="Label5" type="Label" parent="."]

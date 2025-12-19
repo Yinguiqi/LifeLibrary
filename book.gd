@@ -9,7 +9,6 @@ extends Control
 @export var display_name: String
 @export var texture_path: String
 @export var rel_path: String
-@export var scale_factor: String
 var data_ref: RefCounted = null
 
 const CONFIG_PATH := "user://config.ini"
@@ -21,7 +20,6 @@ func _ready():
 	if data_ref.book_texture != "":
 		book_texture = load_texture(data_ref.book_texture)
 		apply_texture()
-	if data_ref != null:
 		apply_scale_from_data()
 	if data_ref.book_cover_texture != "":
 		book_cover_texture = load_texture(data_ref.book_cover_texture)
@@ -63,23 +61,23 @@ func apply_texture():
 
 	texture_button.stretch_mode = TextureButton.STRETCH_SCALE
 
-## 应用 data_ref 中存储的 scale_factor 到场景节点的 scale 属性
+# 500高度
 func apply_scale_from_data():
-	if data_ref == null:
-		push_error("错误：尝试应用缩放时，data_ref 尚未设置。")
+	if book_texture == null:
+		push_error("错误：无法计算缩放，book_texture 尚未设置。")
 		return
 	
-	# 从数据对象中获取缩放值
-	var scale_value = data_ref.scale_factor
+	# 获取纹理原始尺寸
+	var tex_size = book_texture.get_size()
 	
-	# 确保 scale_value 是 float 类型且有效
-	if typeof(scale_value) != TYPE_FLOAT or scale_value <= 0:
-		# 打印警告，并使用默认值 1.0
-		push_warning("scale_factor 数据无效，使用默认值 1.0")
+	# 计算缩放比例：目标高度673 ÷ 原始高度
+	var target_height = LibraryManager.book_height
+	var scale_value = target_height / tex_size.y
+	
+	# 确保缩放值有效
+	if scale_value <= 0 or is_nan(scale_value):
+		push_warning("计算出的缩放值无效: ", scale_value, "，使用默认值 1.0")
 		scale_value = 1.0
 	
-	# 将获取到的 float 值应用到节点的 scale 属性上
-	# Godot 节点的 scale 属性是 Vector2 类型
+	# 应用均匀缩放
 	self.scale = Vector2(scale_value, scale_value)
-	
-	#print("书籍节点 '%s' 缩放已更新至: %f" % [name, scale_value])

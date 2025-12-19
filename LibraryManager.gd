@@ -7,6 +7,7 @@ const JSON_PATH = "user://books_data.json"
 const BookDataScript = preload("res://books_data.gd")
 var current_book_data: RefCounted = null
 var base_path: String = ""
+var book_height: float 
 # --- 内存数据 ---
 # 这个数组里装的全是 BookDataScript 的实例对象
 var _books: Array = [] 
@@ -41,7 +42,6 @@ func load_data_from_json():
 			new_book.rel_path = dict.get("rel_path", "")
 			new_book.book_texture = dict.get("book_texture", "")
 			new_book.book_cover_texture = dict.get("book_cover_texture", "")
-			new_book.scale_factor = dict.get("scale_factor", "")
 			
 			_books.append(new_book)
 			
@@ -75,8 +75,7 @@ func save_data_to_json():
 			"name": book.name,
 			"rel_path": book.rel_path,
 			"book_texture": book.book_texture,
-			"book_cover_texture": book.book_cover_texture,
-			"scale_factor": book.scale_factor
+			"book_cover_texture": book.book_cover_texture
 		})
 	
 	var json_string = JSON.stringify(data_to_save, "\t")
@@ -90,7 +89,7 @@ func save_data_to_json():
 # --- 3. 更新 (U) ---
 
 # 你的 UI 应该调用这个函数来修改数据
-func update_book_info(target_id: String, new_name:String, new_path: String, new_texture: String,new_cover_texture: String,new_scale_factor: String):
+func update_book_info(target_id: String, new_name:String, new_path: String, new_texture: String,new_cover_texture: String):
 	var book = get_book_by_id(target_id)
 	if book:
 		book.rel_path = new_path
@@ -99,7 +98,6 @@ func update_book_info(target_id: String, new_name:String, new_path: String, new_
 		elif new_cover_texture.begins_with("user://book_cover_textures/"):
 			book.book_cover_texture = new_cover_texture
 		book.name = new_name
-		book.scale_factor = new_scale_factor
 		# 改完内存立刻存盘
 		save_data_to_json()
 		print("书籍 %s 更新成功" % target_id)
@@ -121,7 +119,6 @@ func add_new_book(path: String, texture: String = "",book_cover_texture: String 
 	
 	var new_book = BookDataScript.new()
 	new_book.initialize(new_id, "新书", path, texture,book_cover_texture)
-	new_book.scale_factor = 1
 	_books.append(new_book)
 	save_data_to_json()
 	return new_book
@@ -146,7 +143,6 @@ func create_book_object_from_dict(dict: Dictionary) -> RefCounted:
 		dict.get("rel_path", ""),
 		dict.get("book_texture", ""),
 		dict.get("book_cover_texture", ""),
-		dict.get("scale_factor", "")
 	)
 	
 	# 别忘了同步旧变量，以防万一（根据你的过渡方案）
@@ -217,3 +213,25 @@ func get_books_by_name(target_name: String, fuzzy_match: bool = false) -> Array:
 	if target_name == "":
 		results = _books	.duplicate()
 	return results
+	
+	# 从配置文件加载书籍高度
+func load_book_height_from_config():
+	var cfg = ConfigFile.new()
+	
+	# 尝试加载配置文件
+	var err = cfg.load("user://config.ini")
+	
+	if err == OK:
+		# 从配置文件中读取 book_height 值
+		var saved_height = cfg.get_value("settings", "book_height", 500.0)
+		
+		# 验证数据的有效性
+		if typeof(saved_height) == TYPE_FLOAT and saved_height > 0:
+			book_height = saved_height
+			print("从配置文件加载书籍高度: ", book_height)
+		else:
+			print("配置文件中的书籍高度无效，使用默认值: 500.0")
+			book_height = 500.0
+	else:
+		print("配置文件不存在或加载失败，使用默认书籍高度: 500.0")
+		book_height = 500.0

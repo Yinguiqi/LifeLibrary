@@ -9,6 +9,8 @@ extends Control  # ← 注意：继承 Control，不是 MenuBar
 @onready var help_menu: PopupMenu = $MenuBar/Help
 @onready var menu_bar: MenuBar = $MenuBar  # 引用实际的 MenuBar
 
+var feedback_label: Label
+
 func _ready():
 	setup_menus()
 
@@ -41,7 +43,6 @@ func _on_file_menu_selected(id: int) -> void:
 			create_search_window()
 		210:
 			open_settings_window()
-			#get_tree().change_scene_to_file("res://scenes/set.tscn")
 		302:
 			OS.shell_open("https://milkyaw.online/2025/12/15/Life%20Library/")
 
@@ -171,7 +172,7 @@ func _redraw_book_shelf(books_to_display: Array):
 func open_settings_window():
 	var window = Window.new()
 	window.title = "设置"
-	window.size = Vector2(500, 200)
+	window.size = Vector2(500, 250)
 	window.unresizable = true
 	
 	# 边距容器
@@ -186,47 +187,125 @@ func open_settings_window():
 	var vbox = VBoxContainer.new()
 	vbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	margin.add_child(vbox)
-	
-	# === 标签 ===
-	var label = Label.new()
-	label.text = "基础路径设置:"
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-	vbox.add_child(label)
-	
-	# === 输入框和按钮在同一行 ===
-	var hbox = HBoxContainer.new()
-	hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL  # 撑满父容器
-	vbox.add_child(hbox)
 
-	# 输入框 - 让它占据大部分空间
+	# === 基础路径标签 ===
+	var path_label = Label.new()
+	path_label.text = "基础路径设置:"
+	path_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	vbox.add_child(path_label)
+
+	# === 基础路径输入行 ===
+	var path_hbox = HBoxContainer.new()
+	path_hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vbox.add_child(path_hbox)
+
+	# 路径输入框
 	var input = LineEdit.new()
 	input.placeholder_text = "请输入基础路径"
-	input.size_flags_horizontal = Control.SIZE_EXPAND_FILL  # 关键：水平扩展
-	input.size_flags_stretch_ratio = 3.0  # 占据更多比例（可选）
-	input.custom_minimum_size = Vector2(300, 36)  # 设置最小宽度
-	hbox.add_child(input)
+	input.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	input.custom_minimum_size = Vector2(300, 36)
+	path_hbox.add_child(input)
 
-	# 按钮 - 固定宽度在右边
-	var save_btn = Button.new()
-	save_btn.text = "保存"
-	save_btn.custom_minimum_size = Vector2(80, 36)
-	hbox.add_child(save_btn)
+	# 路径保存按钮
+	var save_path_btn = Button.new()
+	save_path_btn.text = "保存路径"
+	save_path_btn.custom_minimum_size = Vector2(100, 36)
+	path_hbox.add_child(save_path_btn)
+
+	# === 书籍高度设置 ===
+	# 高度标签
+	var height_label = Label.new()
+	height_label.text = "书籍高度设置:"
+	height_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	vbox.add_child(height_label)
+
+	# 高度输入行
+	var height_hbox = HBoxContainer.new()
+	height_hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vbox.add_child(height_hbox)
+
+	# 高度输入框
+	var height_input = LineEdit.new()
+	height_input.placeholder_text = "输入书籍高度 (0-5000)"
+	height_input.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	height_input.custom_minimum_size = Vector2(300, 36)
+	height_hbox.add_child(height_input)
+
+	# 高度保存按钮
+	var save_height_btn = Button.new()
+	save_height_btn.text = "保存高度"
+	save_height_btn.custom_minimum_size = Vector2(100, 36)
+	height_hbox.add_child(save_height_btn)
+
+	# === 反馈标签 ===（关键：这里创建Label实例）
+	feedback_label = Label.new()
+	feedback_label.add_theme_color_override("font_color", Color.GRAY)
+	feedback_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	feedback_label.custom_minimum_size = Vector2(0, 24)  # 给点高度
+	vbox.add_child(feedback_label)
+	
+	# === 保存所有并关闭按钮 ===
+	var save_close_btn = Button.new()
+	save_close_btn.text = "保存并返回主界面"
+	save_close_btn.custom_minimum_size = Vector2(200, 40)
+	vbox.add_child(save_close_btn)
 	
 	# === 加载现有配置 ===
 	var cfg = ConfigFile.new()
 	if cfg.load("user://config.ini") == OK:
+		# 加载基础路径
 		var saved_path = cfg.get_value("settings", "base_path", "")
 		input.text = saved_path
+		
+		# 加载书籍高度，如果没有设置过，默认用673
+		var saved_height = cfg.get_value("settings", "book_height", 673.0)
+		height_input.text = str(saved_height)
 
-	
-	save_btn.pressed.connect(func():
-		# 保存配置
+	# === 按钮连接 ===
+	# 保存路径按钮
+	save_path_btn.pressed.connect(func():
 		var cfg_save = ConfigFile.new()
 		cfg_save.load("user://config.ini")
 		cfg_save.set_value("settings", "base_path", input.text)
 		cfg_save.save("user://config.ini")
 		
-		# 关闭窗口
+		show_feedback("基础路径已保存", Color.GREEN)
+	)
+
+	# 保存高度按钮 - 添加验证逻辑
+	save_height_btn.pressed.connect(func():
+		var height_text = height_input.text.strip_edges()
+		
+		# 验证输入是否为空
+		if height_text.is_empty():
+			show_feedback("请输入书籍高度", Color.RED)
+			return
+		
+		# 验证是否为数字
+		if not height_text.is_valid_float():
+			show_feedback("请输入有效的数字", Color.RED)
+			return
+		
+		# 转换为float并验证范围
+		var height_value = float(height_text)
+		if height_value < 0 or height_value > 5000:
+			show_feedback("高度必须在0到5000之间", Color.RED)
+			return
+		
+		# 保存到配置文件
+		var cfg_save = ConfigFile.new()
+		cfg_save.load("user://config.ini")
+		cfg_save.set_value("settings", "book_height", height_value)
+		cfg_save.save("user://config.ini")
+		
+		# 设置全局变量
+		LibraryManager.book_height = height_value
+		
+		show_feedback("书籍高度已保存: " + str(height_value), Color.GREEN)
+	)
+	
+	save_close_btn.pressed.connect(func():
+		# 这里可以添加所有设置的验证
 		window.hide()
 		get_tree().change_scene_to_file("res://scenes/main.tscn")
 		
@@ -234,7 +313,10 @@ func open_settings_window():
 		emit_signal("settings_updated")
 	)
 	
-	window.close_requested.connect(window.hide)
+	window.close_requested.connect(func():
+			window.hide()
+			get_tree().change_scene_to_file("res://scenes/main.tscn")
+	)
 	
 	# === 添加到场景树 ===
 	get_tree().root.add_child(window)
@@ -251,3 +333,12 @@ func open_settings_window():
 	)
 	
 	return window
+
+
+func show_feedback(message: String, color: Color):
+	feedback_label.text = message
+	feedback_label.add_theme_color_override("font_color", color)
+   
+	   # 3秒后清除反馈
+	await get_tree().create_timer(3.0).timeout
+	feedback_label.text = ""

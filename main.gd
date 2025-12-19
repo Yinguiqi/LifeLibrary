@@ -12,7 +12,9 @@ var velocity_x := 0.0
 
 func _ready() -> void:
 	check_base_path()
+	LibraryManager.load_book_height_from_config()
 	load_books_from_json()
+	
 	
 # 检查是否存在base_path路径
 func check_base_path():
@@ -100,7 +102,6 @@ func _create_book_node_from_data(data: Dictionary, index: int):
 	new_book.book_id = data.get("id", "")
 	new_book.display_name = data.get("name", "")
 	new_book.texture_path = data.get("book_texture", "")
-	new_book.scale_factor = str(data.get("scale_factor", ""))
 	new_book.rel_path = rel_path
 	var book_data_object = LibraryManager.create_book_object_from_dict(data)
 	new_book.data_ref = book_data_object
