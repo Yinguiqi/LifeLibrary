@@ -236,6 +236,31 @@ func open_settings_window():
 	save_height_btn.text = "保存高度"
 	save_height_btn.custom_minimum_size = Vector2(100, 36)
 	height_hbox.add_child(save_height_btn)
+	
+	# === 书籍间隔设置 ===
+	# 高度标签
+	var spacing_label = Label.new()
+	spacing_label.text = "书籍间隔设置:"
+	spacing_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	vbox.add_child(spacing_label)
+
+	# 高度输入行
+	var spacing_hbox = HBoxContainer.new()
+	spacing_hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vbox.add_child(spacing_hbox)
+
+	# 高度输入框
+	var spacing_input = LineEdit.new()
+	spacing_input.placeholder_text = "输入书籍间隔 (0-200)"
+	spacing_input.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	spacing_input.custom_minimum_size = Vector2(300, 36)
+	spacing_hbox.add_child(spacing_input)
+
+	# 高度保存按钮
+	var save_spacing_btn = Button.new()
+	save_spacing_btn.text = "保存间隔"
+	save_spacing_btn.custom_minimum_size = Vector2(100, 36)
+	spacing_hbox.add_child(save_spacing_btn)
 
 	# === 反馈标签 ===（关键：这里创建Label实例）
 	feedback_label = Label.new()
@@ -304,13 +329,43 @@ func open_settings_window():
 		show_feedback("书籍高度已保存: " + str(height_value), Color.GREEN)
 	)
 	
+	# 保存间隔按钮 - 添加验证逻辑
+	save_spacing_btn.pressed.connect(func():
+		var spacing_text = spacing_input.text.strip_edges()
+		
+		# 验证输入是否为空
+		if spacing_text.is_empty():
+			show_feedback("请输入书籍间隔", Color.RED)
+			return
+		
+		# 验证是否为数字
+		if not spacing_text.is_valid_float():
+			show_feedback("请输入有效的数字", Color.RED)
+			return
+		
+		# 转换为float并验证范围
+		var spacing_value = float(spacing_text)
+		if spacing_value < 0 or spacing_value > 200:
+			show_feedback("间隔必须在0到200之间", Color.RED)
+			return
+		
+		# 保存到配置文件
+		var cfg_save = ConfigFile.new()
+		cfg_save.load("user://config.ini")
+		cfg_save.set_value("settings", "book_spacing", spacing_value)
+		cfg_save.save("user://config.ini")
+		
+		# 设置全局变量
+		LibraryManager.book_spacing = spacing_value
+		
+		show_feedback("书籍间隔已保存: " + str(spacing_value), Color.GREEN)
+	)
+	
 	save_close_btn.pressed.connect(func():
 		# 这里可以添加所有设置的验证
 		window.hide()
 		get_tree().change_scene_to_file("res://scenes/main.tscn")
 		
-		# 可选：通知主场景配置已更新
-		emit_signal("settings_updated")
 	)
 	
 	window.close_requested.connect(func():

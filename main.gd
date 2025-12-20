@@ -11,6 +11,7 @@ var last_mouse_x := 0.0
 var velocity_x := 0.0
 
 func _ready() -> void:
+	LibraryManager.book_x = 0
 	check_base_path()
 	LibraryManager.load_book_height_from_config()
 	load_books_from_json()
@@ -107,8 +108,8 @@ func _create_book_node_from_data(data: Dictionary, index: int):
 	new_book.data_ref = book_data_object
 	# 3. 计算位置 (更加稳定：直接基于它是第几个)
 	# 如果你希望第一本在 0，第二本在 100，第三本在 200
-	var new_x = index * 100.0
-	new_book.position = Vector2(new_x, 0)
+	#var new_x = index * 100.0
+	#new_book.position = Vector2(new_x, 0)
 
 	# 4. 添加到容器
 	books_container.add_child(new_book)

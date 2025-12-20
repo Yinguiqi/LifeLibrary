@@ -81,3 +81,9 @@ func apply_scale_from_data():
 	
 	# 应用均匀缩放
 	self.scale = Vector2(scale_value, scale_value)
+	var scaled_width = tex_size.x * scale_value
+	
+	#设置书籍间隔
+	self.position = Vector2(LibraryManager.book_x, 0)
+	LibraryManager.book_x += scaled_width
+	LibraryManager.book_x += LibraryManager.book_spacing
