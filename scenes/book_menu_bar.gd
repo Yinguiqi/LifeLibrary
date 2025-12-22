@@ -3,6 +3,7 @@ extends Control  # ← 注意：继承 Control，不是 MenuBar
 
 @onready var books_container = $"../BooksContainer"
 @onready var BookScene := preload("res://scenes/book.tscn")
+@onready var AddBookWindow := preload("res://scenes/add_book_window.tscn")
 
 @onready var file_menu: PopupMenu = $MenuBar/File
 @onready var edit_menu: PopupMenu = $MenuBar/Edit
@@ -36,7 +37,9 @@ func _on_file_menu_selected(id: int) -> void:
 	# 发射具体信号（方便主场景连接）
 	match id:
 		100: 
-			file_new_selected()
+			var _add_book_window = AddBookWindow.instantiate()
+			get_tree().root.add_child(_add_book_window)
+			#file_new_selected()
 		110:
 			get_tree().quit()
 		201:
@@ -269,12 +272,6 @@ func open_settings_window():
 	feedback_label.custom_minimum_size = Vector2(0, 24)  # 给点高度
 	vbox.add_child(feedback_label)
 	
-	# === 保存所有并关闭按钮 ===
-	var save_close_btn = Button.new()
-	save_close_btn.text = "保存并返回主界面"
-	save_close_btn.custom_minimum_size = Vector2(200, 40)
-	vbox.add_child(save_close_btn)
-	
 	# === 加载现有配置 ===
 	var cfg = ConfigFile.new()
 	if cfg.load("user://config.ini") == OK:
@@ -282,9 +279,11 @@ func open_settings_window():
 		var saved_path = cfg.get_value("settings", "base_path", "")
 		input.text = saved_path
 		
-		# 加载书籍高度，如果没有设置过，默认用673
+		# 加载书籍高度，如果没有设置过，默认用673，书籍间隔同理
 		var saved_height = cfg.get_value("settings", "book_height", 673.0)
+		var saved_spacing = cfg.get_value("settings", "book_spacing", 20.0)
 		height_input.text = str(saved_height)
+		spacing_input.text = str(saved_spacing)
 
 	# === 按钮连接 ===
 	# 保存路径按钮
@@ -359,13 +358,6 @@ func open_settings_window():
 		LibraryManager.book_spacing = spacing_value
 		
 		show_feedback("书籍间隔已保存: " + str(spacing_value), Color.GREEN)
-	)
-	
-	save_close_btn.pressed.connect(func():
-		# 这里可以添加所有设置的验证
-		window.hide()
-		get_tree().change_scene_to_file("res://scenes/main.tscn")
-		
 	)
 	
 	window.close_requested.connect(func():

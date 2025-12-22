@@ -19,3 +19,7 @@ config/icon="res://icon.svg"
 
 BookData="*res://book_data.gd"
 LibraryManager="*res://LibraryManager.gd"
+
+[gui]
+
+theme/custom_font="uid://dl5yxrnx0y6ui"

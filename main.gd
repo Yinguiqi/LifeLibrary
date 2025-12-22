@@ -4,7 +4,6 @@ extends Control
 @onready var BookScene := preload("res://scenes/book.tscn")
 const CONFIG_PATH := "user://config.ini"
 const JSON_PATH = "user://books_data.json"
-@onready var find_book: LineEdit = $FindBookInput
 
 var is_dragging := false
 var last_mouse_x := 0.0
