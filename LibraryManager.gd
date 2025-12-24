@@ -93,7 +93,7 @@ func save_data_to_json():
 # --- 3. 更新 (U) ---
 
 # 你的 UI 应该调用这个函数来修改数据
-func update_book_info(target_id: String, new_name:String, new_path: String, new_texture: String,new_cover_texture: String):
+func update_book_info(target_id: String, new_name:String, new_path: String, new_texture: String,new_cover_texture: String,new_author: String,new_introduction: String):
 	var book = get_book_by_id(target_id)
 	if book:
 		book.rel_path = new_path
@@ -102,6 +102,8 @@ func update_book_info(target_id: String, new_name:String, new_path: String, new_
 		elif new_cover_texture.begins_with("user://book_cover_textures/"):
 			book.book_cover_texture = new_cover_texture
 		book.name = new_name
+		book.author = new_author
+		book.introduction = new_introduction
 		# 改完内存立刻存盘
 		save_data_to_json()
 		print("书籍 %s 更新成功" % target_id)

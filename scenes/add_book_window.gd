@@ -14,6 +14,7 @@ extends Window
 
 var current_file_dialog: FileDialog = null
 var target_input: LineEdit = null
+var target_id: String
 
 func _ready() -> void:
 	# 连接关闭请求信号
@@ -119,10 +120,11 @@ func _on_confirm_pressed() -> void:
 	# 如果没输入书名，用文件名
 	if book_name.is_empty() and not path.is_empty():
 		book_name = path.get_file().get_basename()
-	
-	# 调用方法
-	LibraryManager.add_new_book(path,texture,book_name,book_cover_texture,author,introduction)
-	
+	if self.title == "添加书籍":
+		# 调用方法
+		LibraryManager.add_new_book(path,texture,book_name,book_cover_texture,author,introduction)
+	else:
+		LibraryManager.update_book_info(target_id,book_name,path,texture,book_cover_texture,author,introduction)
 	# 关窗口
 	hide()
 	get_tree().change_scene_to_file("res://scenes/main.tscn")
@@ -151,3 +153,20 @@ func get_relative_path(abs_path: String) -> String:
 	if abs_path.begins_with(BookData.base_path):
 		return abs_path.replace(BookData.base_path, "")
 	return abs_path  # 不在 base_path 下就直接返回原路径
+
+# 在窗口脚本中添加这个方法
+func load_book_data(book_data: Dictionary) -> void:
+	"""加载书籍数据到表单"""
+	target_id = book_data.get("book_id","")
+	name_input.text = book_data.get("name", "")
+	author_input.text = book_data.get("author", "")
+	book_path_input.text = book_data.get("rel_path", "")
+	spine_path_input.text = book_data.get("book_texture", "")
+	cover_path_input.text = book_data.get("book_cover_texture", "")
+	introduction_input.text = book_data.get("introduction", "")
+	
+	self.title = "编辑书籍"
+	btn_confirm.disabled = false
+	btn_confirm.text = "确定更改"
+	# 显示窗口
+	popup_centered()

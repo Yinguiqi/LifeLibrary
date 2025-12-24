@@ -39,7 +39,6 @@ func _on_file_menu_selected(id: int) -> void:
 		100: 
 			var _add_book_window = AddBookWindow.instantiate()
 			get_tree().root.add_child(_add_book_window)
-			#file_new_selected()
 		110:
 			get_tree().quit()
 		201:
@@ -48,38 +47,6 @@ func _on_file_menu_selected(id: int) -> void:
 			open_settings_window()
 		302:
 			OS.shell_open("https://milkyaw.online/2025/12/15/Life%20Library/")
-
-## 增加书籍
-func file_new_selected() -> void:
-	var dialog := FileDialog.new()
-	dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
-	dialog.access = FileDialog.ACCESS_FILESYSTEM
-	dialog.current_dir = BookData.base_path  # ← 指定打开的文件夹
-	dialog.title = "选择一个文件"
-	add_child(dialog)
-	dialog.popup_centered()
-
-	dialog.file_selected.connect(_add_book_on_file_selected)
-
-# 把绝对路径改成相对路径并生成书籍且保存数据到JSON
-func _add_book_on_file_selected(path: String):
-	var pathx = get_relative_path(path)
-
-	# 2. 保存到 JSON
-	var texture_path = "res://assets/book_texture/1.png" 
-	LibraryManager.add_new_book(pathx,texture_path)
-	print("已保存到 JSON：", " → ", pathx)
-	get_tree().change_scene_to_file("res://scenes/main.tscn")
-
-# 把绝对路径改成相对路径的方法
-func get_relative_path(abs_path: String) -> String:
-	if not BookData.base_path.ends_with("/"):
-		BookData.base_path += "/"
-
-	# Godot 字符串处理
-	if abs_path.begins_with(BookData.base_path):
-		return abs_path.replace(BookData.base_path, "")
-	return abs_path  # 不在 base_path 下就直接返回原路径
 
 func create_search_window():
 	var window = Window.new()

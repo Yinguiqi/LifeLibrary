@@ -33,12 +33,10 @@ func _on_gui_input(event: InputEvent) -> void:
 			menu.id_pressed.disconnect(conn.callable)
 		menu.id_pressed.connect(_on_menu_pressed)
 		# 2. 然后再添加本次需要的选项
-		menu.add_item("编辑书籍配置", 0)
-		menu.add_item("设置书脊", 1)
-		menu.add_item("设置封面", 2)
-		menu.add_item("删除书籍", 3)
-		menu.add_item("3d监看器", 4)
-		menu.add_item("打开所在文件夹", 5)
+		menu.add_item("编辑信息", 0)
+		menu.add_item("删除书籍", 1)
+		menu.add_item("3d监看器", 2)
+		menu.add_item("打开所在文件夹", 3)
 		# 在弹出菜单前设置当前书籍ID
 		LibraryManager.current_book_data = book.data_ref
 		menu.popup(Rect2(get_global_mouse_position(),Vector2.ZERO))
@@ -46,44 +44,34 @@ func _on_gui_input(event: InputEvent) -> void:
 func _on_menu_pressed(id: int) -> void:
 	match id:
 		0:
-			get_tree().call_deferred("change_scene_to_file", "res://scenes/book_settings.tscn")
+			edit_current_book()
 		1:
-			_on_book_texture_pressed()
-		2:
-			_on_book_cover_texture_pressed()
-		3:
 			delete_book_by_id()
-		4:
+		2:
 			setup_3d_monitor()
-		5:
+		3:
 			open_book_of_folder()
 
-func _on_book_texture_pressed() -> void:
-	choose_texture("user://book_textures/")
+# 在其他脚本中调用：
+func edit_current_book() -> void:
+	var current_book = LibraryManager.current_book_data
+	if current_book:
+		# 将你的 Book 对象转换为字典
+		var book_dict = {
+			"book_id":current_book.id,
+			"name": current_book.name,
+			"author": current_book.author,
+			"rel_path": current_book.rel_path,
+			"book_texture": current_book.book_texture,
+			"book_cover_texture": current_book.book_cover_texture,
+			"introduction": current_book.introduction
+		}
+		
+		# 获取窗口实例并加载数据
+		var window = preload("res://scenes/add_book_window.tscn").instantiate()
+		add_child(window)
+		window.load_book_data(book_dict)
 
-func _on_book_cover_texture_pressed() -> void:
-	choose_texture("user://book_cover_textures/")
-
-func choose_texture(target_folder: String) -> void:
-	var dialog := FileDialog.new()
-	dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
-	dialog.access = FileDialog.ACCESS_FILESYSTEM
-	dialog.current_dir = BookData.base_path
-	dialog.file_selected.connect(func(path):
-		var file = path.get_file()
-		DirAccess.make_dir_recursive_absolute(target_folder)
-		var target = target_folder + file
-		var err = copy_file(path, target)
-		if err != OK:
-			print("复制失败: ", err)
-		else:
-			LibraryManager.update_book_info(book.book_id, book.name, book.rel_path, target, target)
-			get_tree().change_scene_to_file("res://scenes/main.tscn")
-		dialog.queue_free()
-	)
-	dialog.canceled.connect(dialog.queue_free)
-	add_child(dialog)
-	dialog.popup_centered()
 	
 # 复制书籍文件方法
 func copy_file(src_path: String, dst_path: String) -> int:
