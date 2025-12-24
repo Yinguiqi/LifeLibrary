@@ -74,6 +74,8 @@ func save_data_to_json():
 	for book in _books:
 		data_to_save.append({
 			"id": book.id,
+			"author": book.author,
+			"introduction": book.introduction,
 			"name": book.name,
 			"rel_path": book.rel_path,
 			"book_texture": book.book_texture,
@@ -108,7 +110,7 @@ func update_book_info(target_id: String, new_name:String, new_path: String, new_
 
 # --- 4. 新增 (C) ---
 
-func add_new_book(path: String, texture: String = "",book_cover_texture: String = ""):
+func add_new_book(path: String , texture: String,book_name:String = "",book_cover_texture: String = "",author: String = "",introduction: String = ""):
 	# 自动生成 ID: Book + (当前数量+1)
 	# 为了防止 ID 重复，也可以用时间戳，但这里沿用你的逻辑
 	var new_index = _books.size() + 1
@@ -120,11 +122,10 @@ func add_new_book(path: String, texture: String = "",book_cover_texture: String 
 		new_id = "Book%d" % new_index
 	
 	var new_book = BookDataScript.new()
-	new_book.initialize(new_id, "新书", path, texture,book_cover_texture)
+	new_book.initialize(new_id,book_name, path, texture,book_cover_texture,author,introduction)
 	_books.append(new_book)
 	save_data_to_json()
 	return new_book
-
 # --- 辅助：排序 ---
 func _sort_books():
 	_books.sort_custom(func(a, b):
@@ -145,6 +146,8 @@ func create_book_object_from_dict(dict: Dictionary) -> RefCounted:
 		dict.get("rel_path", ""),
 		dict.get("book_texture", ""),
 		dict.get("book_cover_texture", ""),
+		dict.get("author", ""),
+		dict.get("introduction", "")
 	)
 	
 	# 别忘了同步旧变量，以防万一（根据你的过渡方案）

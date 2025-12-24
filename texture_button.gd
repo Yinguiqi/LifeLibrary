@@ -78,7 +78,7 @@ func choose_texture(target_folder: String) -> void:
 			print("复制失败: ", err)
 		else:
 			LibraryManager.update_book_info(book.book_id, book.name, book.rel_path, target, target)
-			get_tree().change_scene_to_file("res://scenes/Main.tscn")
+			get_tree().change_scene_to_file("res://scenes/main.tscn")
 		dialog.queue_free()
 	)
 	dialog.canceled.connect(dialog.queue_free)

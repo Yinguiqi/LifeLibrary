@@ -98,17 +98,8 @@ func _create_book_node_from_data(data: Dictionary, index: int):
 	var new_book = BookScene.instantiate()
 	
 	# 2. 赋值属性 (直接从字典取值)
-	new_book.name = data.get("id", "BookNode") # 节点名
-	new_book.book_id = data.get("id", "")
-	new_book.display_name = data.get("name", "")
-	new_book.texture_path = data.get("book_texture", "")
-	new_book.rel_path = rel_path
 	var book_data_object = LibraryManager.create_book_object_from_dict(data)
 	new_book.data_ref = book_data_object
-	# 3. 计算位置 (更加稳定：直接基于它是第几个)
-	# 如果你希望第一本在 0，第二本在 100，第三本在 200
-	#var new_x = index * 100.0
-	#new_book.position = Vector2(new_x, 0)
 
 	# 4. 添加到容器
 	books_container.add_child(new_book)

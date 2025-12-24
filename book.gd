@@ -5,10 +5,6 @@ extends Control
 @export var book_cover_texture: Texture2D
 @onready var books_container := get_parent()
 @onready var default_texture_path = "res://icon.svg"
-@export var book_id: String
-@export var display_name: String
-@export var texture_path: String
-@export var rel_path: String
 var data_ref: RefCounted = null
 
 const CONFIG_PATH := "user://config.ini"
@@ -16,7 +12,6 @@ const CONFIG_PATH := "user://config.ini"
 func _ready():
 		# 等一帧以确保节点已初始化
 	await get_tree().process_frame
-		# 如果 texture_path 有值，则动态加载纹理
 	if data_ref.book_texture != "":
 		book_texture = load_texture(data_ref.book_texture)
 		apply_texture()

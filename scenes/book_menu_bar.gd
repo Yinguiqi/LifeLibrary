@@ -51,7 +51,6 @@ func _on_file_menu_selected(id: int) -> void:
 
 ## 增加书籍
 func file_new_selected() -> void:
-	print(111)
 	var dialog := FileDialog.new()
 	dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 	dialog.access = FileDialog.ACCESS_FILESYSTEM
@@ -70,7 +69,7 @@ func _add_book_on_file_selected(path: String):
 	var texture_path = "res://assets/book_texture/1.png" 
 	LibraryManager.add_new_book(pathx,texture_path)
 	print("已保存到 JSON：", " → ", pathx)
-	get_tree().change_scene_to_file("res://scenes/Main.tscn")
+	get_tree().change_scene_to_file("res://scenes/main.tscn")
 
 # 把绝对路径改成相对路径的方法
 func get_relative_path(abs_path: String) -> String:
