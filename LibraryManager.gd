@@ -43,7 +43,9 @@ func load_data_from_json():
 			new_book.name = dict.get("name", "未命名")
 			new_book.rel_path = dict.get("rel_path", "")
 			new_book.book_texture = dict.get("book_texture", "")
-			new_book.book_cover_texture = dict.get("book_cover_texture", "")
+			new_book.author = dict.get("author", "")
+			new_book.introduction = dict.get("introduction", "")
+			new_book.group_name = dict.get("group_name", "")
 			
 			_books.append(new_book)
 			
@@ -79,7 +81,8 @@ func save_data_to_json():
 			"name": book.name,
 			"rel_path": book.rel_path,
 			"book_texture": book.book_texture,
-			"book_cover_texture": book.book_cover_texture
+			"book_cover_texture": book.book_cover_texture,
+			"group_name": book.group_name
 		})
 	
 	var json_string = JSON.stringify(data_to_save, "\t")
@@ -93,7 +96,7 @@ func save_data_to_json():
 # --- 3. 更新 (U) ---
 
 # 你的 UI 应该调用这个函数来修改数据
-func update_book_info(target_id: String, new_name:String, new_path: String, new_texture: String,new_cover_texture: String,new_author: String,new_introduction: String):
+func update_book_info(target_id: String, new_name:String, new_path: String, new_texture: String,new_cover_texture: String,new_author: String,new_introduction: String,new_group_name: String):
 	var book = get_book_by_id(target_id)
 	if book:
 		book.rel_path = new_path
@@ -104,6 +107,7 @@ func update_book_info(target_id: String, new_name:String, new_path: String, new_
 		book.name = new_name
 		book.author = new_author
 		book.introduction = new_introduction
+		book.group_name = new_group_name
 		# 改完内存立刻存盘
 		save_data_to_json()
 		print("书籍 %s 更新成功" % target_id)
@@ -112,7 +116,7 @@ func update_book_info(target_id: String, new_name:String, new_path: String, new_
 
 # --- 4. 新增 (C) ---
 
-func add_new_book(path: String , texture: String,book_name:String = "",book_cover_texture: String = "",author: String = "",introduction: String = ""):
+func add_new_book(path: String , texture: String,book_name:String = "",book_cover_texture: String = "",author: String = "",introduction: String = "",group_name: String = ""):
 	# 自动生成 ID: Book + (当前数量+1)
 	# 为了防止 ID 重复，也可以用时间戳，但这里沿用你的逻辑
 	var new_index = _books.size() + 1
@@ -124,7 +128,7 @@ func add_new_book(path: String , texture: String,book_name:String = "",book_cove
 		new_id = "Book%d" % new_index
 	
 	var new_book = BookDataScript.new()
-	new_book.initialize(new_id,book_name, path, texture,book_cover_texture,author,introduction)
+	new_book.initialize(new_id,book_name, path, texture,book_cover_texture,author,introduction,group_name)
 	_books.append(new_book)
 	save_data_to_json()
 	return new_book
@@ -149,7 +153,8 @@ func create_book_object_from_dict(dict: Dictionary) -> RefCounted:
 		dict.get("book_texture", ""),
 		dict.get("book_cover_texture", ""),
 		dict.get("author", ""),
-		dict.get("introduction", "")
+		dict.get("introduction", ""),
+		dict.get("group_name", "")
 	)
 	
 	# 别忘了同步旧变量，以防万一（根据你的过渡方案）
@@ -218,6 +223,21 @@ func get_books_by_name(target_name: String, fuzzy_match: bool = false) -> Array:
 		if is_match:
 			results.append(book)
 	if target_name == "":
+		results = _books	.duplicate()
+	return results
+	
+## 根据书名查询所有匹配的书籍
+## 可以选择是否进行模糊匹配 (contains) 或精确匹配
+func get_books_by_group(target_group: String) -> Array:
+	var results: Array = []
+
+	# 遍历内存中的所有书籍对象
+	for book in _books:
+		var book_group = book.group_name
+		# 精确匹配：书名必须完全相同
+		if book_group == target_group:
+			results.append(book)
+	if target_group == "":
 		results = _books	.duplicate()
 	return results
 	

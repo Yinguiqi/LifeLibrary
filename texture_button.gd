@@ -64,7 +64,8 @@ func edit_current_book() -> void:
 			"rel_path": current_book.rel_path,
 			"book_texture": current_book.book_texture,
 			"book_cover_texture": current_book.book_cover_texture,
-			"introduction": current_book.introduction
+			"introduction": current_book.introduction,
+			"group_name": current_book.group_name
 		}
 		
 		# 获取窗口实例并加载数据

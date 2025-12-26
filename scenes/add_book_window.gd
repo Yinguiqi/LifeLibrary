@@ -6,6 +6,8 @@ extends Window
 @onready var book_path_input: LineEdit = %BookPathInput
 @onready var spine_path_input: LineEdit = %SpinePathInput
 @onready var cover_path_input: LineEdit = %CoverPathInput
+@onready var group_option: OptionButton = $PanelContainer/MarginContainer/VBoxContainer/GridContainer/GroupOption
+
 
 @onready var btn_select_book: Button = %BtnSelectBook
 @onready var btn_select_spine: Button = %BtnSelectSpine
@@ -24,6 +26,8 @@ func _ready() -> void:
 	btn_select_spine.pressed.connect(_on_select_spine_pressed)
 	btn_select_cover.pressed.connect(_on_select_cover_pressed)
 	btn_confirm.pressed.connect(_on_confirm_pressed)
+	var groups = load_groups_from_config("user://config.ini")
+	setup_group_options(groups)
 
 func _on_close_requested() -> void:
 	# 当点击关闭按钮时隐藏窗口
@@ -116,18 +120,19 @@ func _on_confirm_pressed() -> void:
 	var book_name = name_input.text.strip_edges()
 	var author = author_input.text.strip_edges()
 	var introduction = introduction_input.text.strip_edges()  # 根据你的变量名
+	var group_name = group_option.get_item_text(group_option.selected)
 	
 	# 如果没输入书名，用文件名
 	if book_name.is_empty() and not path.is_empty():
 		book_name = path.get_file().get_basename()
 	if self.title == "添加书籍":
 		# 调用方法
-		LibraryManager.add_new_book(path,texture,book_name,book_cover_texture,author,introduction)
+		LibraryManager.add_new_book(path,texture,book_name,book_cover_texture,author,introduction,group_name)
+		hide()
+		get_tree().change_scene_to_file("res://scenes/main.tscn")
 	else:
-		LibraryManager.update_book_info(target_id,book_name,path,texture,book_cover_texture,author,introduction)
-	# 关窗口
-	hide()
-	get_tree().change_scene_to_file("res://scenes/main.tscn")
+		LibraryManager.update_book_info(target_id,book_name,path,texture,book_cover_texture,author,introduction,group_name)
+		hide()
 
 # 复制书籍文件方法
 func copy_file(src_path: String, dst_path: String) -> int:
@@ -164,9 +169,42 @@ func load_book_data(book_data: Dictionary) -> void:
 	spine_path_input.text = book_data.get("book_texture", "")
 	cover_path_input.text = book_data.get("book_cover_texture", "")
 	introduction_input.text = book_data.get("introduction", "")
+	group_option.text = book_data.get("group_name", "")
 	
 	self.title = "编辑书籍"
 	btn_confirm.disabled = false
 	btn_confirm.text = "确定更改"
 	# 显示窗口
 	popup_centered()
+
+func load_groups_from_config(config_path: String) -> Dictionary:
+	var config = ConfigFile.new()
+	var err = config.load(config_path)
+	if err != OK:
+		print("无法加载配置文件: ", config_path)
+		return {}
+	
+	var groups = {}
+	if config.has_section("group"):
+		var keys = config.get_section_keys("group")
+		for key in keys:
+			var value = config.get_value("group", key)
+			groups[int(key)] = value  # key转为整数，value是字符串
+	
+	return groups
+	
+func setup_group_options(groups: Dictionary):
+	group_option.clear()
+	
+	# 按key排序，确保顺序
+	var sorted_keys = groups.keys()
+	sorted_keys.sort()
+	
+	for key in sorted_keys:
+		var text = groups[key]
+		group_option.add_item(text, key)
+	
+	# 如果有默认选择
+	if sorted_keys.size() > 0:
+		group_option.selected = 0
+		print("已添加 ", sorted_keys.size(), " 个分组选项")

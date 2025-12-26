@@ -10,7 +10,7 @@ var last_mouse_x := 0.0
 var velocity_x := 0.0
 
 func _ready() -> void:
-	LibraryManager.book_x = 0
+	LibraryManager.book_x = 500
 	check_base_path()
 	LibraryManager.load_book_height_from_config()
 	load_books_from_json()

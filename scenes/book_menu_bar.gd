@@ -16,9 +16,9 @@ func _ready():
 	setup_menus()
 
 func setup_menus():
-	file_menu.name = "文件（F）"
-	edit_menu.name = "编辑（E）"
-	help_menu.name = "帮助（H）"
+	file_menu.name = "文件"
+	edit_menu.name = "编辑"
+	help_menu.name = "帮助"
 	
 	file_menu.add_item("新建书籍", 100)
 	file_menu.add_item("退出", 110)
@@ -127,10 +127,6 @@ func _redraw_book_shelf(books_to_display: Array):
 		
 		# 绑定数据对象到节点 (为了后续操作，如删除、编辑)
 		new_book_node.data_ref = book_data_object 
-		
-		# 计算位置
-		var new_x = i * 100.0 # 假设间隔 100 像素
-		new_book_node.position = Vector2(new_x, 0)
 		
 		# 添加到容器
 		books_container.add_child(new_book_node)

@@ -66,6 +66,14 @@ custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
 placeholder_text = "输入小说简介或描述..."
 
+[node name="书籍分组" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "分组："
+
+[node name="GroupOption" type="OptionButton" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+
 [node name="书籍文件（必选）" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
