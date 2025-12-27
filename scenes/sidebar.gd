@@ -1,13 +1,13 @@
 extends PanelContainer
 
 @onready var label: Label = $VBoxContainer/Label
-@onready var group_name: LineEdit = $VBoxContainer/GroupName
-@onready var add_group: Button = $VBoxContainer/AddGroup
 @onready var vbox: VBoxContainer = $VBoxContainer
 
 @onready var books_container: Control = $"../VBoxContainer/BooksContainer"
 @onready var BookScene := preload("res://scenes/book.tscn")
+@onready var GroupManager := preload("res://scenes/group_manager.tscn")
 
+var group_manager: Node = null
 
 func _ready() -> void:
 	load_groups()
@@ -50,48 +50,11 @@ func add_group_button(group_name_: String) -> void:
 			vbox.add_child(button)
 			vbox.move_child(button, i + 1)
 			break
-
-func _on_add_group_pressed() -> void:
-	var group = group_name.text.strip_edges()
-	if group != "":
-		# 检查分组是否已存在
-		if is_group_exists_in_config(group):
-			print("分组已存在: ", group)
-			return
 		
-		save_group_to_config(group)
-		group_name.text = ""  # 清空输入框
-		print("分组添加成功: ", group)
-		load_groups()
-		
-
-# 检查分组是否存在于配置文件中
-func is_group_exists_in_config(_group_name: String) -> bool:
-	var cfg = ConfigFile.new()
-	if cfg.load("user://config.ini") == OK:
-		if cfg.has_section("group"):
-			var keys = cfg.get_section_keys("group")
-			for key in keys:
-				var existing_group = cfg.get_value("group", key)
-				if existing_group == _group_name:
-					return true
-	return false
-
-# 保存分组到配置文件
-func save_group_to_config(group: String) -> void:
-	var cfg_save = ConfigFile.new()
-	cfg_save.load("user://config.ini")
-	
-	# 查找下一个可用的键名
-	var index = 1
-	while cfg_save.has_section_key("group", str(index)):
-		index += 1
-	
-	# 保存分组
-	cfg_save.set_value("group", str(index), group)
-	cfg_save.save("user://config.ini")
-	
 func _get_books_by_group(group_name_: String):
+	if group_manager and is_instance_valid(group_manager):
+		group_manager.queue_free()
+		group_manager = null
 	var search_results = LibraryManager.get_books_by_group(group_name_)
 	# 1. 清空现有书架：释放所有子节点
 	for child in books_container.get_children():
@@ -120,20 +83,5 @@ func _on_all_book_pressed() -> void:
 func _on_button_pressed() -> void:
 	for child in books_container.get_children():
 		child.queue_free()
-		var button = Button.new()
-		button.text = "操作"
-		button.custom_minimum_size = Vector2(80, 40)
-	
-	# 使用预设的锚点布局
-		button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
-	
-	# 设置边距偏移
-		button.offset_left = 0  
-		button.offset_right = 0  
-		button.offset_top = 0     
-		button.offset_bottom = 0  
-	
-	# 获取主场景根节点并添加按钮
-		var main_scene = get_tree().current_scene  # 当前活动场景
-		if main_scene:
-			main_scene.add_child(button)
+	group_manager = GroupManager.instantiate()
+	get_tree().root.add_child(group_manager)

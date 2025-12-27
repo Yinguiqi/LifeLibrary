@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqdg7sjjakjlg"]
+
+[ext_resource type="Script" uid="uid://cndv3ndn482dt" path="res://scenes/category_item.gd" id="1_jqwx8"]
+
+[node name="CategoryItem" type="HBoxContainer"]
+script = ExtResource("1_jqwx8")
+
+[node name="NameLabel" type="Label" parent="."]
+layout_mode = 2
+text = "——类名"
+
+[node name="Spacer" type="Control" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RenameButton" type="Button" parent="."]
+layout_mode = 2
+text = "重命名"
+
+[node name="DeleteButton" type="Button" parent="."]
+layout_mode = 2
+text = "删除"

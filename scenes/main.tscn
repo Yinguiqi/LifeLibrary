@@ -15,7 +15,6 @@ bg_color = Color(0.41960785, 0.4392157, 0.8392157, 1)
 
 [node name="Main" type="Control"]
 layout_mode = 3
-anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -78,7 +77,7 @@ visible = false
 position = Vector2(577, 458)
 shape = SubResource("RectangleShape2D_0wfyh")
 
-[node name="Sidebar" type="PanelContainer" parent="."]
+[node name="Sidebar" type="PanelContainer" parent="." groups=["category_manager"]]
 layout_mode = 1
 anchors_preset = -1
 anchor_bottom = 1.0
@@ -104,14 +103,6 @@ layout_mode = 2
 text = "全部
 "
 flat = true
-
-[node name="GroupName" type="LineEdit" parent="Sidebar/VBoxContainer"]
-layout_mode = 2
-placeholder_text = "输入分类名称"
-
-[node name="AddGroup" type="Button" parent="Sidebar/VBoxContainer"]
-layout_mode = 2
-text = "确定添加"
 
 [node name="Button" type="Button" parent="Sidebar/VBoxContainer"]
 layout_mode = 2
@@ -145,15 +136,6 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "关闭"
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
 [connection signal="pressed" from="Sidebar/VBoxContainer/AllBook" to="Sidebar" method="_on_all_book_pressed"]
-[connection signal="pressed" from="Sidebar/VBoxContainer/AddGroup" to="Sidebar" method="_on_add_group_pressed"]
 [connection signal="pressed" from="Sidebar/VBoxContainer/Button" to="Sidebar" method="_on_button_pressed"]
 [connection signal="pressed" from="PanelContainer/CloseButton" to="." method="_on_close_3DMonitor_button_pressed"]
