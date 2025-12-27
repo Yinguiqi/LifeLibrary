@@ -26,7 +26,9 @@ func setup_menus():
 	edit_menu.add_item("搜索", 201)
 	edit_menu.add_item("首选项", 210)
 	
+	help_menu.add_item("关于", 301)
 	help_menu.add_item("教程", 302)
+	help_menu.add_item("简易ps网站", 303)
 	
 	file_menu.id_pressed.connect(_on_file_menu_selected)
 	edit_menu.id_pressed.connect(_on_file_menu_selected)
@@ -47,6 +49,8 @@ func _on_file_menu_selected(id: int) -> void:
 			open_settings_window()
 		302:
 			OS.shell_open("https://milkyaw.online/2025/12/15/Life%20Library/")
+		303:
+			OS.shell_open("https://www.photopea.com/")
 
 func create_search_window():
 	var window = Window.new()

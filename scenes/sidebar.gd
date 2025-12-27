@@ -115,3 +115,25 @@ func _get_books_by_group(group_name_: String):
 
 func _on_all_book_pressed() -> void:
 	_get_books_by_group("")
+
+
+func _on_button_pressed() -> void:
+	for child in books_container.get_children():
+		child.queue_free()
+		var button = Button.new()
+		button.text = "操作"
+		button.custom_minimum_size = Vector2(80, 40)
+	
+	# 使用预设的锚点布局
+		button.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	
+	# 设置边距偏移
+		button.offset_left = 0  
+		button.offset_right = 0  
+		button.offset_top = 0     
+		button.offset_bottom = 0  
+	
+	# 获取主场景根节点并添加按钮
+		var main_scene = get_tree().current_scene  # 当前活动场景
+		if main_scene:
+			main_scene.add_child(button)

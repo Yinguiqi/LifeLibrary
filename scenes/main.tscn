@@ -15,12 +15,18 @@ bg_color = Color(0.41960785, 0.4392157, 0.8392157, 1)
 
 [node name="Main" type="Control"]
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_ig7tw")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-layout_mode = 0
-offset_right = 5000.0
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.998
+offset_right = 2.303955
 offset_bottom = 30.0
 color = Color(0.16078432, 0.16470589, 0.1764706, 1)
 
@@ -36,7 +42,8 @@ layout_mode = 2
 script = ExtResource("2_sugp2")
 
 [node name="MenuBar" type="MenuBar" parent="VBoxContainer/BookMenuBar"]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
 offset_left = 2.0
 offset_top = -47.0
 offset_right = 1151.0
@@ -72,10 +79,12 @@ position = Vector2(577, 458)
 shape = SubResource("RectangleShape2D_0wfyh")
 
 [node name="Sidebar" type="PanelContainer" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 1.0
 offset_top = 30.0
 offset_right = 420.0
-offset_bottom = 2030.0
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_sugp2")
 script = ExtResource("3_sugp2")
 
@@ -103,6 +112,10 @@ placeholder_text = "输入分类名称"
 [node name="AddGroup" type="Button" parent="Sidebar/VBoxContainer"]
 layout_mode = 2
 text = "确定添加"
+
+[node name="Button" type="Button" parent="Sidebar/VBoxContainer"]
+layout_mode = 2
+text = "分类设置"
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 visible = false
@@ -132,6 +145,15 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "关闭"
 
+[node name="Control" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [connection signal="pressed" from="Sidebar/VBoxContainer/AllBook" to="Sidebar" method="_on_all_book_pressed"]
 [connection signal="pressed" from="Sidebar/VBoxContainer/AddGroup" to="Sidebar" method="_on_add_group_pressed"]
+[connection signal="pressed" from="Sidebar/VBoxContainer/Button" to="Sidebar" method="_on_button_pressed"]
 [connection signal="pressed" from="PanelContainer/CloseButton" to="." method="_on_close_3DMonitor_button_pressed"]
