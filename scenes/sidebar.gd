@@ -3,7 +3,7 @@ extends PanelContainer
 @onready var label: Label = $VBoxContainer/Label
 @onready var vbox: VBoxContainer = $VBoxContainer
 
-@onready var books_container: Control = $"../VBoxContainer/BooksContainer"
+@onready var books_container: Control = $"../BooksContainer"
 @onready var BookScene := preload("res://scenes/book.tscn")
 @onready var GroupManager := preload("res://scenes/group_manager.tscn")
 

@@ -100,10 +100,8 @@ func update_book_info(target_id: String, new_name:String, new_path: String, new_
 	var book = get_book_by_id(target_id)
 	if book:
 		book.rel_path = new_path
-		if new_texture.begins_with("user://book_textures/"):
-			book.book_texture = new_texture
-		elif new_cover_texture.begins_with("user://book_cover_textures/"):
-			book.book_cover_texture = new_cover_texture
+		book.book_texture = new_texture
+		book.book_cover_texture = new_cover_texture
 		book.name = new_name
 		book.author = new_author
 		book.introduction = new_introduction

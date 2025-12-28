@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://cbduiy1roxwfh"]
+[gd_scene load_steps=8 format=3 uid="uid://cbduiy1roxwfh"]
 
 [ext_resource type="Script" uid="uid://cytatwo3b6230" path="res://main.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://b2j17hymxy7wa" path="res://scenes/book_menu_bar.gd" id="2_sugp2"]
+[ext_resource type="Script" uid="uid://bjdrucbised1u" path="res://scenes/books_container.gd" id="3_jyhfs"]
 [ext_resource type="Script" uid="uid://c2tp8vejqdyqn" path="res://scenes/sidebar.gd" id="3_sugp2"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0wfyh"]
@@ -15,6 +16,7 @@ bg_color = Color(0.41960785, 0.4392157, 0.8392157, 1)
 
 [node name="Main" type="Control"]
 layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -29,18 +31,14 @@ offset_right = 2.303955
 offset_bottom = 30.0
 color = Color(0.16078432, 0.16470589, 0.1764706, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_left = 2.0
+[node name="BookMenuBar" type="Control" parent="."]
+anchors_preset = 0
 offset_top = 48.0
-offset_right = 102.0
-offset_bottom = 88.0
-
-[node name="BookMenuBar" type="Control" parent="VBoxContainer"]
-layout_mode = 2
+offset_right = 1151.0
+offset_bottom = 700.0
 script = ExtResource("2_sugp2")
 
-[node name="MenuBar" type="MenuBar" parent="VBoxContainer/BookMenuBar"]
+[node name="MenuBar" type="MenuBar" parent="BookMenuBar"]
 layout_mode = 1
 anchors_preset = -1
 offset_left = 2.0
@@ -51,15 +49,19 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_0wfyh")
 
-[node name="File" type="PopupMenu" parent="VBoxContainer/BookMenuBar/MenuBar"]
+[node name="File" type="PopupMenu" parent="BookMenuBar/MenuBar"]
 oversampling_override = 1.0
 
-[node name="Edit" type="PopupMenu" parent="VBoxContainer/BookMenuBar/MenuBar"]
+[node name="Edit" type="PopupMenu" parent="BookMenuBar/MenuBar"]
 
-[node name="Help" type="PopupMenu" parent="VBoxContainer/BookMenuBar/MenuBar"]
+[node name="Help" type="PopupMenu" parent="BookMenuBar/MenuBar"]
 
-[node name="BooksContainer" type="Control" parent="VBoxContainer"]
-layout_mode = 2
+[node name="BooksContainer" type="Control" parent="."]
+layout_mode = 1
+anchor_top = 0.069000006
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("3_jyhfs")
 
 [node name="UI" type="Control" parent="."]
 visible = false

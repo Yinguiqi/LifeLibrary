@@ -1,12 +1,12 @@
 extends TextureButton
 
-@onready var menu := $"../../../../UI/PopupMenu"
+@onready var menu := $"../../../UI/PopupMenu"
 @onready var book := $".."
 @export var book_id : String
 const CONFIG_PATH := "user://config.ini"
 const MONITOR_SCENE = preload("res://scenes/3DMonitor.tscn")
-@onready var sub_viewport = $"../../../../PanelContainer/SubViewportContainer/SubViewport"
-@onready var panel_container = $"../../../../PanelContainer"
+@onready var sub_viewport = $"../../../PanelContainer/SubViewportContainer/SubViewport"
+@onready var panel_container = $"../../../PanelContainer"
 
 # 左键按钮
 func _on_pressed() -> void:
@@ -102,8 +102,8 @@ func open_book_of_folder():
 func setup_3d_monitor():
 	# 判断是否为空
 	if book.data_ref.book_cover_texture == "" or book.data_ref.book_cover_texture == null:
+		print("111")
 		return  # 不执行
-
 	# 判断文件是否存在
 	if not FileAccess.file_exists(book.data_ref.book_cover_texture):
 		return  # 文件不存在，不执行

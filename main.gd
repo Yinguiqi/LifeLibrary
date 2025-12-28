@@ -1,13 +1,9 @@
 extends Control
 
-@onready var books_container = $VBoxContainer/BooksContainer
+@onready var books_container = $BooksContainer
 @onready var BookScene := preload("res://scenes/book.tscn")
 const CONFIG_PATH := "user://config.ini"
 const JSON_PATH = "user://books_data.json"
-
-var is_dragging := false
-var last_mouse_x := 0.0
-var velocity_x := 0.0
 
 func _ready() -> void:
 	LibraryManager.book_x = 500
@@ -23,29 +19,6 @@ func check_base_path():
 		cfg.load(CONFIG_PATH)
 		var base_path = cfg.get_value("settings", "base_path", "")
 		BookData.base_path = base_path
-
-# 
-func _unhandled_input(event):
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed:
-			is_dragging = true
-			last_mouse_x = event.position.x
-			velocity_x = 0.0
-		else:
-			is_dragging = false
-
-	elif event is InputEventMouseMotion and is_dragging:
-		var delta_x = event.position.x - last_mouse_x
-		books_container.position.x += delta_x
-		velocity_x = delta_x
-		last_mouse_x = event.position.x
-
-func _process(delta):
-	if not is_dragging:
-		books_container.position.x += velocity_x
-		velocity_x *= 0.9  # 惯性阻尼（越小停得越快）
-	books_container.position.x = clamp(books_container.position.x, -100*LibraryManager._books.size()+1000, 200)
-
 
 func load_books_from_json():
 	# 1. 检查文件是否存在
