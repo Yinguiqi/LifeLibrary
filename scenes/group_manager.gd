@@ -115,7 +115,6 @@ func group_list():
 	var cfg = ConfigFile.new()
 	if cfg.load("user://config.ini") == OK and cfg.has_section("group"):
 		var keys = cfg.get_section_keys("group")
-		keys.reverse()
 		for key in keys:
 			var group = cfg.get_value("group", key)
 			var item := CATEGORY_ITEM_SCENE.instantiate()

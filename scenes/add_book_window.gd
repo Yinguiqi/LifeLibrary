@@ -128,11 +128,10 @@ func _on_confirm_pressed() -> void:
 	if self.title == "添加书籍":
 		# 调用方法
 		LibraryManager.add_new_book(path,texture,book_name,book_cover_texture,author,introduction,group_name)
-		hide()
-		get_tree().change_scene_to_file("res://scenes/main.tscn")
 	else:
 		LibraryManager.update_book_info(target_id,book_name,path,texture,book_cover_texture,author,introduction,group_name)
-		hide()
+	hide()
+	get_tree().change_scene_to_file("res://scenes/main.tscn")
 
 # 复制书籍文件方法
 func copy_file(src_path: String, dst_path: String) -> int:

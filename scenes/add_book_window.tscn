@@ -87,7 +87,6 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 placeholder_text = "选择书籍本体文件"
-editable = false
 
 [node name="BtnSelectBook" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
 unique_name_in_owner = true

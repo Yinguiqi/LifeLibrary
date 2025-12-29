@@ -54,6 +54,8 @@ func _on_menu_pressed(id: int) -> void:
 
 # 在其他脚本中调用：
 func edit_current_book() -> void:
+	print(book.data_ref.id)
+	print(LibraryManager.current_book_data.id)
 	var current_book = LibraryManager.current_book_data
 	if current_book:
 		# 将你的 Book 对象转换为字典

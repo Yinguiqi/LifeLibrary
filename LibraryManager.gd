@@ -10,6 +10,7 @@ var base_path: String = ""
 var book_height: float 
 var book_spacing: float = 50
 var book_x: float = 0
+var books_container_x: float = 0
 # --- 内存数据 ---
 # 这个数组里装的全是 BookDataScript 的实例对象
 var _books: Array = [] 

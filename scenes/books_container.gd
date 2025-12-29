@@ -27,4 +27,8 @@ func _process(delta):
 	if not is_dragging:
 		self.position.x += velocity_x
 		velocity_x *= 0.9  # 惯性阻尼（越小停得越快）
+		
+		# 惯性停止时更新
+		if abs(velocity_x) < 0.1 and abs(velocity_x) > 0:  # 速度接近0但还不是0
+			LibraryManager.books_container_x = self.position.x
 	self.position.x = clamp(self.position.x, -100*LibraryManager._books.size()+1000, 200)
