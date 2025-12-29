@@ -59,11 +59,10 @@ func _on_add_category_button_pressed() -> void:
 			if is_group_exists_in_config(group):
 				print("分组已存在: ", group)
 				return
-			
 			save_group_to_config(group)
-			line_edit.text = ""  # 清空输入框
 			print("分组添加成功: ", group)
 		window.hide()
+		group_list()
 		var manager = get_tree().get_first_node_in_group("category_manager")
 		manager.load_groups()
 	)
@@ -108,6 +107,11 @@ func save_group_to_config(group: String) -> void:
 	cfg_save.save("user://config.ini")
 
 func group_list():
+	# 删除所有 CATEGORY_ITEM_SCENE 实例节点
+	for child in v_box_container.get_children():
+		# 通过场景文件路径判断
+		if child.scene_file_path == CATEGORY_ITEM_SCENE.resource_path:
+			child.queue_free()
 	var cfg = ConfigFile.new()
 	if cfg.load("user://config.ini") == OK and cfg.has_section("group"):
 		var keys = cfg.get_section_keys("group")
