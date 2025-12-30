@@ -28,6 +28,7 @@ func _ready() -> void:
 	btn_confirm.pressed.connect(_on_confirm_pressed)
 	var groups = load_groups_from_config("user://config.ini")
 	setup_group_options(groups)
+	group_option.select(-1)
 
 func _on_close_requested() -> void:
 	# 当点击关闭按钮时隐藏窗口
@@ -202,8 +203,3 @@ func setup_group_options(groups: Dictionary):
 	for key in sorted_keys:
 		var text = groups[key]
 		group_option.add_item(text, key)
-	
-	# 如果有默认选择
-	if sorted_keys.size() > 0:
-		group_option.selected = 0
-		print("已添加 ", sorted_keys.size(), " 个分组选项")

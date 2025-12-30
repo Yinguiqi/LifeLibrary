@@ -44,6 +44,7 @@ func load_data_from_json():
 			new_book.name = dict.get("name", "未命名")
 			new_book.rel_path = dict.get("rel_path", "")
 			new_book.book_texture = dict.get("book_texture", "")
+			new_book.book_cover_texture = dict.get("book_cover_texture", "")
 			new_book.author = dict.get("author", "")
 			new_book.introduction = dict.get("introduction", "")
 			new_book.group_name = dict.get("group_name", "")
