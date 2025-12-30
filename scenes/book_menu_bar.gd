@@ -97,6 +97,8 @@ func create_search_window():
 
 	# ===== 信号 =====
 	search_btn.pressed.connect(func():
+		books_container.is_dragging = false
+		books_container.velocity_x = 0
 		var search_results = LibraryManager.get_books_by_name(line_edit.text, true)
 		_redraw_book_shelf(search_results)
 		window.hide()
@@ -117,7 +119,6 @@ func create_search_window():
 
 ## 清空 books_container 并根据传入的列表重绘书籍节点
 func _redraw_book_shelf(books_to_display: Array):
-	
 	# 1. 清空现有书架：释放所有子节点
 	for child in books_container.get_children():
 		child.queue_free()
@@ -125,7 +126,7 @@ func _redraw_book_shelf(books_to_display: Array):
 	# 2. 遍历结果并重新创建场景节点
 	for i in range(books_to_display.size()):
 		var book_data_object = books_to_display[i] # 这是一个 BookData 对象
-		
+		LibraryManager.book_x = 1000
 		# 实例化场景
 		var new_book_node = BookScene.instantiate()
 		
@@ -134,7 +135,6 @@ func _redraw_book_shelf(books_to_display: Array):
 		
 		# 添加到容器
 		books_container.add_child(new_book_node)
-	
 	print("书架过滤完成，显示书籍数量: ", books_to_display.size())
 
 # 打开首选项功能
