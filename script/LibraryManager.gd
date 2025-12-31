@@ -4,7 +4,7 @@ extends Node
 # --- 配置 ---
 const JSON_PATH = "user://books_data.json"
 # 引用 BookData 脚本，避开 class_name 冲突
-const BookDataScript = preload("res://books_data.gd")
+const BookDataScript = preload("res://script/books_data.gd")
 var current_book_data: RefCounted = null
 var base_path: String = ""
 var book_height: float 

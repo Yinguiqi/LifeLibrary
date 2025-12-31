@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c7a8g57npghfg"]
 
-[ext_resource type="Script" uid="uid://c4i3ha61n1cft" path="res://scenes/group_manager.gd" id="1_igoyd"]
+[ext_resource type="Script" uid="uid://c4i3ha61n1cft" path="res://script/group_manager.gd" id="1_igoyd"]
 [ext_resource type="PackedScene" uid="uid://bqdg7sjjakjlg" path="res://scenes/category_item.tscn" id="2_ttbpb"]
 
 [node name="GroupManager" type="Control"]
@@ -30,6 +30,8 @@ offset_left = -81.0
 offset_top = -65.0
 offset_right = -41.0
 offset_bottom = -25.0
+grow_horizontal = 0
+grow_vertical = 0
 text = "+"
 
 [connection signal="pressed" from="AddCategoryButton" to="." method="_on_add_category_button_pressed"]
