@@ -29,6 +29,8 @@ func setup_menus():
 	help_menu.add_item("关于", 301)
 	help_menu.add_item("教程", 302)
 	help_menu.add_item("简易ps网站", 303)
+	help_menu.add_item("闲鱼", 304)
+	help_menu.add_item("日本二手网站", 305)
 	
 	file_menu.id_pressed.connect(_on_file_menu_selected)
 	edit_menu.id_pressed.connect(_on_file_menu_selected)
@@ -51,6 +53,10 @@ func _on_file_menu_selected(id: int) -> void:
 			OS.shell_open("https://milkyaw.online/2025/12/15/Life%20Library/")
 		303:
 			OS.shell_open("https://www.photopea.com/")
+		304:
+			OS.shell_open("https://www.goofish.com/")
+		305:
+			OS.shell_open("https://jp.mercari.com/search?keyword=")
 
 func create_search_window():
 	var window = Window.new()

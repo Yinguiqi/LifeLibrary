@@ -26,8 +26,7 @@ script = ExtResource("1_ig7tw")
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 0.998
-offset_right = 2.303955
+anchor_right = 1.0
 offset_bottom = 30.0
 color = Color(0.16078432, 0.16470589, 0.1764706, 1)
 
@@ -80,6 +79,7 @@ position = Vector2(577, 458)
 shape = SubResource("RectangleShape2D_0wfyh")
 
 [node name="Sidebar" type="PanelContainer" parent="." groups=["category_manager"]]
+z_index = 5
 layout_mode = 1
 anchors_preset = -1
 anchor_bottom = 1.0
@@ -94,7 +94,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="Sidebar/VBoxContainer"]
 layout_mode = 2
-text = "My Book v0.14"
+text = "My Book v0.15"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="Sidebar/VBoxContainer"]
@@ -112,10 +112,12 @@ text = "分类设置"
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 visible = false
-layout_mode = 0
-offset_top = 30.0
-offset_right = 3840.0
-offset_bottom = 2190.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="ColorRect" type="ColorRect" parent="PanelContainer"]
 layout_mode = 2
@@ -123,12 +125,13 @@ color = Color(0, 0, 0, 0.5019608)
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="PanelContainer"]
 layout_mode = 2
+stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="PanelContainer/SubViewportContainer"]
 own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(3840, 2160)
+size = Vector2i(2, 2)
 size_2d_override_stretch = true
 render_target_update_mode = 0
 

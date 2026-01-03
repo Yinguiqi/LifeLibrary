@@ -34,9 +34,10 @@ func _on_gui_input(event: InputEvent) -> void:
 		menu.id_pressed.connect(_on_menu_pressed)
 		# 2. 然后再添加本次需要的选项
 		menu.add_item("编辑信息", 0)
-		menu.add_item("删除书籍", 1)
+		menu.add_item("展开封面", 1)
 		menu.add_item("3d监看器", 2)
 		menu.add_item("打开所在文件夹", 3)
+		menu.add_item("删除书籍", 4)
 		# 在弹出菜单前设置当前书籍ID
 		LibraryManager.current_book_data = book.data_ref
 		menu.popup(Rect2(get_global_mouse_position(),Vector2.ZERO))
@@ -46,12 +47,13 @@ func _on_menu_pressed(id: int) -> void:
 		0:
 			edit_current_book()
 		1:
-			delete_book_by_id()
+			open_book_cover_texture()
 		2:
 			setup_3d_monitor()
 		3:
 			open_book_of_folder()
-
+		4:
+			delete_book_by_id()
 # 在其他脚本中调用：
 func edit_current_book() -> void:
 	print(book.data_ref.id)
@@ -228,3 +230,8 @@ func _add_surface(mesh: ArrayMesh, quad: Array, texture_or_color):
 		mat.albedo_color = texture_or_color
 
 	mesh.surface_set_material(mesh.get_surface_count() - 1, mat)
+
+func open_book_cover_texture():
+	if book.data_ref.book_cover_texture == "" or  book.data_ref.book_cover_texture == null:
+		return
+	book.open_book_cover()
