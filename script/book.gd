@@ -8,6 +8,8 @@ extends Control
 @onready var books_container := get_parent()
 @onready var default_texture_path = "res://icon.svg"
 @onready var book_scale_width : float
+var cover_on_left := false
+var my_cover_width := 200.0  # 根据实际情况调整
 var data_ref: RefCounted = null
 
 const CONFIG_PATH := "user://config.ini"
@@ -102,3 +104,15 @@ func _on_book_cover_gui_input(event: InputEvent) -> void:
 	and event.pressed:
 		books_container.on_book_collapse(self)
 		book_cover.texture = null
+	if event is InputEventMouseButton \
+	and event.button_index == MOUSE_BUTTON_RIGHT \
+	and event.pressed:
+			# 判断封面当前在哪边
+		if book_cover.position.x > 0:
+			# 封面在右边 → 移到左边
+			book_cover.position.x = -book_cover.size.x
+			self.position.x += book_cover.size.x * self.scale.x
+		else:
+		# 封面在左边 → 移回右边
+			book_cover.position.x = self.size.x
+			self.position.x -= book_cover.size.x * self.scale.x
