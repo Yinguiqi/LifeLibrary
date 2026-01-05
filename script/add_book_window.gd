@@ -14,6 +14,7 @@ extends Window
 @onready var btn_select_cover: Button = %BtnSelectCover
 @onready var btn_confirm: Button = %BtnConfirm
 @onready var books_container = $"../Main/BooksContainer"
+@onready var sidebar = $"../../../../Sidebar"
 
 var current_file_dialog: FileDialog = null
 var target_input: LineEdit = null
@@ -124,7 +125,7 @@ func _on_confirm_pressed() -> void:
 	var book_name = name_input.text.strip_edges()
 	var author = author_input.text.strip_edges()
 	var introduction = introduction_input.text.strip_edges()  # 根据你的变量名
-	var group_name = group_option.get_item_text(group_option.selected)
+	var group_name = group_option.text
 	
 	# 如果没输入书名，用文件名
 	if book_name.is_empty() and not path.is_empty():
@@ -134,8 +135,9 @@ func _on_confirm_pressed() -> void:
 		LibraryManager.add_new_book(path,texture,book_name,book_cover_texture,author,introduction,group_name)
 	else:
 		LibraryManager.update_book_info(target_id,book_name,path,texture,book_cover_texture,author,introduction,group_name)
+		sidebar._get_books_by_group(LibraryManager.current_selected_group)
 	hide()
-	get_tree().change_scene_to_file("res://scenes/main.tscn")
+
 
 # 复制书籍文件方法
 func copy_file(src_path: String, dst_path: String) -> int:

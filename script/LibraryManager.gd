@@ -5,7 +5,6 @@ extends Node
 const JSON_PATH = "user://books_data.json"
 # 引用 BookData 脚本，避开 class_name 冲突
 const BookDataScript = preload("res://script/books_data.gd")
-var current_book_data: RefCounted = null
 var base_path: String = ""
 var book_height: float 
 var book_spacing: float = 50
@@ -14,6 +13,7 @@ var books_container_x: float = 0
 # --- 内存数据 ---
 # 这个数组里装的全是 BookDataScript 的实例对象
 var _books: Array = [] 
+var current_selected_group: String = ""
 
 func _ready():
 	print("LibraryManager 启动，正在加载数据...")
@@ -189,10 +189,6 @@ func delete_book_by_id(target_id: String) -> bool:
 		save_data_to_json()
 		
 		print("成功删除书籍 ID: ", target_id)
-		
-		# 4. 如果当前被选中的是这本书，清除选中状态
-		if current_book_data != null and current_book_data.id == target_id:
-			current_book_data = null
 			
 		return true
 	else:

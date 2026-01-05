@@ -39,7 +39,6 @@ func _on_gui_input(event: InputEvent) -> void:
 		menu.add_item("打开所在文件夹", 3)
 		menu.add_item("删除书籍", 4)
 		# 在弹出菜单前设置当前书籍ID
-		LibraryManager.current_book_data = book.data_ref
 		menu.popup(Rect2(get_global_mouse_position(),Vector2.ZERO))
 # 菜单选择逻辑
 func _on_menu_pressed(id: int) -> void:
@@ -57,8 +56,7 @@ func _on_menu_pressed(id: int) -> void:
 # 在其他脚本中调用：
 func edit_current_book() -> void:
 	print(book.data_ref.id)
-	print(LibraryManager.current_book_data.id)
-	var current_book = LibraryManager.current_book_data
+	var current_book = book.data_ref
 	if current_book:
 		# 将你的 Book 对象转换为字典
 		var book_dict = {
@@ -94,7 +92,7 @@ func copy_file(src_path: String, dst_path: String) -> int:
 	return OK
 
 func delete_book_by_id():
-	LibraryManager.delete_book_by_id(LibraryManager.current_book_data.id)
+	LibraryManager.delete_book_by_id(book.data_ref.id)
 	get_tree().change_scene_to_file("res://scenes/Main.tscn")
 
 func open_book_of_folder():

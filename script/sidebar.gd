@@ -52,6 +52,7 @@ func add_group_button(group_name_: String) -> void:
 			break
 		
 func _get_books_by_group(group_name_: String):
+	LibraryManager.current_selected_group = group_name_
 	if group_manager and is_instance_valid(group_manager):
 		group_manager.queue_free()
 		group_manager = null
