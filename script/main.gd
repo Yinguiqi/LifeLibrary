@@ -10,7 +10,6 @@ func _ready() -> void:
 	check_base_path()
 	LibraryManager.load_book_height_from_config()
 	load_books_from_json()
-	books_container.position.x = LibraryManager.books_container_x
 	
 # 检查是否存在base_path路径
 func check_base_path():

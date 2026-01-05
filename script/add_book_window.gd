@@ -14,6 +14,7 @@ extends Window
 @onready var btn_select_cover: Button = %BtnSelectCover
 @onready var btn_confirm: Button = %BtnConfirm
 @onready var books_container = $"../Main/BooksContainer"
+@onready var change_books_container = $"../../.."
 @onready var sidebar = $"../../../../Sidebar"
 
 var current_file_dialog: FileDialog = null
@@ -136,6 +137,7 @@ func _on_confirm_pressed() -> void:
 	else:
 		LibraryManager.update_book_info(target_id,book_name,path,texture,book_cover_texture,author,introduction,group_name)
 		sidebar._get_books_by_group(LibraryManager.current_selected_group)
+		change_books_container.position.x = LibraryManager.books_container_x
 	hide()
 
 
