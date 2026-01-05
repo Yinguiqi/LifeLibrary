@@ -13,6 +13,7 @@ extends Window
 @onready var btn_select_spine: Button = %BtnSelectSpine
 @onready var btn_select_cover: Button = %BtnSelectCover
 @onready var btn_confirm: Button = %BtnConfirm
+@onready var books_container = $"../Main/BooksContainer"
 
 var current_file_dialog: FileDialog = null
 var target_input: LineEdit = null
@@ -33,6 +34,8 @@ func _ready() -> void:
 func _on_close_requested() -> void:
 	# 当点击关闭按钮时隐藏窗口
 	hide()
+	if get_parent() == get_tree().root:
+		books_container.is_dragging = false
 
 func _on_select_book_pressed() -> void:
 	target_input = book_path_input

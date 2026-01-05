@@ -13,13 +13,15 @@ shadow_size = 10
 [node name="AddBookWindow" type="Window"]
 oversampling_override = 1.0
 title = "添加书籍"
-position = Vector2i(426, 75)
-size = Vector2i(300, 512)
+initial_position = 1
+size = Vector2i(500, 512)
 script = ExtResource("1_vbyy2")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-offset_right = 300.0
-offset_bottom = 512.0
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0040001
+offset_bottom = -0.048034668
 theme_override_styles/panel = SubResource("StyleBoxFlat_vbyy2")
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
@@ -84,7 +86,7 @@ layout_mode = 2
 
 [node name="BookPathInput" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 placeholder_text = "选择书籍本体文件"
 
@@ -103,7 +105,7 @@ layout_mode = 2
 
 [node name="SpinePathInput" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer2"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 placeholder_text = "选择书脊图片"
 editable = false
@@ -123,7 +125,7 @@ layout_mode = 2
 
 [node name="CoverPathInput" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer3"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 placeholder_text = "选择封面图片"
 editable = false

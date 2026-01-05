@@ -49,6 +49,8 @@ func _on_file_menu_selected(id: int) -> void:
 			create_search_window()
 		210:
 			open_settings_window()
+		301:
+			about_the_game()
 		302:
 			OS.shell_open("https://milkyaw.online/2025/12/15/Life%20Library/")
 		303:
@@ -110,7 +112,10 @@ func create_search_window():
 		window.hide()
 	)
 
-	window.close_requested.connect(window.hide)
+	window.close_requested.connect(func():
+		window.hide()
+		books_container.is_dragging = false
+	)
 
 	# ===== 添加到场景 =====
 	get_tree().root.add_child(window)
@@ -361,3 +366,70 @@ func show_feedback(message: String, color: Color):
 	   # 3秒后清除反馈
 	await get_tree().create_timer(3.0).timeout
 	feedback_label.text = ""
+
+func about_the_game():
+	var window = Window.new()
+	window.title = "关于"
+	window.size = Vector2(500, 800)
+	window.unresizable = false
+
+	# ===== 外层：边距容器 =====
+	var margin = MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 16)
+	margin.add_theme_constant_override("margin_right", 16)
+	margin.add_theme_constant_override("margin_top", 16)
+	margin.add_theme_constant_override("margin_bottom", 16)
+	window.add_child(margin)
+
+	# 让 margin 撑满窗口
+	margin.anchor_right = 1
+	margin.anchor_bottom = 1
+	# ===== 使用VBoxContainer垂直排列 =====
+	var vbox = VBoxContainer.new()
+	vbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	vbox.add_theme_constant_override("separation", 10)
+	margin.add_child(vbox)
+
+	# 标题
+	var title_label = Label.new()
+	title_label.text = "关于这个程序"
+	title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title_label.add_theme_font_size_override("font_size", 20)
+	vbox.add_child(title_label)
+
+	# 分隔线
+	var separator = HSeparator.new()
+	vbox.add_child(separator)
+
+	# 内容
+	var content_text = """
+电子书架
+版本：0.1.5
+开发者：Milkyaw(棉花)
+
+
+目前有的功能：书籍的增删查改，添加书籍在菜单栏文件里面、查找在菜单栏编辑里面，删和改对着书籍右键就能看到
+		新建书籍必须要有书籍文件，什么版本都可以，反正我这里没有内置查看器，cbz的建议去下载calibre
+		还有需要书脊图片，这个只能靠你自己从网上找了，我是从闲鱼等二手网上找图再用ps网站变换后截一个长方形
+		封面图片可有可无，有的话可以使用展开封面的功能，对准书籍鼠标右键的菜单里有，再点一下封面就会消失
+		对着封面按右键还会把封面放到书脊的左边、这个功能是考虑到很多单行本都是从右往左看的
+		3d监看器目前只能实现一个长方体，本来这个软件是打算做出3d的，可惜我还没学过，以后可能有机会
+		分类就在左边，分类名变动的逻辑还需要改一下
+		有问题和需求可以在github提出
+		https://github.com/Yinguiqi/LifeLibrary
+		这软件基本上就是我用ai搞的，很乱，但能用
+"""
+	
+	var content_label = Label.new()
+	content_label.text = content_text
+	content_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	vbox.add_child(content_label)
+
+	window.close_requested.connect(func():
+		window.hide()
+		books_container.is_dragging = false
+	)
+	
+	# ===== 添加到场景 =====
+	get_tree().root.add_child(window)
+	window.popup_centered()
