@@ -258,3 +258,17 @@ func load_book_height_from_config():
 	else:
 		print("配置文件不存在或加载失败，使用默认书籍高度: 500.0")
 		book_height = 500.0
+
+# 批量更新书籍的分组名称
+func update_books_group_name(old_name: String, new_name: String) -> void:
+	var count = 0
+	for book in _books:
+		if book.group_name == old_name:
+			book.group_name = new_name
+			count += 1
+	
+	if count > 0:
+		save_data_to_json()
+		print("已将 %d 本书的分组从 '%s' 更新为 '%s'" % [count, old_name, new_name])
+	else:
+		print("未找到分组为 '%s' 的书籍" % old_name)

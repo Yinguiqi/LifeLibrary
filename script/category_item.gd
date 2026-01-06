@@ -62,6 +62,7 @@ func _on_rename_button_pressed() -> void:
 				print("分组已存在: ", group)
 				return
 			update_group_to_config(group,name_label.text)
+			LibraryManager.update_books_group_name(name_label.text, group)
 			print("分组更改成功: ", group)
 		window.hide()
 		set_name_text(group)
