@@ -21,10 +21,6 @@ size = Vector2(227.49998, 452.50003)
 
 [node name="Book" type="Control"]
 layout_mode = 3
-anchor_right = 0.17400001
-anchor_bottom = 0.286
-offset_right = -0.4480133
-offset_bottom = -0.2000122
 script = ExtResource("1_kh36y")
 book_texture = ExtResource("2_y0hms")
 
