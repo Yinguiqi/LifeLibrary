@@ -16,7 +16,7 @@ extends Window
 @onready var books_container = $"../Main/BooksContainer"
 @onready var change_books_container = $"../../.."
 @onready var sidebar = $"../../../../Sidebar"
-
+var BookScene
 var current_file_dialog: FileDialog = null
 var target_input: LineEdit = null
 var target_id: String
@@ -32,6 +32,7 @@ func _ready() -> void:
 	var groups = load_groups_from_config("user://config.ini")
 	setup_group_options(groups)
 	group_option.select(-1)
+	BookScene = load("res://scenes/book.tscn")
 
 func _on_close_requested() -> void:
 	# 当点击关闭按钮时隐藏窗口
@@ -133,7 +134,12 @@ func _on_confirm_pressed() -> void:
 		book_name = path.get_file().get_basename()
 	if self.title == "添加书籍":
 		# 调用方法
-		LibraryManager.add_new_book(path,texture,book_name,book_cover_texture,author,introduction,group_name)
+		var book_data = LibraryManager.add_new_book(path,texture,book_name,book_cover_texture,author,introduction,group_name)
+		var new_book = BookScene.instantiate()
+		new_book.data_ref = book_data
+		books_container.add_child(new_book)
+		books_container.is_dragging = false
+		books_container.position.x = LibraryManager.books_container_x
 	else:
 		LibraryManager.update_book_info(target_id,book_name,path,texture,book_cover_texture,author,introduction,group_name)
 		sidebar._get_books_by_group(LibraryManager.current_selected_group)

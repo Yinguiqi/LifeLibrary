@@ -74,6 +74,7 @@ func _get_books_by_group(group_name_: String):
 		books_container.add_child(new_book_node)
 		LibraryManager.book_x = 500
 	books_container.position.x = 0
+	LibraryManager.books_container_x = 0
 	print("书架过滤完成，显示书籍数量: ", search_results.size())
 
 

@@ -1,15 +1,30 @@
-[gd_scene load_steps=5 format=3 uid="uid://c87ns1qlgyy81"]
+[gd_scene load_steps=6 format=3 uid="uid://c87ns1qlgyy81"]
 
 [ext_resource type="Script" uid="uid://d0b8kncdd6gwr" path="res://script/book.gd" id="1_kh36y"]
 [ext_resource type="Texture2D" uid="uid://sc3xctlgpbk7" path="res://icon.svg" id="2_y0hms"]
 [ext_resource type="Script" uid="uid://6no246kmbery" path="res://script/texture_button.gd" id="3_fijbg"]
+
+[sub_resource type="GDScript" id="GDScript_8uccb"]
+script/source = "extends TextureRect
+
+
+func _on_mouse_entered() -> void:
+	pass # Replace with function body.
+
+
+func _on_mouse_exited() -> void:
+	pass # Replace with function body.
+"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8uccb"]
 size = Vector2(227.49998, 452.50003)
 
 [node name="Book" type="Control"]
 layout_mode = 3
-anchors_preset = 0
+anchor_right = 0.17400001
+anchor_bottom = 0.286
+offset_right = -0.4480133
+offset_bottom = -0.2000122
 script = ExtResource("1_kh36y")
 book_texture = ExtResource("2_y0hms")
 
@@ -18,9 +33,15 @@ layout_mode = 0
 script = ExtResource("3_fijbg")
 
 [node name="BookCover" type="TextureRect" parent="."]
+visible = false
 z_index = 3
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 0
 expand_mode = 1
+script = SubResource("GDScript_8uccb")
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
 oversampling_override = 1.0
@@ -28,6 +49,7 @@ oversampling_override = 1.0
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+visible = false
 position = Vector2(112.5, 227.5)
 scale = Vector2(0.9999998, 0.9999998)
 shape = SubResource("RectangleShape2D_8uccb")
@@ -35,3 +57,5 @@ shape = SubResource("RectangleShape2D_8uccb")
 [connection signal="gui_input" from="TextureButton" to="TextureButton" method="_on_gui_input"]
 [connection signal="pressed" from="TextureButton" to="TextureButton" method="_on_pressed"]
 [connection signal="gui_input" from="BookCover" to="." method="_on_book_cover_gui_input"]
+[connection signal="mouse_entered" from="BookCover" to="BookCover" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="BookCover" to="BookCover" method="_on_mouse_exited"]

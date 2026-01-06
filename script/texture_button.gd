@@ -7,6 +7,8 @@ const CONFIG_PATH := "user://config.ini"
 const MONITOR_SCENE = preload("res://scenes/3DMonitor.tscn")
 @onready var sub_viewport = $"../../../PanelContainer/SubViewportContainer/SubViewport"
 @onready var panel_container = $"../../../PanelContainer"
+@onready var book_cover: TextureRect = $"../BookCover"
+@onready var books_container = $"../.."
 
 # 左键按钮
 func _on_pressed() -> void:
@@ -92,9 +94,17 @@ func copy_file(src_path: String, dst_path: String) -> int:
 	return OK
 
 func delete_book_by_id():
+# 1. 删除数据
 	LibraryManager.delete_book_by_id(book.data_ref.id)
-	get_tree().change_scene_to_file("res://scenes/Main.tscn")
+	LibraryManager.book_x -= book.book_scale_width
+	LibraryManager.book_x -= LibraryManager.book_spacing
+	books_container.remove_child(book)
+	book.queue_free()
+	books_container.is_dragging = false
+	books_container.position.x = LibraryManager.books_container_x
+	books_container._relayout_books()
 
+	
 func open_book_of_folder():
 	var path = BookData.base_path + book.data_ref.rel_path
 	var dir_path = path.get_base_dir()
@@ -233,3 +243,4 @@ func open_book_cover_texture():
 	if book.data_ref.book_cover_texture == "" or  book.data_ref.book_cover_texture == null:
 		return
 	book.open_book_cover()
+	book_cover.visible = true

@@ -55,13 +55,13 @@ func load_books_from_json():
 		var data = books_data[i]
 		
 		# 调用专门的创建函数
-		_create_book_node_from_data(data, i)
+		_create_book_node_from_data(data)
 
 	
 # --- 专门用于从数据创建节点的函数 ---
 # 参数 data: 包含书本信息的字典
 # 参数 index: 当前是第几本书 (用于计算位置)
-func _create_book_node_from_data(data: Dictionary, index: int):
+func _create_book_node_from_data(data: Dictionary):
 	var rel_path = data.get("rel_path", "")
 	if rel_path == "":
 		return
