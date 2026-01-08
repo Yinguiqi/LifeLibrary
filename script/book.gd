@@ -12,17 +12,28 @@ var cover_on_left := false
 var my_cover_width := 200.0  # 根据实际情况调整
 var data_ref: RefCounted = null
 
+# 拖拽相关变量
+var is_dragging := false
+var drag_offset := Vector2.ZERO  # 鼠标点击位置相对于书籍的偏移
+var original_z_index := 0
+
 const CONFIG_PATH := "user://config.ini"
+
 
 func _ready():
 		# 等一帧以确保节点已初始化
 	await get_tree().process_frame
+	original_z_index = z_index
 	if data_ref.book_texture != "":
 		book_texture = load_texture(data_ref.book_texture)
 		apply_texture()
 		apply_scale_from_data()
 	if data_ref.book_cover_texture != "":
 		book_cover_texture = load_texture(data_ref.book_cover_texture)
+	
+	# 连接 TextureButton 的输入事件
+	if texture_button:
+		texture_button.gui_input.connect(_on_texture_button_gui_input)
 func load_texture(path: String) -> Texture2D:
 	# 1. user:// 文件加载方式（Image）
 	if path.begins_with("user://"):
@@ -97,6 +108,42 @@ func open_book_cover():
 	books_container.on_book_expand(self, book_cover.size.x * self.scale.x)
 	
 
+
+func _on_texture_button_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			# 开始拖拽
+			is_dragging = true
+			books_container.set_book_dragging(self, true)
+			# 计算鼠标相对于书籍的偏移（使用本地鼠标位置）
+			var local_mouse_pos = get_local_mouse_position()
+			drag_offset = local_mouse_pos
+			# 提高层级，确保拖拽的书在最上层
+			z_index = 100
+			# 记录初始位置
+			books_container.on_book_drag_start(self)
+			# 接受事件，防止传递给其他节点
+			get_viewport().set_input_as_handled()
+		else:
+			# 结束拖拽
+			if is_dragging:
+				is_dragging = false
+				books_container.set_book_dragging(self, false)
+				z_index = original_z_index
+				books_container.on_book_drag_end(self)
+				get_viewport().set_input_as_handled()
+	
+	elif event is InputEventMouseMotion and is_dragging:
+		# 拖拽移动：书籍跟随鼠标
+		var global_mouse_pos = get_global_mouse_position()
+		var container_global_pos = books_container.global_position
+		# 计算在容器坐标系中的位置（鼠标位置减去容器位置，再减去点击时的偏移）
+		var new_x = global_mouse_pos.x - container_global_pos.x - drag_offset.x
+		self.position.x = new_x
+		# 通知容器检测是否需要交换
+		books_container.check_swap_position(self)
+		# 接受事件
+		get_viewport().set_input_as_handled()
 
 func _on_book_cover_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton \
