@@ -51,10 +51,7 @@ func load_data_from_json():
 			
 			_books.append(new_book)
 			
-		# 排序：让 Book4 排在 Book10 前面
-		_sort_books()
-		print("成功加载 %d 本书" % _books.size())
-	else:
+
 		print("JSON 解析失败: ", json.get_error_message())
 
 # 获取所有书（给 UI 用）
@@ -234,7 +231,7 @@ func get_books_by_group(target_group: String) -> Array:
 		if book_group == target_group:
 			results.append(book)
 	if target_group == "":
-		results = _books	.duplicate()
+		results = _books.duplicate()
 	return results
 	
 	# 从配置文件加载书籍高度
@@ -272,3 +269,4 @@ func update_books_group_name(old_name: String, new_name: String) -> void:
 		print("已将 %d 本书的分组从 '%s' 更新为 '%s'" % [count, old_name, new_name])
 	else:
 		print("未找到分组为 '%s' 的书籍" % old_name)
+		

@@ -34,6 +34,7 @@ func _ready():
 	# 连接 TextureButton 的输入事件
 	if texture_button:
 		texture_button.gui_input.connect(_on_texture_button_gui_input)
+		
 func load_texture(path: String) -> Texture2D:
 	# 1. user:// 文件加载方式（Image）
 	if path.begins_with("user://"):

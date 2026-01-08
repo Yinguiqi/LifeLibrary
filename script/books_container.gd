@@ -128,12 +128,12 @@ func set_book_dragging(book: Control, dragging: bool) -> void:
 		book_original_index = -1
 		last_swap_index = -1
 
-func on_book_drag_start(book: Control) -> void:
+func on_book_drag_start(_book: Control) -> void:
 	# 拖拽开始时，可以添加视觉反馈
 	pass
 
-func on_book_drag_end(book: Control) -> void:
-	# 拖拽结束时，重新排列所有书籍并交换数据
+func on_book_drag_end(_book: Control) -> void:
+	# 重新排列所有书籍并交换数据
 	_reorder_books_after_drag()
 
 func check_swap_position(dragging_book_node: Control) -> void:
@@ -206,11 +206,24 @@ func _swap_books_immediate(book1: Control, book2: Control) -> void:
 	move_child(book2, index1)
 	move_child(book1, index2)
 	
-	# 交换数据 id
+	# 同时交换 LibraryManager._books 中对应元素的位置
 	if book1.data_ref and book2.data_ref:
-		var temp_id = book1.data_ref.id
-		book1.data_ref.id = book2.data_ref.id
-		book2.data_ref.id = temp_id
+		var books_array = LibraryManager.get_all_books()
+		var idx1 = -1
+		var idx2 = -1
+		
+		# 找到两个对象在 _books 中的位置
+		for i in range(books_array.size()):
+			if books_array[i] == book1.data_ref:
+				idx1 = i
+			elif books_array[i] == book2.data_ref:
+				idx2 = i
+		
+		# 交换 _books 中的元素（交换对象本身，而不仅仅是 id）
+		if idx1 != -1 and idx2 != -1:
+			var tmp = books_array[idx1]
+			books_array[idx1] = books_array[idx2]
+			books_array[idx2] = tmp
 		
 		# 保存到 JSON
 		LibraryManager.save_data_to_json()
