@@ -12,6 +12,7 @@ const MONITOR_SCENE = preload("res://scenes/3DMonitor.tscn")
 
 # 左键按钮
 func _on_pressed() -> void:
+	print("111")
 	await get_tree().process_frame
 	var pdf_path = BookData.base_path + book.data_ref.rel_path
 ##	var pdf_path = "D:/资源/文章类/电子书/专业书籍/游戏设计艺术（第3版）[[美] Jesse Schell](1).pdf"
