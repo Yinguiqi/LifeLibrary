@@ -26,9 +26,25 @@ func _input(event):
 		
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
-			is_dragging = true
-			last_mouse_x = get_global_mouse_position().x
-			velocity_x = 0.0
+			# 如果鼠标位于某本书上，则不要触发容器的拖拽（让书本自己处理点击/拖拽）
+			var mouse_pos = get_global_mouse_position()
+			var mouse_over_book := false
+			for child in get_children():
+				if child is Control:
+					var child_pos: Vector2 = child.get_global_position()
+					var child_size: Vector2 = child.size * child.scale
+					var rect: Rect2 = Rect2(child_pos, child_size)
+					if rect.has_point(mouse_pos):
+						mouse_over_book = true
+						break
+
+			if not mouse_over_book:
+				is_dragging = true
+				last_mouse_x = mouse_pos.x
+				velocity_x = 0.0
+			else:
+				# 鼠标在书上，容器不处理拖拽
+				is_dragging = false
 		else:
 			is_dragging = false
 
