@@ -2,7 +2,7 @@
 
 **一款以书脊展示为基础的书籍收集管理器。**
 
-[![Version](https://img.shields.io/badge/version-0.1.5-blue.svg)](https://github.com/Yinguiqi/LifeLibrary) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Platform](https://img.shields.io/badge/platform-Windows-blue.svg)](https://github.com/Yinguiqi/LifeLibrary) [![Godot](https://img.shields.io/badge/Godot-4.5.1-478CBF.svg)](https://godotengine.org/) [![GDScript](https://img.shields.io/badge/GDScript-4.x-355570.svg)](https://docs.godotengine.org/)
+[![Version](https://img.shields.io/badge/version-0.1.7-blue.svg)](https://github.com/Yinguiqi/LifeLibrary) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![Platform](https://img.shields.io/badge/platform-Windows-blue.svg)](https://github.com/Yinguiqi/LifeLibrary) [![Godot](https://img.shields.io/badge/Godot-4.5.1-478CBF.svg)](https://godotengine.org/) [![GDScript](https://img.shields.io/badge/GDScript-4.x-355570.svg)](https://docs.godotengine.org/)
 
 
 ## 📖 产品介绍
@@ -17,6 +17,8 @@
 
 - 想用书脊形式表现书籍的书籍收藏家
 
+欢迎加群，如果需要我收集的书脊图片的话，我会发在群文件里，也欢迎大家来分享自己收集的图片：https://qm.qq.com/q/ZgNnH2cVWK
+
 ### 项目内容
 
 - 书籍的增删查改
@@ -26,6 +28,7 @@
 - 搜索书名
 - 3d查看器（只是一个长方体）
 - 可设置书脊图片整体的高度和间隔
+- 可拖拽书籍换位置
 
 ### 技术栈
 
