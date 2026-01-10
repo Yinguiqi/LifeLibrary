@@ -110,6 +110,7 @@ func open_book_cover():
 	book_cover.size.x = tex_size.x * scale_value
 	book_cover.texture = book_cover_texture
 	book_cover.position.x = book_texture.get_size().x
+	book_cover.visible = true
 	books_container.on_book_expand(self, book_cover.size.x * self.scale.x)
 	
 
@@ -168,6 +169,7 @@ func _on_book_cover_gui_input(event: InputEvent) -> void:
 	and event.pressed:
 		books_container.on_book_collapse(self)
 		book_cover.texture = null
+		book_cover.visible = false
 	if event is InputEventMouseButton \
 	and event.button_index == MOUSE_BUTTON_RIGHT \
 	and event.pressed:

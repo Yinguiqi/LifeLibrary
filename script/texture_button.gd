@@ -22,6 +22,10 @@ func _on_pressed() -> void:
 func _on_gui_input(event: InputEvent) -> void:
 	# 检测右键
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+		# 如果当前书正在拖拽（或容器里有书在拖拽），则不弹出菜单并吞掉事件
+		if book.is_dragging or books_container.dragging_book != null:
+			accept_event()
+			return
 		accept_event()
 		print("处理逻辑的实体名称: ", self.name)
 		# 1. 【关键步骤】先清空旧的选项！
