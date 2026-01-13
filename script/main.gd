@@ -1,10 +1,11 @@
 extends Control
 
-@onready var books_container = $BooksContainer
-@onready var BookScene := preload("res://scenes/book.tscn")
+
+var BookScene := preload("res://scenes/book.tscn")
 const CONFIG_PATH := "user://config.ini"
 const JSON_PATH = "user://books_data.json"
 @onready var sidebar: PanelContainer = $Sidebar
+@onready var books_container = $BooksContainer
 
 func _ready() -> void:
 	LibraryManager.book_x = 500

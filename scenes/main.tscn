@@ -32,18 +32,13 @@ color = Color(0.16078432, 0.16470589, 0.1764706, 1)
 
 [node name="BookMenuBar" type="Control" parent="."]
 anchors_preset = 0
-offset_top = 48.0
-offset_right = 1151.0
-offset_bottom = 700.0
 script = ExtResource("2_sugp2")
 
 [node name="MenuBar" type="MenuBar" parent="BookMenuBar"]
 layout_mode = 1
 anchors_preset = -1
-offset_left = 2.0
-offset_top = -47.0
-offset_right = 1151.0
-offset_bottom = -15.0
+offset_right = 1149.0
+offset_bottom = 30.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_0wfyh")
@@ -57,9 +52,10 @@ oversampling_override = 1.0
 
 [node name="BooksContainer" type="Control" parent="."]
 layout_mode = 1
-anchor_top = 0.069000006
-anchor_right = 1.0
-anchor_bottom = 1.0
+offset_left = 420.0
+offset_top = 54.0
+offset_right = 1152.0
+offset_bottom = 700.0
 script = ExtResource("3_jyhfs")
 
 [node name="UI" type="Control" parent="."]

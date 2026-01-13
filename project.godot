@@ -27,3 +27,7 @@ window/size/viewport_height=700
 [gui]
 
 theme/custom_font="uid://dl5yxrnx0y6ui"
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://assets/i18n/translation.en.translation", "res://assets/i18n/translation.zh_CN.translation")

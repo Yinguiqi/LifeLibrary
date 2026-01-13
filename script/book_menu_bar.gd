@@ -1,14 +1,13 @@
 # BookMenuBar.gd
-extends Control  # ← 注意：继承 Control，不是 MenuBar
+extends Control
+
+var BookScene := preload("res://scenes/book.tscn")
+var AddBookWindow := preload("res://scenes/add_book_window.tscn")
 
 @onready var books_container = $"../BooksContainer"
-@onready var BookScene := preload("res://scenes/book.tscn")
-@onready var AddBookWindow := preload("res://scenes/add_book_window.tscn")
-
 @onready var file_menu: PopupMenu = $MenuBar/File
 @onready var edit_menu: PopupMenu = $MenuBar/Edit
 @onready var help_menu: PopupMenu = $MenuBar/Help
-@onready var menu_bar: MenuBar = $MenuBar  # 引用实际的 MenuBar
 
 var feedback_label: Label
 
@@ -16,9 +15,9 @@ func _ready():
 	setup_menus()
 
 func setup_menus():
-	file_menu.name = "文件"
-	edit_menu.name = "编辑"
-	help_menu.name = "帮助"
+	file_menu.name = "menu_flie"
+	edit_menu.name = "menu_edit"
+	help_menu.name = "menu_help"
 	
 	file_menu.add_item("新建书籍", 100)
 	file_menu.add_item("退出", 110)
@@ -152,7 +151,7 @@ func _redraw_book_shelf(books_to_display: Array):
 func open_settings_window():
 	var window = Window.new()
 	window.title = "设置"
-	window.size = Vector2(500, 250)
+	window.size = Vector2(500, 320)
 	window.unresizable = true
 	
 	# 边距容器
@@ -241,7 +240,41 @@ func open_settings_window():
 	save_spacing_btn.text = "保存间隔"
 	save_spacing_btn.custom_minimum_size = Vector2(100, 36)
 	spacing_hbox.add_child(save_spacing_btn)
+	
+	# === 语言设置 ===
+	# 标题标签
+	var lang_label = Label.new()
+	lang_label.text = "LANG_SETTING_TITLE"
+	lang_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	vbox.add_child(lang_label)
 
+	# 下拉框行
+	var lang_hbox = HBoxContainer.new()
+	lang_hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	vbox.add_child(lang_hbox)
+
+	# 语言下拉框
+	var lang_option = OptionButton.new()
+	lang_option.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	lang_option.custom_minimum_size = Vector2(300, 36)
+	lang_hbox.add_child(lang_option)
+
+	# 添加语言选项（注意：这里加的是 key）
+	lang_option.add_item("LANG_CHINESE", 0)
+	lang_option.add_item("LANG_ENGLISH", 1)
+
+	# 让 OptionButton 自身也走多语言
+	lang_option.set_item_disabled(0, false)
+	lang_option.set_item_tooltip(0, "")
+
+	lang_option.item_selected.connect(func(index):
+		match index:
+			0:
+				TranslationServer.set_locale("zh_CN")
+			1:
+				TranslationServer.set_locale("en")
+	)
+	
 	# === 反馈标签 ===（关键：这里创建Label实例）
 	feedback_label = Label.new()
 	feedback_label.add_theme_color_override("font_color", Color.GRAY)

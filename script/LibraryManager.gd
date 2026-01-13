@@ -1,17 +1,15 @@
 # res://LibraryManager.gd
 extends Node
 
-# --- 配置 ---
 const JSON_PATH = "user://books_data.json"
 # 引用 BookData 脚本，避开 class_name 冲突
-const BookDataScript = preload("res://script/books_data.gd")
 var base_path: String = ""
 var book_height: float 
 var book_spacing: float = 50
 var book_x: float = 0
 var books_container_x: float = 0
 # --- 内存数据 ---
-# 这个数组里装的全是 BookDataScript 的实例对象
+# 这个数组里装的全是 Book数据 的实例对象
 var _books: Array = [] 
 var current_selected_group: String = ""
 
@@ -38,7 +36,7 @@ func load_data_from_json():
 		
 		# 将字典转换回对象
 		for dict in data_array:
-			var new_book = BookDataScript.new()
+			var new_book = Book.new()
 			# 从字典取值，如果没找到则给个默认值
 			new_book.id = dict.get("id", "")
 			new_book.name = dict.get("name", "未命名")
@@ -51,8 +49,7 @@ func load_data_from_json():
 			
 			_books.append(new_book)
 			
-
-		print("JSON 解析失败: ", json.get_error_message())
+	print("JSON 解析失败: ", json.get_error_message())
 
 # 获取所有书（给 UI 用）
 func get_all_books() -> Array:
@@ -124,7 +121,7 @@ func add_new_book(path: String , texture: String,book_name:String = "",book_cove
 		new_index += 1
 		new_id = "Book%d" % new_index
 	
-	var new_book = BookDataScript.new()
+	var new_book = Book.new()
 	new_book.initialize(new_id,book_name, path, texture,book_cover_texture,author,introduction,group_name)
 	_books.append(new_book)
 	save_data_to_json()
@@ -140,7 +137,7 @@ func _sort_books():
 
 # 辅助函数：将一个字典转换为一个 BookData 对象
 func create_book_object_from_dict(dict: Dictionary) -> RefCounted:
-	var book_object = BookDataScript.new()
+	var book_object = Book.new()
 	
 	# 使用 initialize 或直接赋值，确保所有属性都被设置
 	book_object.initialize(
@@ -237,10 +234,7 @@ func get_books_by_group(target_group: String) -> Array:
 	# 从配置文件加载书籍高度
 func load_book_height_from_config():
 	var cfg = ConfigFile.new()
-	
-	# 尝试加载配置文件
 	var err = cfg.load("user://config.ini")
-	
 	if err == OK:
 		# 从配置文件中读取 book_height 值
 		var saved_height = cfg.get_value("settings", "book_height", 500.0)

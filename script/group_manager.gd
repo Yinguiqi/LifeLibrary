@@ -1,8 +1,9 @@
 extends Control
 
+@export var CATEGORY_ITEM_SCENE: PackedScene
+
 @onready var v_box_container: VBoxContainer = $VBoxContainer
 @onready var category_item: HBoxContainer = $VBoxContainer/CategoryItem
-@export var CATEGORY_ITEM_SCENE: PackedScene
 
 func _ready() -> void:
 	group_list()

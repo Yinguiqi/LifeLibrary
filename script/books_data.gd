@@ -1,5 +1,5 @@
 # res://BookData.gd
-extends RefCounted
+class_name Book
 
 # 定义你的书籍属性
 var id: String = ""           # 例如 "Book4"

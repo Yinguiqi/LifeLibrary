@@ -1,13 +1,15 @@
 extends Control
 
+const DRAG_THRESHOLD := 8.0
+const CONFIG_PATH := "user://config.ini"
+
 @onready var texture_button = $TextureButton
 @onready var book_cover: TextureRect = $BookCover
+@onready var books_container := get_parent()
+
 
 @export var book_texture: Texture2D
 @export var book_cover_texture: Texture2D
-@onready var books_container := get_parent()
-@onready var default_texture_path = "res://icon.svg"
-@onready var book_scale_width : float
 var cover_on_left := false
 var my_cover_width := 200.0  # 根据实际情况调整
 var data_ref: RefCounted = null
@@ -19,9 +21,7 @@ var original_z_index := 0
 # 拖拽候选与阈值（用于区分点击与拖拽）
 var _drag_candidate := false
 var _initial_mouse_pos := Vector2.ZERO
-const DRAG_THRESHOLD := 8.0
-
-const CONFIG_PATH := "user://config.ini"
+var book_scale_width : float
 
 
 func _ready():
