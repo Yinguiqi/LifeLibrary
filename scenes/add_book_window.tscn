@@ -40,38 +40,38 @@ layout_mode = 2
 [node name="书籍名称" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "书籍名称："
+text = "book_name_label"
 
 [node name="NameInput" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
-placeholder_text = "留空将自动从文件名提取"
+placeholder_text = "book_name_placeholder"
 
 [node name="作者名称" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "作者名称："
+text = "book_author_label"
 
 [node name="AuthorInput" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-placeholder_text = "输入作者名称"
+placeholder_text = "book_author_placeholder"
 
 [node name="书籍简介" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "书籍简介："
+text = "book_intro_label"
 
 [node name="Introduction" type="TextEdit" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 custom_minimum_size = Vector2(50, 30)
 layout_mode = 2
-placeholder_text = "输入小说简介或描述..."
+placeholder_text = "book_intro_placeholder"
 
 [node name="书籍分组" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "分组："
+text = "book_group_label"
 
 [node name="GroupOption" type="OptionButton" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
@@ -79,7 +79,7 @@ layout_mode = 2
 [node name="书籍文件（必选）" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "书籍文件（必选）："
+text = "book_file_label"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
@@ -88,17 +88,17 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
-placeholder_text = "选择书籍本体文件"
+placeholder_text = "book_file_select"
 
 [node name="BtnSelectBook" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "浏览"
+text = "book_browse"
 
 [node name="书脊图片（必选）" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "书脊图片（必选）"
+text = "book_spine_image_label"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
@@ -107,18 +107,18 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
-placeholder_text = "选择书脊图片"
+placeholder_text = "book_spine_image_select"
 editable = false
 
 [node name="BtnSelectSpine" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "浏览"
+text = "book_browse"
 
 [node name="封面图片（可选）" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "封面图片（可选）"
+text = "book_cover_image_label"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer"]
 layout_mode = 2
@@ -127,13 +127,13 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
-placeholder_text = "选择封面图片"
+placeholder_text = "book_cover_image_select"
 editable = false
 
 [node name="BtnSelectCover" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/GridContainer/HBoxContainer3"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "浏览"
+text = "book_browse"
 
 [node name="HSeparator2" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -142,6 +142,6 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 disabled = true
-text = "确认添加"
+text = "book_add_confirm"
 
 [node name="FileDialog" type="FileDialog" parent="."]

@@ -52,6 +52,7 @@ oversampling_override = 1.0
 
 [node name="BooksContainer" type="Control" parent="."]
 layout_mode = 1
+anchors_preset = 0
 offset_left = 420.0
 offset_top = 54.0
 offset_right = 1152.0
@@ -98,13 +99,12 @@ layout_mode = 2
 
 [node name="AllBook" type="Button" parent="Sidebar/VBoxContainer"]
 layout_mode = 2
-text = "全部
-"
+text = "category_all"
 flat = true
 
 [node name="Button" type="Button" parent="Sidebar/VBoxContainer"]
 layout_mode = 2
-text = "分类设置"
+text = "category_setting"
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 visible = false
@@ -135,7 +135,7 @@ render_target_update_mode = 0
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-text = "关闭"
+text = "book_3d_viewer_close"
 
 [connection signal="pressed" from="Sidebar/VBoxContainer/AllBook" to="Sidebar" method="_on_all_book_pressed"]
 [connection signal="pressed" from="Sidebar/VBoxContainer/Button" to="Sidebar" method="_on_button_pressed"]

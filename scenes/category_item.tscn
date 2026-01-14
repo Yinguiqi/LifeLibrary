@@ -7,7 +7,6 @@ script = ExtResource("1_jqwx8")
 
 [node name="NameLabel" type="Label" parent="."]
 layout_mode = 2
-text = "——类名"
 
 [node name="Spacer" type="Control" parent="."]
 layout_mode = 2
@@ -15,11 +14,11 @@ size_flags_horizontal = 3
 
 [node name="RenameButton" type="Button" parent="."]
 layout_mode = 2
-text = "重命名"
+text = "category_rename"
 
 [node name="DeleteButton" type="Button" parent="."]
 layout_mode = 2
-text = "删除"
+text = "category_delete"
 
 [connection signal="pressed" from="RenameButton" to="." method="_on_rename_button_pressed"]
 [connection signal="pressed" from="DeleteButton" to="." method="_on_delete_button_pressed"]

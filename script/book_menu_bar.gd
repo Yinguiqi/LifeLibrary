@@ -19,17 +19,17 @@ func setup_menus():
 	edit_menu.name = "menu_edit"
 	help_menu.name = "menu_help"
 	
-	file_menu.add_item("新建书籍", 100)
-	file_menu.add_item("退出", 110)
+	file_menu.add_item("menu_new_book", 100)
+	file_menu.add_item("menu_exit", 110)
 	
-	edit_menu.add_item("搜索", 201)
-	edit_menu.add_item("首选项", 210)
+	edit_menu.add_item("menu_search", 201)
+	edit_menu.add_item("menu_preferences", 210)
 	
-	help_menu.add_item("关于", 301)
-	help_menu.add_item("教程", 302)
-	help_menu.add_item("简易ps网站", 303)
-	help_menu.add_item("闲鱼", 304)
-	help_menu.add_item("日本二手网站", 305)
+	help_menu.add_item("menu_about", 301)
+	help_menu.add_item("menu_tutorial", 302)
+	help_menu.add_item("link_simple_ps", 303)
+	help_menu.add_item("link_xianyu", 304)
+	help_menu.add_item("link_jp_secondhand", 305)
 	
 	file_menu.id_pressed.connect(_on_file_menu_selected)
 	edit_menu.id_pressed.connect(_on_file_menu_selected)
@@ -150,7 +150,7 @@ func _redraw_book_shelf(books_to_display: Array):
 # 打开首选项功能
 func open_settings_window():
 	var window = Window.new()
-	window.title = "设置"
+	window.title = "preferences_setting"
 	window.size = Vector2(500, 320)
 	window.unresizable = true
 	
@@ -169,7 +169,7 @@ func open_settings_window():
 
 	# === 基础路径标签 ===
 	var path_label = Label.new()
-	path_label.text = "基础路径设置:"
+	path_label.text = "preferences_base_path_label"
 	path_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	vbox.add_child(path_label)
 
@@ -180,21 +180,21 @@ func open_settings_window():
 
 	# 路径输入框
 	var input = LineEdit.new()
-	input.placeholder_text = "请输入基础路径"
+	input.placeholder_text = "preferences_base_path_placeholder"
 	input.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	input.custom_minimum_size = Vector2(300, 36)
 	path_hbox.add_child(input)
 
 	# 路径保存按钮
 	var save_path_btn = Button.new()
-	save_path_btn.text = "保存路径"
+	save_path_btn.text = "preferences_base_path_save"
 	save_path_btn.custom_minimum_size = Vector2(100, 36)
 	path_hbox.add_child(save_path_btn)
 
 	# === 书籍高度设置 ===
 	# 高度标签
 	var height_label = Label.new()
-	height_label.text = "书籍高度设置:"
+	height_label.text = "preferences_book_height_label"
 	height_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	vbox.add_child(height_label)
 
@@ -205,21 +205,21 @@ func open_settings_window():
 
 	# 高度输入框
 	var height_input = LineEdit.new()
-	height_input.placeholder_text = "输入书籍高度 (0-5000)"
+	height_input.placeholder_text = "preferences_book_height_placeholder"
 	height_input.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	height_input.custom_minimum_size = Vector2(300, 36)
 	height_hbox.add_child(height_input)
 
 	# 高度保存按钮
 	var save_height_btn = Button.new()
-	save_height_btn.text = "保存高度"
+	save_height_btn.text = "preferences_book_height_save"
 	save_height_btn.custom_minimum_size = Vector2(100, 36)
 	height_hbox.add_child(save_height_btn)
 	
 	# === 书籍间隔设置 ===
 	# 高度标签
 	var spacing_label = Label.new()
-	spacing_label.text = "书籍间隔设置:"
+	spacing_label.text = "preferences_book_spacing_label"
 	spacing_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	vbox.add_child(spacing_label)
 
@@ -230,21 +230,21 @@ func open_settings_window():
 
 	# 高度输入框
 	var spacing_input = LineEdit.new()
-	spacing_input.placeholder_text = "输入书籍间隔 (0-200)"
+	spacing_input.placeholder_text = "preferences_book_spacing_placeholder"
 	spacing_input.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	spacing_input.custom_minimum_size = Vector2(300, 36)
 	spacing_hbox.add_child(spacing_input)
 
 	# 高度保存按钮
 	var save_spacing_btn = Button.new()
-	save_spacing_btn.text = "保存间隔"
+	save_spacing_btn.text = "preferences_book_spacing_save"
 	save_spacing_btn.custom_minimum_size = Vector2(100, 36)
 	spacing_hbox.add_child(save_spacing_btn)
 	
 	# === 语言设置 ===
 	# 标题标签
 	var lang_label = Label.new()
-	lang_label.text = "LANG_SETTING_TITLE"
+	lang_label.text = "preferences_language_label"
 	lang_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	vbox.add_child(lang_label)
 
@@ -260,19 +260,25 @@ func open_settings_window():
 	lang_hbox.add_child(lang_option)
 
 	# 添加语言选项（注意：这里加的是 key）
-	lang_option.add_item("LANG_CHINESE", 0)
-	lang_option.add_item("LANG_ENGLISH", 1)
+	lang_option.add_item(tr("lang_zh"), 0)
+	lang_option.add_item(tr("lang_en"), 1)
 
 	# 让 OptionButton 自身也走多语言
 	lang_option.set_item_disabled(0, false)
 	lang_option.set_item_tooltip(0, "")
 
+	match LibraryManager.language:
+		"zh_CN":
+			lang_option.select(0)
+		"en":
+			lang_option.select(1)
+			
 	lang_option.item_selected.connect(func(index):
 		match index:
 			0:
-				TranslationServer.set_locale("zh_CN")
+				LibraryManager.save_language("zh_CN")
 			1:
-				TranslationServer.set_locale("en")
+				LibraryManager.save_language("en")
 	)
 	
 	# === 反馈标签 ===（关键：这里创建Label实例）

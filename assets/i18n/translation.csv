@@ -2,3 +2,68 @@ key,zh_CN,en
 menu_flie,文件,File
 menu_edit,编辑,Edit
 menu_help,帮助,Help
+menu_new_book,新建书籍,New Book
+menu_exit,退出,Exit
+menu_search,搜索,Search
+menu_preferences,首选项,Preferences
+menu_about,关于,About
+menu_tutorial,教程,Tutorial
+
+link_simple_ps,简易PS网站,Simple PS Website
+link_xianyu,闲鱼,Chinese Second-hand Sites
+link_jp_secondhand,日本二手网站,Japanese Second-hand Sites
+
+book_name_label,书籍名称：,Book Title:
+book_author_label,作者名称：,Author Name:
+book_intro_label,书籍简介：,Book Description:
+book_group_label,分组：,Category:
+book_file_label,书籍文件（必选）：,Book File (Required):
+book_spine_image_label,书脊图片（必选）：,Spine Image (Required):
+book_cover_image_label,封面图片（可选）：,Cover Image (Optional):
+
+book_author_placeholder,输入作者名称,Enter author name
+book_intro_placeholder,输入小说简介或描述...,Enter description or summary...
+book_name_placeholder,留空将自动从文件名提取,Leave blank to extract from file name
+book_file_select,选择书籍本体文件,Select book file
+book_spine_image_select,选择书脊图片,Select spine image
+book_cover_image_select,选择封面图片,Select cover image
+book_browse,浏览,Browse
+
+book_add_confirm,确定添加,Add
+book_edit_confirm,确定更改,Save Changes
+book_edit_title,编辑书籍,Edit Book
+
+# 首选项
+preferences_setting,设置,Setting
+preferences_base_path_label,基础路径设置:,Base Path:
+preferences_base_path_placeholder,请输入基础路径,Please enter base path
+preferences_base_path_save,保存路径,Save Path
+preferences_book_height_label,书籍高度设置:,Book Height:
+preferences_book_height_placeholder,输入书籍高度 (0-5000),Enter book height (0-5000)
+preferences_book_height_save,保存高度,Save Height
+preferences_book_spacing_label,书籍间隔设置:,Book Spacing:
+preferences_book_spacing_placeholder,输入书籍间隔 (0-200),Enter book spacing (0-200)
+preferences_book_spacing_save,保存间隔,Save Spacing
+preferences_language_label,语言设置,Language
+
+
+# 语言
+lang_zh,中文,Chinese
+lang_en,英文,English
+
+# 分类
+category_all,全部,All
+category_setting,分类设置,Category Settings
+category_rename,重命名,Rename
+category_delete,删除,Delete
+category_edit_name,更改分类名称,Change Category Name
+category_name_placeholder,请输入分类名称,Please enter category name
+category_confirm_change,更改,Change
+
+# 书籍菜单
+book_edit_info,编辑信息,Edit Info
+book_expand_cover,展开封面,Expand Cover
+book_3d_viewer,3D监看器,3D Viewer
+book_open_folder,打开所在文件夹,Open Folder Location
+book_delete,删除书籍,Delete Book
+book_3d_viewer_close,关闭,Close

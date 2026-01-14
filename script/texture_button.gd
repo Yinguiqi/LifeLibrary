@@ -40,11 +40,11 @@ func _on_gui_input(event: InputEvent) -> void:
 			menu.id_pressed.disconnect(conn.callable)
 		menu.id_pressed.connect(_on_menu_pressed)
 		# 2. 然后再添加本次需要的选项
-		menu.add_item("编辑信息", 0)
-		menu.add_item("展开封面", 1)
-		menu.add_item("3d监看器", 2)
-		menu.add_item("打开所在文件夹", 3)
-		menu.add_item("删除书籍", 4)
+		menu.add_item("book_edit_info", 0)
+		menu.add_item("book_expand_cover", 1)
+		menu.add_item("book_3d_viewer", 2)
+		menu.add_item("book_open_folder", 3)
+		menu.add_item("book_delete", 4)
 		# 在弹出菜单前设置当前书籍ID
 		menu.popup(Rect2(get_global_mouse_position(),Vector2.ZERO))
 # 菜单选择逻辑

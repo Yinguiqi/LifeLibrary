@@ -12,7 +12,7 @@ func set_name_text(text: String) -> void:
 
 func _on_rename_button_pressed() -> void:
 	var window = Window.new()
-	window.title = "更改分类名称"
+	window.title = "category_edit_name"
 	window.size = Vector2(400, 150)
 	window.unresizable = true
 
@@ -42,14 +42,14 @@ func _on_rename_button_pressed() -> void:
 
 	# ===== 输入框 =====
 	var line_edit = LineEdit.new()
-	line_edit.placeholder_text = "请输入分类名称"
+	line_edit.placeholder_text = "category_name_placeholder"
 	line_edit.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	line_edit.custom_minimum_size = Vector2(0, 36)
 	hbox.add_child(line_edit)
 
 	# ===== 搜索按钮 =====
 	var search_btn = Button.new()
-	search_btn.text = "更改"
+	search_btn.text = "category_confirm_change"
 	search_btn.custom_minimum_size = Vector2(80, 36)
 	hbox.add_child(search_btn)
 

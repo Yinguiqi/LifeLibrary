@@ -44,17 +44,14 @@ func _on_select_book_pressed() -> void:
 	target_input = book_path_input
 	show_file_dialog("选择书籍文件")
 
-
 func _on_select_spine_pressed() -> void:
 	target_input = spine_path_input
 	show_file_dialog("选择书脊文件")
-
 
 func _on_select_cover_pressed() -> void:
 	target_input = cover_path_input
 	show_file_dialog("选择封面文件")
 
-	
 func show_file_dialog(_title: String, filters: PackedStringArray = []) -> void:
 	# 如果已经有文件对话框存在，先清理
 	if current_file_dialog:
@@ -80,7 +77,6 @@ func show_file_dialog(_title: String, filters: PackedStringArray = []) -> void:
 	
 	# 显示对话框
 	dialog.popup_centered_ratio(0.7)
-
 
 func _on_file_selected(path: String) -> void:
 	var target_dir: String
@@ -111,7 +107,6 @@ func _on_file_selected(path: String) -> void:
 	var spine_path_valid = not spine_path_input.text.strip_edges().is_empty()
 	# 设置按钮的禁用状态
 	btn_confirm.disabled = not (book_path_valid and spine_path_valid)
-
 
 func _on_file_dialog_canceled() -> void:
 	print("文件选择已取消")
@@ -145,7 +140,6 @@ func _on_confirm_pressed() -> void:
 		sidebar._get_books_by_group(LibraryManager.current_selected_group)
 		change_books_container.position.x = LibraryManager.books_container_x
 	hide()
-
 
 # 复制书籍文件方法
 func copy_file(src_path: String, dst_path: String) -> int:
@@ -184,9 +178,9 @@ func load_book_data(book_data: Dictionary) -> void:
 	introduction_input.text = book_data.get("introduction", "")
 	group_option.text = book_data.get("group_name", "")
 	
-	self.title = "编辑书籍"
+	self.title = "book_edit_title"
 	btn_confirm.disabled = false
-	btn_confirm.text = "确定更改"
+	btn_confirm.text = "book_edit_confirm"
 	# 显示窗口
 	popup_centered()
 

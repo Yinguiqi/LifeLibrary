@@ -2,6 +2,8 @@
 extends Node
 
 const JSON_PATH = "user://books_data.json"
+const CONFIG_PATH := "user://config.ini"
+var config := ConfigFile.new()
 # 引用 BookData 脚本，避开 class_name 冲突
 var base_path: String = ""
 var book_height: float 
@@ -12,10 +14,12 @@ var books_container_x: float = 0
 # 这个数组里装的全是 Book数据 的实例对象
 var _books: Array = [] 
 var current_selected_group: String = ""
+var language := "zh_CN"
 
 func _ready():
 	print("LibraryManager 启动，正在加载数据...")
 	load_data_from_json()
+	load_config()
 
 # --- 1. 读取 (R) ---
 
@@ -233,11 +237,10 @@ func get_books_by_group(target_group: String) -> Array:
 	
 	# 从配置文件加载书籍高度
 func load_book_height_from_config():
-	var cfg = ConfigFile.new()
-	var err = cfg.load("user://config.ini")
+	var err = config.load(CONFIG_PATH)
 	if err == OK:
 		# 从配置文件中读取 book_height 值
-		var saved_height = cfg.get_value("settings", "book_height", 500.0)
+		var saved_height = config.get_value("settings", "book_height", 500.0)
 		
 		# 验证数据的有效性
 		if typeof(saved_height) == TYPE_FLOAT and saved_height > 0:
@@ -264,3 +267,20 @@ func update_books_group_name(old_name: String, new_name: String) -> void:
 	else:
 		print("未找到分组为 '%s' 的书籍" % old_name)
 		
+# 保存语言
+func save_language(lang: String) -> void:
+	language = lang
+	config.set_value("settings", "language", lang)
+	config.save(CONFIG_PATH)
+
+	TranslationServer.set_locale(lang)
+	
+func load_config():
+	var err = config.load(CONFIG_PATH)
+	if err == OK:
+		language = config.get_value("settings", "language", "zh_CN")
+	else:
+		# 第一次启动，写一个默认配置
+		save_language("zh_CN")
+
+	TranslationServer.set_locale(language)
