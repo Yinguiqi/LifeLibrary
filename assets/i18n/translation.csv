@@ -13,6 +13,7 @@ link_simple_ps,简易PS网站,Simple PS Website
 link_xianyu,闲鱼,Chinese Second-hand Sites
 link_jp_secondhand,日本二手网站,Japanese Second-hand Sites
 
+# 书籍信息
 book_name_label,书籍名称：,Book Title:
 book_author_label,作者名称：,Author Name:
 book_intro_label,书籍简介：,Book Description:
@@ -45,6 +46,16 @@ preferences_book_spacing_label,书籍间隔设置:,Book Spacing:
 preferences_book_spacing_placeholder,输入书籍间隔 (0-200),Enter book spacing (0-200)
 preferences_book_spacing_save,保存间隔,Save Spacing
 preferences_language_label,语言设置,Language
+preferences_base_path_saved,基础路径已保存,Base path saved
+preferences_book_height_input_hint,请输入书籍高度,Please enter book height
+preferences_book_height_invalid_number,请输入有效的数字,Please enter a valid number
+preferences_book_height_out_of_range,高度必须在0到5000之间,Height must be between 0 and 5000
+preferences_book_height_saved,书籍高度已保存:,Book height saved:
+preferences_book_spacing_input_hint,请输入书籍间隔,Please enter book spacing
+preferences_book_spacing_invalid_number,请输入有效的数字,Please enter a valid number
+preferences_book_spacing_out_of_range,间隔必须在0到200之间,Spacing must be between 0 and 200
+preferences_book_spacing_saved,书籍间隔已保存:,Book spacing saved:
+
 
 
 # 语言

@@ -309,7 +309,7 @@ func open_settings_window():
 		cfg_save.set_value("settings", "base_path", input.text)
 		cfg_save.save("user://config.ini")
 		
-		show_feedback("基础路径已保存", Color.GREEN)
+		show_feedback("preferences_base_path_saved", Color.GREEN)
 	)
 
 	# 保存高度按钮 - 添加验证逻辑
@@ -318,18 +318,19 @@ func open_settings_window():
 		
 		# 验证输入是否为空
 		if height_text.is_empty():
-			show_feedback("请输入书籍高度", Color.RED)
+			show_feedback("preferences_book_height_input_hint", Color.RED)
 			return
 		
 		# 验证是否为数字
 		if not height_text.is_valid_float():
-			show_feedback("请输入有效的数字", Color.RED)
+			show_feedback("preferences_book_height_invalid_number,请输入有效的数字,Please enter a valid number
+", Color.RED)
 			return
 		
 		# 转换为float并验证范围
 		var height_value = float(height_text)
 		if height_value < 0 or height_value > 5000:
-			show_feedback("高度必须在0到5000之间", Color.RED)
+			show_feedback("preferences_book_height_out_of_range", Color.RED)
 			return
 		
 		# 保存到配置文件
@@ -341,7 +342,7 @@ func open_settings_window():
 		# 设置全局变量
 		LibraryManager.book_height = height_value
 		
-		show_feedback("书籍高度已保存: " + str(height_value), Color.GREEN)
+		show_feedback(tr("preferences_book_height_saved") + str(height_value), Color.GREEN)
 	)
 	
 	# 保存间隔按钮 - 添加验证逻辑
@@ -350,18 +351,18 @@ func open_settings_window():
 		
 		# 验证输入是否为空
 		if spacing_text.is_empty():
-			show_feedback("请输入书籍间隔", Color.RED)
+			show_feedback("preferences_book_spacing_input_hint", Color.RED)
 			return
 		
 		# 验证是否为数字
 		if not spacing_text.is_valid_float():
-			show_feedback("请输入有效的数字", Color.RED)
+			show_feedback("preferences_book_spacing_invalid_number", Color.RED)
 			return
 		
 		# 转换为float并验证范围
 		var spacing_value = float(spacing_text)
 		if spacing_value < 0 or spacing_value > 200:
-			show_feedback("间隔必须在0到200之间", Color.RED)
+			show_feedback("preferences_book_spacing_out_of_range", Color.RED)
 			return
 		
 		# 保存到配置文件
@@ -373,14 +374,17 @@ func open_settings_window():
 		# 设置全局变量
 		LibraryManager.book_spacing = spacing_value
 		
-		show_feedback("书籍间隔已保存: " + str(spacing_value), Color.GREEN)
+		show_feedback(tr("preferences_book_spacing_saved") + str(spacing_value), Color.GREEN)
 	)
 	
 	window.close_requested.connect(func():
-			window.hide()
-			get_tree().change_scene_to_file("res://scenes/main.tscn")
+		window.hide()
+		# 如果侧边栏打开了 GroupManager，则移除它（使用递归查找，兼容不同根节点类型）
+		var gm = _find_node_recursive(get_tree().get_root(), "GroupManager")
+		if gm:
+			gm.queue_free()
+		get_tree().change_scene_to_file("res://scenes/main.tscn")
 	)
-	
 	# === 添加到场景树 ===
 	get_tree().root.add_child(window)
 	window.popup_centered()
@@ -388,14 +392,20 @@ func open_settings_window():
 	# 自动聚焦到输入框
 	input.grab_focus()
 	
-	# ESC键关闭
-	input.gui_input.connect(func(event):
-		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
-			window.hide()
-			get_tree().change_scene_to_file("res://scenes/main.tscn")
-	)
-	
 	return window
+
+
+# 递归查找节点（按名称），避免直接调用可能在某些基类上不存在的方法
+func _find_node_recursive(root: Node, target_name: String) -> Node:
+	if root == null:
+		return null
+	if root.name == target_name:
+		return root
+	for child in root.get_children():
+		var res = _find_node_recursive(child, target_name)
+		if res:
+			return res
+	return null
 
 
 func show_feedback(message: String, color: Color):

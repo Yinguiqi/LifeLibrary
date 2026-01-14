@@ -14,7 +14,7 @@ var books_container_x: float = 0
 # 这个数组里装的全是 Book数据 的实例对象
 var _books: Array = [] 
 var current_selected_group: String = ""
-var language := "zh_CN"
+var language := "en"
 
 func _ready():
 	print("LibraryManager 启动，正在加载数据...")
@@ -281,6 +281,6 @@ func load_config():
 		language = config.get_value("settings", "language", "zh_CN")
 	else:
 		# 第一次启动，写一个默认配置
-		save_language("zh_CN")
+		save_language("en")
 
 	TranslationServer.set_locale(language)
