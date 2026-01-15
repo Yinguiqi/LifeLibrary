@@ -8,10 +8,12 @@ const JSON_PATH = "user://books_data.json"
 @onready var books_container = $BooksContainer
 
 func _ready() -> void:
+	load_window_state()
 	LibraryManager.book_x = 500
 	check_base_path()
 	LibraryManager.load_book_height_from_config()
 	load_books_from_json()
+
 	
 # 检查是否存在base_path路径
 func check_base_path():
@@ -36,3 +38,35 @@ func load_books_from_json():
 # 关闭3d监看器按钮
 func _on_close_3DMonitor_button_pressed() -> void:
 	$PanelContainer.visible = false
+
+func _notification(what):
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		save_window_state()
+		get_tree().quit()
+		
+func save_window_state():
+	var config := ConfigFile.new()
+	config.load(CONFIG_PATH)
+	var window := get_window()
+	var window_size := window.size
+	var pos := window.position
+	print("111")
+	config.set_value("window", "width", window_size.x)
+	config.set_value("window", "height", window_size.y)
+	config.set_value("window", "x", pos.x)
+	config.set_value("window", "y", pos.y)
+
+	config.save(CONFIG_PATH)
+
+func load_window_state():
+	var config := ConfigFile.new()
+	config.load(CONFIG_PATH)
+	var window := get_window()
+	print("222")
+	var w = config.get_value("window", "width", 1280)
+	var h = config.get_value("window", "height", 720)
+	var x = config.get_value("window", "x", 100)
+	var y = config.get_value("window", "y", 100)
+
+	window.size = Vector2i(w, h)
+	window.position = Vector2i(x, y)
