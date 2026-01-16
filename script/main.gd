@@ -8,12 +8,11 @@ const JSON_PATH = "user://books_data.json"
 @onready var books_container = $BooksContainer
 
 func _ready() -> void:
-	load_window_state()
 	LibraryManager.book_x = 500
 	check_base_path()
 	LibraryManager.load_book_height_from_config()
 	load_books_from_json()
-
+	load_window_state()
 	
 # 检查是否存在base_path路径
 func check_base_path():
