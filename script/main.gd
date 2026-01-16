@@ -50,11 +50,11 @@ func save_window_state():
 	var window := get_window()
 	var window_size := window.size
 	var pos := window.position
-	print("111")
 	config.set_value("window", "width", window_size.x)
 	config.set_value("window", "height", window_size.y)
 	config.set_value("window", "x", pos.x)
 	config.set_value("window", "y", pos.y)
+	config.set_value("window", "category", LibraryManager.current_selected_group)
 
 	config.save(CONFIG_PATH)
 
@@ -62,11 +62,11 @@ func load_window_state():
 	var config := ConfigFile.new()
 	config.load(CONFIG_PATH)
 	var window := get_window()
-	print("222")
 	var w = config.get_value("window", "width", 1280)
 	var h = config.get_value("window", "height", 720)
 	var x = config.get_value("window", "x", 100)
 	var y = config.get_value("window", "y", 100)
-
+	LibraryManager.current_selected_group = config.get_value("window", "category", "")
+	sidebar._get_books_by_group(LibraryManager.current_selected_group)
 	window.size = Vector2i(w, h)
 	window.position = Vector2i(x, y)

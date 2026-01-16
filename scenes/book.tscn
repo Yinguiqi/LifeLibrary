@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://c87ns1qlgyy81"]
+[gd_scene load_steps=5 format=3 uid="uid://c87ns1qlgyy81"]
 
 [ext_resource type="Script" uid="uid://d0b8kncdd6gwr" path="res://script/book.gd" id="1_kh36y"]
-[ext_resource type="Texture2D" uid="uid://sc3xctlgpbk7" path="res://icon.svg" id="2_y0hms"]
 [ext_resource type="Script" uid="uid://6no246kmbery" path="res://script/texture_button.gd" id="3_fijbg"]
 
 [sub_resource type="GDScript" id="GDScript_8uccb"]
@@ -23,7 +22,6 @@ size = Vector2(227.49998, 452.50003)
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_kh36y")
-book_texture = ExtResource("2_y0hms")
 
 [node name="TextureButton" type="TextureButton" parent="."]
 layout_mode = 0
