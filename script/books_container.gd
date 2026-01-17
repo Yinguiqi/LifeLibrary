@@ -8,8 +8,7 @@ var velocity_x := 0.0
 var expanded_book: Control = null
 # 当前展开封面的宽度
 var expanded_cover_width: float = 0.0
-# 存储所有展开的书籍（而不仅仅是一本）
-var expanded_books := {}  # Dictionary: Book -> cover_width
+var expanded_books := {}
 
 # 书籍拖拽相关
 var dragging_book: Control = null  # 当前正在拖拽的书籍
