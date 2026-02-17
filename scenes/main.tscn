@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cbduiy1roxwfh"]
+[gd_scene format=3 uid="uid://cbduiy1roxwfh"]
 
 [ext_resource type="Script" uid="uid://cytatwo3b6230" path="res://script/main.gd" id="1_ig7tw"]
 [ext_resource type="Script" uid="uid://b2j17hymxy7wa" path="res://script/book_menu_bar.gd" id="2_sugp2"]
@@ -14,7 +14,7 @@ size = Vector2(1130, 46)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sugp2"]
 bg_color = Color(0.41960785, 0.4392157, 0.8392157, 1)
 
-[node name="Main" type="Control"]
+[node name="Main" type="Control" unique_id=1050183684]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,18 +23,18 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ig7tw")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1087746603]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 offset_bottom = 30.0
 color = Color(0.16078432, 0.16470589, 0.1764706, 1)
 
-[node name="BookMenuBar" type="Control" parent="."]
+[node name="BookMenuBar" type="Control" parent="." unique_id=244376143]
 anchors_preset = 0
 script = ExtResource("2_sugp2")
 
-[node name="MenuBar" type="MenuBar" parent="BookMenuBar"]
+[node name="MenuBar" type="MenuBar" parent="BookMenuBar" unique_id=1785548769]
 layout_mode = 1
 anchors_preset = -1
 offset_right = 1149.0
@@ -43,14 +43,14 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 0)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_styles/normal = SubResource("StyleBoxFlat_0wfyh")
 
-[node name="File" type="PopupMenu" parent="BookMenuBar/MenuBar"]
+[node name="File" type="PopupMenu" parent="BookMenuBar/MenuBar" unique_id=1930694842]
 oversampling_override = 1.0
 
-[node name="Edit" type="PopupMenu" parent="BookMenuBar/MenuBar"]
+[node name="Edit" type="PopupMenu" parent="BookMenuBar/MenuBar" unique_id=328827071]
 
-[node name="Help" type="PopupMenu" parent="BookMenuBar/MenuBar"]
+[node name="Help" type="PopupMenu" parent="BookMenuBar/MenuBar" unique_id=26603200]
 
-[node name="BooksContainer" type="Control" parent="."]
+[node name="BooksContainer" type="Control" parent="." unique_id=1207873150]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 420.0
@@ -59,23 +59,23 @@ offset_right = 1152.0
 offset_bottom = 700.0
 script = ExtResource("3_jyhfs")
 
-[node name="UI" type="Control" parent="."]
+[node name="UI" type="Control" parent="." unique_id=2039586813]
 visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="PopupMenu" type="PopupMenu" parent="UI"]
+[node name="PopupMenu" type="PopupMenu" parent="UI" unique_id=2047154229]
 oversampling_override = 1.0
 
-[node name="RigidBody2D" type="RigidBody2D" parent="."]
+[node name="RigidBody2D" type="RigidBody2D" parent="." unique_id=124928931]
 visible = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D" unique_id=1285793361]
 position = Vector2(577, 458)
 shape = SubResource("RectangleShape2D_0wfyh")
 
-[node name="Sidebar" type="PanelContainer" parent="." groups=["category_manager"]]
+[node name="Sidebar" type="PanelContainer" parent="." unique_id=1319352110 groups=["category_manager"]]
 z_index = 5
 layout_mode = 1
 anchors_preset = -1
@@ -86,27 +86,27 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_sugp2")
 script = ExtResource("3_sugp2")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Sidebar"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Sidebar" unique_id=50783127]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Sidebar/VBoxContainer"]
+[node name="Label" type="Label" parent="Sidebar/VBoxContainer" unique_id=760589395]
 layout_mode = 2
 text = "My Book v0.17"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="Sidebar/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="Sidebar/VBoxContainer" unique_id=1135962134]
 layout_mode = 2
 
-[node name="AllBook" type="Button" parent="Sidebar/VBoxContainer"]
+[node name="AllBook" type="Button" parent="Sidebar/VBoxContainer" unique_id=1219068353]
 layout_mode = 2
 text = "category_all"
 flat = true
 
-[node name="Button" type="Button" parent="Sidebar/VBoxContainer"]
+[node name="Button" type="Button" parent="Sidebar/VBoxContainer" unique_id=1023202002]
 layout_mode = 2
 text = "category_setting"
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=162448131]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -115,15 +115,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="PanelContainer"]
+[node name="ColorRect" type="ColorRect" parent="PanelContainer" unique_id=1830826775]
 layout_mode = 2
 color = Color(0, 0, 0, 0.5019608)
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="PanelContainer"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="PanelContainer" unique_id=1293061244]
 layout_mode = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="PanelContainer/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="PanelContainer/SubViewportContainer" unique_id=1243631621]
 own_world_3d = true
 transparent_bg = true
 handle_input_locally = false
@@ -131,7 +131,7 @@ size = Vector2i(2, 2)
 size_2d_override_stretch = true
 render_target_update_mode = 0
 
-[node name="CloseButton" type="Button" parent="PanelContainer"]
+[node name="CloseButton" type="Button" parent="PanelContainer" unique_id=1847589011]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0

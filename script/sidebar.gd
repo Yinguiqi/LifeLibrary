@@ -83,7 +83,8 @@ func _on_all_book_pressed() -> void:
 
 
 func _on_button_pressed() -> void:
-	for child in books_container.get_children():
-		child.queue_free()
-	group_manager = GroupManager.instantiate()
-	get_tree().root.add_child(group_manager)
+	if !get_tree().get_first_node_in_group("group_manager"):
+		for child in books_container.get_children():
+			child.queue_free()
+		group_manager = GroupManager.instantiate()
+		get_tree().root.add_child(group_manager)
