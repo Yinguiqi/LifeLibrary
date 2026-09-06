@@ -100,11 +100,11 @@ layout_mode = 2
 [node name="AllBook" type="Button" parent="Sidebar/VBoxContainer" unique_id=1219068353]
 layout_mode = 2
 text = "category_all"
-flat = true
 
 [node name="Button" type="Button" parent="Sidebar/VBoxContainer" unique_id=1023202002]
 layout_mode = 2
 text = "category_setting"
+flat = true
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=162448131]
 visible = false

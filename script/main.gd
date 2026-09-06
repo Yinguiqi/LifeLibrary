@@ -71,12 +71,21 @@ func _on_files_dropped(files: PackedStringArray) -> void:
 		sidebar._get_books_by_group(LibraryManager.current_selected_group)
 
 func _add_book_from_file(abs_path: String) -> bool:
-	# 计算相对路径
-	var rel_path: String = abs_path
-	if abs_path.begins_with(LibraryManager.base_path):
-		rel_path = abs_path.replace(LibraryManager.base_path, "")
+	# 路径规范化：统一成正斜杠，避免 Windows 反斜杠导致 begins_with 匹配失败
+	var normalized_path: String = abs_path.replace("\\", "/")
+	var normalized_base: String = LibraryManager.base_path.replace("\\", "/")
+	# 确保 base_path 尾部有斜杠
+	if not normalized_base.ends_with("/"):
+		normalized_base += "/"
+	
+	var rel_path: String = ""
+	
+	if normalized_path.begins_with(normalized_base):
+		# 文件已经在 base_path（含子目录）下，直接用相对路径，不复制
+		rel_path = normalized_path.substr(normalized_base.length())
+		print("[拖拽] 文件已在书库内，直接添加: ", rel_path)
 	else:
-		# 文件不在 base_path 下，复制过去
+		# 文件不在 base_path 下，复制到 base_path 根目录
 		var file_name: String = abs_path.get_file()
 		var dst_path: String = LibraryManager.base_path + file_name
 		# 处理重名
@@ -90,7 +99,7 @@ func _add_book_from_file(abs_path: String) -> bool:
 		if _copy_file(abs_path, dst_path) != OK:
 			print("复制文件失败: ", abs_path)
 			return false
-		rel_path = dst_path.replace(LibraryManager.base_path, "")
+		rel_path = file_name  # 复制到根目录，直接用文件名
 	
 	# 书名用文件名（不带后缀）
 	var book_name: String = abs_path.get_file().get_basename()
