@@ -91,7 +91,7 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="Sidebar/VBoxContainer" unique_id=760589395]
 layout_mode = 2
-text = "My Book v0.17"
+text = "LifeLibrary （人生文库）v0.18"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="Sidebar/VBoxContainer" unique_id=1135962134]

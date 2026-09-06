@@ -17,6 +17,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 config/name="My Book"
 run/main_scene="uid://cbduiy1roxwfh"
 config/features=PackedStringArray("4.7", "Forward Plus")
+config/windows_native_icon="res://assets/jzm15-91m0y-001.ico"
 
 [autoload]
 
