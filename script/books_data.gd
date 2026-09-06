@@ -1,4 +1,4 @@
-# res://BookData.gd
+# res://books_data.gd
 class_name Book
 
 # 定义你的书籍属性

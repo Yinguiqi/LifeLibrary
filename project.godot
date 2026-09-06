@@ -20,7 +20,6 @@ config/features=PackedStringArray("4.7", "Forward Plus")
 
 [autoload]
 
-BookData="*res://script/book_data.gd"
 LibraryManager="*res://script/LibraryManager.gd"
 
 [display]

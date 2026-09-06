@@ -13,13 +13,17 @@ extends Window
 @onready var btn_select_spine: Button = %BtnSelectSpine
 @onready var btn_select_cover: Button = %BtnSelectCover
 @onready var btn_confirm: Button = %BtnConfirm
-@onready var books_container = $"../Main/BooksContainer"
-@onready var change_books_container = $"../../.."
-@onready var sidebar = $"../../../../Sidebar"
 var BookScene
 var current_file_dialog: FileDialog = null
 var target_input: LineEdit = null
 var target_id: String
+
+# 从主场景获取节点（避免相对路径依赖父节点层级）
+func _get_books_container():
+	return get_tree().current_scene.get_node("BooksContainer")
+
+func _get_sidebar():
+	return get_tree().current_scene.get_node("Sidebar")
 
 func _ready() -> void:
 	# 连接关闭请求信号
@@ -38,7 +42,7 @@ func _on_close_requested() -> void:
 	# 当点击关闭按钮时隐藏窗口
 	hide()
 	if get_parent() == get_tree().root:
-		books_container.is_dragging = false
+		_get_books_container().is_dragging = false
 
 func _on_select_book_pressed() -> void:
 	target_input = book_path_input
@@ -61,7 +65,7 @@ func show_file_dialog(_title: String, filters: PackedStringArray = []) -> void:
 	var dialog := FileDialog.new()
 	dialog.file_mode = FileDialog.FILE_MODE_OPEN_FILE
 	dialog.access = FileDialog.ACCESS_FILESYSTEM
-	dialog.current_dir = BookData.base_path  # ← 指定打开的文件夹
+	dialog.current_dir = LibraryManager.base_path  # ← 指定打开的文件夹
 	dialog.title = _title
 	
 	# 可选：添加文件过滤器
@@ -132,13 +136,13 @@ func _on_confirm_pressed() -> void:
 		var book_data = LibraryManager.add_new_book(path,texture,book_name,book_cover_texture,author,introduction,group_name)
 		var new_book = BookScene.instantiate()
 		new_book.data_ref = book_data
-		books_container.add_child(new_book)
-		books_container.is_dragging = false
-		books_container.position.x = LibraryManager.books_container_x
+		_get_books_container().add_child(new_book)
+		_get_books_container().is_dragging = false
+		_get_books_container().position.x = LibraryManager.books_container_x
 	else:
 		LibraryManager.update_book_info(target_id,book_name,path,texture,book_cover_texture,author,introduction,group_name)
-		sidebar._get_books_by_group(LibraryManager.current_selected_group)
-		change_books_container.position.x = LibraryManager.books_container_x
+		_get_sidebar()._get_books_by_group(LibraryManager.current_selected_group)
+		_get_books_container().position.x = LibraryManager.books_container_x
 	hide()
 
 # 复制书籍文件方法
@@ -158,12 +162,12 @@ func copy_file(src_path: String, dst_path: String) -> int:
 
 # 把绝对路径改成相对路径的方法
 func get_relative_path(abs_path: String) -> String:
-	if not BookData.base_path.ends_with("/"):
-		BookData.base_path += "/"
+	if not LibraryManager.base_path.ends_with("/"):
+		LibraryManager.base_path += "/"
 
 	# Godot 字符串处理
-	if abs_path.begins_with(BookData.base_path):
-		return abs_path.replace(BookData.base_path, "")
+	if abs_path.begins_with(LibraryManager.base_path):
+		return abs_path.replace(LibraryManager.base_path, "")
 	return abs_path  # 不在 base_path 下就直接返回原路径
 
 # 在窗口脚本中添加这个方法

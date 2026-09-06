@@ -10,43 +10,13 @@ const MONITOR_SCENE = preload("res://scenes/3DMonitor.tscn")
 @onready var book_cover: TextureRect = $"../BookCover"
 @onready var books_container = $"../.."
 
-# 左键按钮
+# 左键按钮（已移到 book.gd 统一处理，这里保留占位）
 func _on_pressed() -> void:
-	print("111")
-	await get_tree().process_frame
-	var pdf_path = BookData.base_path + book.data_ref.rel_path
-##	var pdf_path = "D:/资源/文章类/电子书/专业书籍/游戏设计艺术（第3版）[[美] Jesse Schell](1).pdf"
-	OS.shell_open(pdf_path)
+	pass
 
-# 右键按钮
+# 右键按钮（已移到 book.gd 统一处理，这里保留占位）
 func _on_gui_input(event: InputEvent) -> void:
-	# 检测右键
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-		# 如果当前书正在拖拽（或容器里有书在拖拽），则不弹出菜单并吞掉事件
-		if book.is_dragging or books_container.dragging_book != null:
-			accept_event()
-			return
-		accept_event()
-		print("处理逻辑的实体名称: ", self.name)
-		# 1. 【关键步骤】先清空旧的选项！
-		menu.clear() 
-		# ==========================================
-		# 2. 【关键修复】断开所有旧的信号连接
-		# ==========================================
-		# 获取连在 id_pressed 上的所有连接信息
-		var connections = menu.id_pressed.get_connections()
-		for conn in connections:
-			# 断开它们！
-			menu.id_pressed.disconnect(conn.callable)
-		menu.id_pressed.connect(_on_menu_pressed)
-		# 2. 然后再添加本次需要的选项
-		menu.add_item("book_edit_info", 0)
-		menu.add_item("book_expand_cover", 1)
-		menu.add_item("book_3d_viewer", 2)
-		menu.add_item("book_open_folder", 3)
-		menu.add_item("book_delete", 4)
-		# 在弹出菜单前设置当前书籍ID
-		menu.popup(Rect2(get_global_mouse_position(),Vector2.ZERO))
+	pass
 # 菜单选择逻辑
 func _on_menu_pressed(id: int) -> void:
 	match id:
@@ -111,7 +81,7 @@ func delete_book_by_id():
 
 	
 func open_book_of_folder():
-	var path = BookData.base_path + book.data_ref.rel_path
+	var path = LibraryManager.base_path + book.data_ref.rel_path
 	var dir_path = path.get_base_dir()
 ##	var pdf_path = "D:/资源/文章类/电子书/专业书籍/游戏设计艺术（第3版）[[美] Jesse Schell](1).pdf"
 	OS.shell_open(dir_path)

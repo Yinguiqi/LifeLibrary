@@ -62,7 +62,7 @@ func _get_books_by_group(group_name_: String):
 		child.queue_free()
 	# 2. 遍历结果并重新创建场景节点
 	for i in range(search_results.size()):
-		var book_data_object = search_results[i] # 这是一个 BookData 对象
+		var book_data_object = search_results[i] # 这是一个 Book 对象
 		
 		# 实例化场景
 		var new_book_node = BookScene.instantiate()

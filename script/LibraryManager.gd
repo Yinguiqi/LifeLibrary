@@ -4,17 +4,17 @@ extends Node
 const JSON_PATH = "user://books_data.json"
 const CONFIG_PATH := "user://config.ini"
 var config := ConfigFile.new()
-# 引用 BookData 脚本，避开 class_name 冲突
+# --- 配置项 ---
 var base_path: String = ""
 var book_height: float 
 var book_spacing: float = 50
 var book_x: float = 0
 var books_container_x: float = 0
+var language := "en"
 # --- 内存数据 ---
-# 这个数组里装的全是 Book数据 的实例对象
+# 这个数组里装的全是 Book 类的实例对象
 var _books: Array = [] 
 var current_selected_group: String = ""
-var language := "en"
 
 func _ready():
 	print("LibraryManager 启动，正在加载数据...")
@@ -52,8 +52,6 @@ func load_data_from_json():
 			new_book.group_name = dict.get("group_name", "")
 			
 			_books.append(new_book)
-			
-	print("JSON 解析失败: ", json.get_error_message())
 
 # 获取所有书（给 UI 用）
 func get_all_books() -> Array:
@@ -139,7 +137,7 @@ func _sort_books():
 		return id_a < id_b
 	)
 
-# 辅助函数：将一个字典转换为一个 BookData 对象
+# 辅助函数：将一个字典转换为一个 Book 对象
 func create_book_object_from_dict(dict: Dictionary) -> RefCounted:
 	var book_object = Book.new()
 	
@@ -279,6 +277,9 @@ func load_config():
 	var err = config.load(CONFIG_PATH)
 	if err == OK:
 		language = config.get_value("settings", "language", "zh_CN")
+		base_path = config.get_value("settings", "base_path", "")
+		if not base_path.is_empty() and not base_path.ends_with("/"):
+			base_path += "/"
 	else:
 		# 第一次启动，写一个默认配置
 		save_language("en")
